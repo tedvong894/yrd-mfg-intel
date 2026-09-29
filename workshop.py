@@ -222,7 +222,7 @@ SAFE_END = set("的了地得上中下里后前时个")
 
 def split_breaths(text, target_chars):
     """按「呼吸句」拆行：强断句处必断，弱停顿处按目标字数合并；只有超长句才按语义边界硬拆。
-    一句一行 = 一个镜次。"""
+    返回 [(片段, 是否句末)]，一句一行 = 一个镜次。句末标记供配音脚本还原「整段全文」。"""
     out = []
     for sent in STRONG_RE.split(text or ""):
         sent = (sent or "").strip()
@@ -236,9 +236,10 @@ def split_breaths(text, target_chars):
             else:
                 merged.append(c)
         soft = max(target_chars * 2.0, 12)
+        pieces = []
         for c in merged:
             if len(c) <= soft:
-                out.append(c)
+                pieces.append(c)
                 continue
             pos = 0
             while len(c) - pos > soft:
@@ -253,35 +254,38 @@ def split_breaths(text, target_chars):
                         break
                 if best is None:
                     best = min(len(c) - 5, nxt)
-                out.append(c[pos:best])
+                pieces.append(c[pos:best])
                 pos = best
-            out.append(c[pos:])
+            pieces.append(c[pos:])
 
-    # 后处理：① 括号没闭合的相邻片段必须合并 ② 过短碎片（≤4 字）并入前一片段
-    fixed = []
-    for f in out:
-        if fixed:
-            prev = fixed[-1]
-            joined = prev + "，" + f
-            if prev.count("（") > prev.count("）") and len(joined) <= target_chars * 2.6:
-                fixed[-1] = joined
-                continue
-            if len(f) < 5 and len(joined) <= target_chars * 1.6:
-                fixed[-1] = joined
-                continue
-        fixed.append(f)
-    return [o.strip("，、 ") for o in fixed if o.strip("，、 ")]
+        # 句内后处理：① 括号没闭合的相邻片段必须合并 ② 过短碎片（≤4 字）并入前一片段
+        fixed = []
+        for f in pieces:
+            if fixed:
+                prev = fixed[-1]
+                joined = prev + "，" + f
+                if prev.count("（") > prev.count("）") and len(joined) <= target_chars * 2.6:
+                    fixed[-1] = joined
+                    continue
+                if len(f) < 5 and len(joined) <= target_chars * 1.6:
+                    fixed[-1] = joined
+                    continue
+            fixed.append(f)
+        fixed = [o.strip("，、 ") for o in fixed if o.strip("，、 ")]
+        for i, f in enumerate(fixed):
+            out.append((f, i == len(fixed) - 1))   # 每句最后一片标为句末
+    return out
 
 
 # 各段的目标单镜时长（秒）→ 换算成目标字数
-SEG_TARGET_DUR = {"钩子": 0.85, "定题": 1.7, "事实": 2.4, "翻译": 2.6, "解剖": 2.5, "收尾": 3.2}
+SEG_TARGET_DUR = {"钩子": 1.15, "定题": 1.7, "事实": 2.4, "翻译": 2.6, "解剖": 2.5, "收尾": 3.2}
 SEG_SHOT_TYPE = {"钩子": "空镜快切", "定题": "空镜", "事实": "图表+实拍",
                  "翻译": "素材(比喻画面)", "解剖": "图表+文字卡", "收尾": "实拍+文字卡"}
 SEG_BGM = {"钩子": "开场悬念", "定题": "开场悬念", "事实": "中段推进",
            "翻译": "中段推进", "解剖": "中段推进", "收尾": "结尾收束"}
 SEG_MOOD = {"钩子": "快切/冲突", "定题": "推进", "事实": "陈述/数字重音",
             "翻译": "转折/停顿", "解剖": "逐条拆解", "收尾": "落点/留白"}
-SEG_DUR_RANGE = {"钩子": (0.7, 1.6), "定题": (1.2, 2.6), "事实": (1.6, 3.4),
+SEG_DUR_RANGE = {"钩子": (0.9, 1.9), "定题": (1.2, 2.6), "事实": (1.6, 3.4),
                  "翻译": (1.8, 3.6), "解剖": (1.8, 3.4), "收尾": (2.4, 4.2)}
 
 
@@ -347,6 +351,26 @@ def build_copywriting(card):
 # ══════════════════════════════════════════════════════════
 # ② 12 列剪辑底稿
 # ══════════════════════════════════════════════════════════
+def build_segments(card, rows):
+    """把「连续的同类镜次」归成一个配音段（注意：按连续段归并，不能按名字全局归并——
+    脚本里「翻译(比喻)」出现两次、中间夹着解剖，全局归并把两处合成一段会打乱顺序）。
+    给出每段的「整段全文」：配音脚本按整段一次合成时用它，再配合 TTS 逐句时间戳，
+    就能把实测时间码精确回填到每个镜次。"""
+    segs, seen = [], {}
+    for r in rows:
+        if not segs or segs[-1]["段落"] != r["段落"]:
+            n = seen.get(r["段落"], 0) + 1
+            seen[r["段落"]] = n
+            segs.append({"段落": r["段落"], "出现序": n,
+                         "标签": r["段落"] if n == 1 else f"{r['段落']}·{n}",
+                         "全文": "", "镜次": []})
+        segs[-1]["镜次"].append(r["镜次"])
+        segs[-1]["全文"] += r["口播文案"] + ("。" if r.get("句末") else "，")
+    for s in segs:
+        s["全文"] = s["全文"].rstrip("，。")
+    return segs
+
+
 def build_beats(card):
     ptype, segs = build_copywriting(card)
     scenes = SCENE_HINTS.get(ptype, SCENE_HINTS[DEFAULT_TYPE])
@@ -356,7 +380,7 @@ def build_beats(card):
         target_chars = SEG_TARGET_DUR[seg_name] * SPEED
         lo, hi = SEG_DUR_RANGE[seg_name]
         frags = split_breaths(text, target_chars)
-        for j, frag in enumerate(frags):
+        for j, (frag, is_end) in enumerate(frags):
             idx += 1
             dur = round(max(lo, min(hi, len(frag) / SPEED)), 1)
             scene, kw = scenes[scene_i % len(scenes)]
@@ -388,7 +412,7 @@ def build_beats(card):
                 "口播文案": frag, "节奏/情绪": SEG_MOOD[seg_name],
                 "画面类型": SEG_SHOT_TYPE[seg_name], "画面素材": shot,
                 "字幕/图示": sub, "音效": sfx, "BGM段": SEG_BGM[seg_name],
-                "转场": trans, "段落": seg_name,
+                "转场": trans, "段落": seg_name, "句末": is_end,
             })
             t = round(t + dur, 1)
 
@@ -516,7 +540,7 @@ def export_xlsx(card, ptype, rows, total, out_path):
     ws3.column_dimensions["C"].width = 52
     STD = [
         ("语速", "4.5-5.5 字/秒", "本稿按 4.8 字/秒排时长；口播快于 6 字/秒观众跟不上"),
-        ("钩子 (0-3s)", "0.7-1.6 秒/镜，3-4 镜快切", "这 3 秒决定完播，画面要「炸」，配重音效"),
+        ("钩子 (0-3s)", "0.9-1.9 秒/镜，2-3 镜快切", "这 3 秒决定完播，画面要「炸」，配重音效。⚠️别再切碎到 0.8 秒——TTS/真人都会读得发赶，听着假"),
         ("定题 (3-8s)", "1.2-2.6 秒/镜", "交代环境，节奏稍缓"),
         ("事实段", "1.6-3.4 秒/镜", "数字必须上大字幕，配「叮」音效"),
         ("解剖段", "1.8-3.4 秒/镜", "4 个视角逐条上文字卡，图表与空镜交替"),
@@ -594,6 +618,7 @@ def generate(intel_dir, top_n=TOP_N):
             "file": fname if ok else "",
             "dl_name": f"底稿_{pt_short}_{cid}.xlsx",
             "beats": rows,   # 看板内预览用（同一份数据，页面直接渲染成表）
+            "segments": build_segments(c, rows),   # 配音脚本按整段合成 + 回填实测时间码用
         })
 
     idx = {
