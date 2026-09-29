@@ -121,6 +121,7 @@ def build_card(item):
         "script": script,
         "query": item.get("query", ""),
         "date": item.get("date", datetime.date.today().isoformat()),
+        "added": datetime.date.today().isoformat(),   # 入库日期（用于"今日新增"统计，区别于文章发布时间）
         "score": sc,
         "score_detail": detail,
     }
@@ -165,8 +166,8 @@ def process(intel_dir):
     new_items = []
     for rf in raw_files:
         base = os.path.basename(rf)
-        if base in processed:
-            continue
+        # 注意：按「条目 card_id」去重，而不是按文件名跳过——
+        # 同名 raw 文件会被增量采集不断追加，按文件名跳过会导致新条目永远不入库。
         try:
             with open(rf, "r", encoding="utf-8") as f:
                 data = json.load(f)
@@ -208,7 +209,8 @@ def process(intel_dir):
                     continue
 
     today = datetime.date.today().isoformat()
-    today_cards = [c for c in all_cards if c.get("date") == today]
+    # "今日新增"按入库日期统计（增量采集会把旧文章也新增进来）
+    today_cards = [c for c in all_cards if c.get("added", c.get("date")) == today]
 
     render_dashboard(intel_dir, all_cards, today_cards, today)
     render_daily_report(intel_dir, today_cards, today)
@@ -256,7 +258,7 @@ def render_dashboard(intel_dir, cards, today_cards, today):
         sc = c.get("script", {})
         points = "".join(f"<li>{p}</li>" for p in sc.get("points", []))
         return f"""
-<div class="dcard" data-pt="{c.get('problem_type','')}" data-score="{c.get('score',0)}" data-date="{c.get('date','')}">
+<div class="dcard" data-pt="{c.get('problem_type','')}" data-score="{c.get('score',0)}" data-date="{c.get('added', c.get('date',''))}">
   <div class="dcard-head">
     <span class="pt" style="background:{pcolor}">{c.get('problem_type','')}</span>
     <span class="dscore">内容价值 ★ {c.get('score',0)}</span>
