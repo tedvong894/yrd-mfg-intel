@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>长三角制造业·问题解剖情报平台</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;background:#f5f7fa;color:#1f2937;padding:24px;line-height:1.55}
+.wrap{max-width:1180px;margin:0 auto}
+header{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:22px 26px;margin-bottom:18px}
+header h1{font-size:22px;font-weight:700}
+header .sub{color:#6b7280;font-size:13px;margin-top:6px}
+.stats{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}
+.stat{flex:1;min-width:120px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:14px;cursor:pointer;transition:.15s}
+.stat:hover{border-color:#dc2626;box-shadow:0 2px 10px rgba(220,38,38,.08)}
+.stat .n{font-size:24px;font-weight:700;color:#111827}
+.stat .l{font-size:12px;color:#6b7280;margin-top:4px}
+.section{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:20px 24px;margin-bottom:18px;scroll-margin-top:16px}
+.section h2{font-size:16px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.section h2::before{content:"";width:4px;height:16px;background:#dc2626;border-radius:2px;display:inline-block}
+.row{display:flex;align-items:center;gap:10px;margin:7px 0;font-size:13px}
+.row.clickable{cursor:pointer;border-radius:6px;padding:2px 4px;transition:.15s}
+.row.clickable:hover{background:#fef2f2}
+.rk{width:120px;color:#374151;flex-shrink:0}
+.barwrap{flex:1;background:#eef2f7;border-radius:6px;height:14px;overflow:hidden}
+.bar{display:block;height:100%;border-radius:6px}
+.val{width:36px;text-align:right;color:#6b7280}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:9px 8px;border-bottom:1px solid #f0f2f5}
+th{color:#6b7280;font-weight:600;font-size:12px}
+td.num{font-weight:700;color:#dc2626}
+.pill{color:#fff;font-size:11px;padding:2px 8px;border-radius:20px}
+.dissect-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:16px}
+.dcard{background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:16px;display:flex;flex-direction:column;gap:8px}
+.dcard-head{display:flex;justify-content:space-between;align-items:center}
+.pt{color:#fff;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px}
+.dscore{font-size:13px;font-weight:700;color:#dc2626}
+.dtitle{font-size:15px;font-weight:600;color:#111827;text-decoration:none;line-height:1.4}
+.dtitle:hover{text-decoration:underline}
+.dmeta{font-size:11px;color:#9ca3af}
+.dsum{font-size:12px;color:#4b5563;line-height:1.5}
+.blk{background:#fff;border:1px solid #eef2f7;border-radius:8px;padding:10px 12px}
+.blkh{font-size:12px;font-weight:700;color:#374151;margin-bottom:6px}
+.iss,.ang,.pts{margin:0;padding-left:18px;font-size:12px;color:#4b5563;line-height:1.6}
+.script{border-color:#fde68a;background:#fffdf5}
+.sh{font-size:12px;color:#92400e;font-weight:600;margin-bottom:4px}
+.se{font-size:12px;color:#15803d;font-weight:600;margin-top:4px}
+.smeta{font-size:11px;color:#9ca3af;margin-top:6px}
+.filterbar{display:none;align-items:center;gap:10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px}
+.filterbar.show{display:flex}
+.filterbar .ftxt{color:#9a3412;font-weight:600}
+.filterbar .clear{margin-left:auto;color:#dc2626;cursor:pointer;font-weight:600;text-decoration:underline}
+footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
+.empty{color:#9ca3af;font-size:13px}
+</style></head>
+<body><div class="wrap">
+<header>
+  <h1>长三角制造业 · 问题解剖情报平台</h1>
+  <div class="sub">公开网络采集问题企业案例 → 自动解剖（问题清单+分析视角+短视频脚本）· 更新于 2026-09-29</div>
+  <div class="stats">
+    <div class="stat" onclick="goDissect('all')"><div class="n">25</div><div class="l">累积解剖卡</div></div>
+    <div class="stat" onclick="goDissect('today')"><div class="n">25</div><div class="l">今日新增</div></div>
+    <div class="stat" onclick="goTypes()"><div class="n">8</div><div class="l">问题类型</div></div>
+    <div class="stat" onclick="goDissect('high')"><div class="n">17</div><div class="l">高分素材(≥80)</div></div>
+  </div>
+</header>
+
+<div class="filterbar" id="filterbar">
+  <span class="ftxt" id="filtertxt"></span>
+  <span class="clear" onclick="clearFilter()">清除筛选</span>
+</div>
+
+<div class="section" id="sec-types"><h2>问题类型分布（点击柱状条可筛选下方解剖卡）</h2><div class="row clickable" data-pt="现金流断裂 / 资金链"><span class="rk">现金流断裂 / 资金链</span><span class="barwrap"><span class="bar" style="width:100.0%;background:#6b7280"></span></span><span class="val">5</span></div><div class="row clickable" data-pt="亏损 / 增收不增利"><span class="rk">亏损 / 增收不增利</span><span class="barwrap"><span class="bar" style="width:60.0%;background:#6b7280"></span></span><span class="val">3</span></div><div class="row clickable" data-pt="订单流失 / 外贸下滑"><span class="rk">订单流失 / 外贸下滑</span><span class="barwrap"><span class="bar" style="width:60.0%;background:#6b7280"></span></span><span class="val">3</span></div><div class="row clickable" data-pt="转型失败 / 智能化踩坑"><span class="rk">转型失败 / 智能化踩坑</span><span class="barwrap"><span class="bar" style="width:60.0%;background:#6b7280"></span></span><span class="val">3</span></div><div class="row clickable" data-pt="质量事故 / 召回"><span class="rk">质量事故 / 召回</span><span class="barwrap"><span class="bar" style="width:60.0%;background:#6b7280"></span></span><span class="val">3</span></div><div class="row clickable" data-pt="欠款 / 劳资纠纷"><span class="rk">欠款 / 劳资纠纷</span><span class="barwrap"><span class="bar" style="width:60.0%;background:#6b7280"></span></span><span class="val">3</span></div><div class="row clickable" data-pt="倒闭 / 关停"><span class="rk">倒闭 / 关停</span><span class="barwrap"><span class="bar" style="width:60.0%;background:#6b7280"></span></span><span class="val">3</span></div><div class="row clickable" data-pt="库存积压 / 资金占用"><span class="rk">库存积压 / 资金占用</span><span class="barwrap"><span class="bar" style="width:40.0%;background:#6b7280"></span></span><span class="val">2</span></div></div>
+<div class="section" id="sec-regions"><h2>覆盖地区分布</h2><div class="row"><span class="rk">江苏</span><span class="barwrap"><span class="bar" style="width:100.0%;background:#16a34a"></span></span><span class="val">10</span></div><div class="row"><span class="rk">浙江</span><span class="barwrap"><span class="bar" style="width:90.0%;background:#dc2626"></span></span><span class="val">9</span></div><div class="row"><span class="rk">上海</span><span class="barwrap"><span class="bar" style="width:30.0%;background:#2563eb"></span></span><span class="val">3</span></div><div class="row"><span class="rk">安徽</span><span class="barwrap"><span class="bar" style="width:30.0%;background:#d97706"></span></span><span class="val">3</span></div></div>
+
+<div class="section" id="sec-top"><h2>内容价值评分 Top 12</h2>
+<table><thead><tr><th>#</th><th>标题</th><th>问题类型</th><th>地区</th><th>评分</th></tr></thead>
+<tbody><tr><td>1</td><td><a href="https://www.toutiao.com/article/7680866850292417059" target="_blank" rel="noopener">常州厚文五金配件加工厂破产：成立5年资不抵债退出市场</a></td><td><span class="pill" style="background:#6b7280">倒闭 / 关停</span></td><td>江苏</td><td class="num">★ 92.5</td></tr><tr><td>2</td><td><a href="https://www.sabaan.com/hangyexinwen/1703.html" target="_blank" rel="noopener">泰州精展金属制品破产：447万资产对811万负债，重资产轻管理无品牌</a></td><td><span class="pill" style="background:#6b7280">倒闭 / 关停</span></td><td>江苏</td><td class="num">★ 92.5</td></tr><tr><td>3</td><td><a href="http://wzs.org.cn/sjzs/news?id=22522" target="_blank" rel="noopener">浙江省贸促会调研：43%外贸企业新增订单同比下降，订单向越南印度转移</a></td><td><span class="pill" style="background:#6b7280">订单流失 / 外贸下滑</span></td><td>浙江</td><td class="num">★ 91.8</td></tr><tr><td>4</td><td><a href="https://www.chinacourt.org/article/detail/2020/01/id/4777011.shtml" target="_blank" rel="noopener">浙江金盾系破产重整：年产值13.8亿集团资金链断裂，84亿债务化解</a></td><td><span class="pill" style="background:#6b7280">现金流断裂 / 资金链</span></td><td>浙江</td><td class="num">★ 91.2</td></tr><tr><td>5</td><td><a href="https://baike.baidu.com/view/4012008.htm" target="_blank" rel="noopener">浙江赐富集团资金链危机：总负债超45亿，两年亏损13亿</a></td><td><span class="pill" style="background:#6b7280">现金流断裂 / 资金链</span></td><td>浙江</td><td class="num">★ 91.2</td></tr><tr><td>6</td><td><a href="https://www.chinacourt.org/article/detail/2024/08/id/8053555.shtml" target="_blank" rel="noopener">昆山金属制品资金链断裂：高新企业拖19家小微，执行转破产重生</a></td><td><span class="pill" style="background:#6b7280">现金流断裂 / 资金链</span></td><td>江苏</td><td class="num">★ 91.2</td></tr><tr><td>7</td><td><a href="https://finance.sina.com.cn/jjxw/2026-03-24/doc-inhrzysx7340105.shtml" target="_blank" rel="noopener">浙江黎明2025年增收不增利：新兴事业部量产初期成本拖累，整体利润下滑</a></td><td><span class="pill" style="background:#6b7280">亏损 / 增收不增利</span></td><td>浙江</td><td class="num">★ 89.0</td></tr><tr><td>8</td><td><a href="https://www.peopleapp.com/rmharticle/30013705184" target="_blank" rel="noopener">上海青浦鞋厂老板跑路：拖欠51名员工工资106万，拒不支付劳动报酬获刑</a></td><td><span class="pill" style="background:#6b7280">欠款 / 劳资纠纷</span></td><td>上海</td><td class="num">★ 86.5</td></tr><tr><td>9</td><td><a href="https://www.sh.jcy.gov.cn/xwdt/jcxw/34100.jhtml" target="_blank" rel="noopener">为不支付工资直接搬走工厂：上海奉贤服装厂人去楼空，23名工人18万欠薪</a></td><td><span class="pill" style="background:#6b7280">欠款 / 劳资纠纷</span></td><td>上海</td><td class="num">★ 86.5</td></tr><tr><td>10</td><td><a href="https://chinajob.mohrss.gov.cn/c/2020-07-08/221196.shtml" target="_blank" rel="noopener">上海青浦制衣厂欠薪27.5万法定代表人失联，设备转移涉刑移送</a></td><td><span class="pill" style="background:#6b7280">欠款 / 劳资纠纷</span></td><td>上海</td><td class="num">★ 86.5</td></tr><tr><td>11</td><td><a href="http://scjgj.lyg.gov.cn/sscjdglj/tzgg/content/ba506616-12f4-43f5-a0ea-bd0b004cd8c4.html" target="_blank" rel="noopener">连云港根深纸制品召回纸餐盒：负重挺度不够，装高温食物变形渗漏</a></td><td><span class="pill" style="background:#6b7280">质量事故 / 召回</span></td><td>江苏</td><td class="num">★ 84.5</td></tr><tr><td>12</td><td><a href="https://scjgj.taizhou.gov.cn/xwzx/tzgg/art/2025/art_a2e9a6f23e2e4c6c854d0e74d965db50.html" target="_blank" rel="noopener">泰州睿阳印刷召回淋膜纸杯：微生物限量不达标，或致腹泻呕吐</a></td><td><span class="pill" style="background:#6b7280">质量事故 / 召回</span></td><td>江苏</td><td class="num">★ 84.5</td></tr></tbody></table></div>
+
+<div class="section" id="sec-dissect"><h2>自动解剖卡（全部 25 张，可筛选）</h2>
+<div class="dissect-grid">
+<div class="dcard" data-pt="倒闭 / 关停" data-score="92.5" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
+    <span class="dscore">内容价值 ★ 92.5</span>
+  </div>
+  <a class="dtitle" href="https://www.toutiao.com/article/7680866850292417059" target="_blank" rel="noopener">常州厚文五金配件加工厂破产：成立5年资不抵债退出市场</a>
+  <div class="dmeta">江苏 · toutiao.com · 2026-09-29</div>
+  <div class="dsum">常州小微五金代工厂5年即破产，抗风险弱：订单依赖+账期延长+成本上升，管理短板在市场调整期集中暴露。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>小微代工厂高度依赖订单稳定性与客户回款</li><li>外部需求下滑、订单被压价、账期延长</li><li>用工/厂房/环保/物流合规成本上升压缩利润</li><li>资不抵债，资金安排与财务管控存严重问题</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>战略视角</b>：是否死守低端红海、无产品壁垒，靠低价内卷抢单</li><li><b>财务视角</b>：现金流是否断裂；应收账款/账期是否被大客户拉长抽空</li><li><b>运营视角</b>：成本结构是否失衡（原料涨、终端不涨、增收不增利）</li><li><b>心智视角</b>：老板是否路径依赖、不愿技改升级，把困境归咎大环境</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：一家江苏的（行业）厂，说关就关，钱到底卡在哪？</div>
+    <ul class="pts"><li>① 战略视角：是否死守低端红海、无产品壁垒，靠低价内卷抢单</li><li>① 财务视角：现金流是否断裂；应收账款/账期是否被大客户拉长抽空</li><li>① 运营视角：成本结构是否失衡（原料涨、终端不涨、增收不增利）</li><li>④ 本案实锤：小微代工厂高度依赖订单稳定性与客户回款；外部需求下滑、订单被压价、账期延长；用工/厂房/环保/物流合规成本上升压缩利润</li></ul>
+    <div class="se">💡 结尾避坑：中小厂避坑：留足现金流安全垫、砍低端红海、早做升级，别等潮水退了才发现没穿裤。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="倒闭 / 关停" data-score="92.5" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
+    <span class="dscore">内容价值 ★ 92.5</span>
+  </div>
+  <a class="dtitle" href="https://www.sabaan.com/hangyexinwen/1703.html" target="_blank" rel="noopener">泰州精展金属制品破产：447万资产对811万负债，重资产轻管理无品牌</a>
+  <div class="dmeta">江苏 · sabaan.com · 2026-09-29</div>
+  <div class="dsum">泰州家具金属厂7年即破产，典型传统制造病灶：重资产轻管理、无品牌、应收与库存双高拖垮现金流。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>严重资不抵债（447万资产对811万负债）</li><li>重资产、轻管理、缺技术、无品牌</li><li>产品同质化靠低价，下游失速即价格战</li><li>应收越滚越大、库存越压越高，现金流断裂</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>战略视角</b>：是否死守低端红海、无产品壁垒，靠低价内卷抢单</li><li><b>财务视角</b>：现金流是否断裂；应收账款/账期是否被大客户拉长抽空</li><li><b>运营视角</b>：成本结构是否失衡（原料涨、终端不涨、增收不增利）</li><li><b>心智视角</b>：老板是否路径依赖、不愿技改升级，把困境归咎大环境</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：一家江苏的（行业）厂，说关就关，钱到底卡在哪？</div>
+    <ul class="pts"><li>① 战略视角：是否死守低端红海、无产品壁垒，靠低价内卷抢单</li><li>① 财务视角：现金流是否断裂；应收账款/账期是否被大客户拉长抽空</li><li>① 运营视角：成本结构是否失衡（原料涨、终端不涨、增收不增利）</li><li>④ 本案实锤：严重资不抵债（447万资产对811万负债）；重资产、轻管理、缺技术、无品牌；产品同质化靠低价，下游失速即价格战</li></ul>
+    <div class="se">💡 结尾避坑：中小厂避坑：留足现金流安全垫、砍低端红海、早做升级，别等潮水退了才发现没穿裤。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="订单流失 / 外贸下滑" data-score="91.8" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
+    <span class="dscore">内容价值 ★ 91.8</span>
+  </div>
+  <a class="dtitle" href="http://wzs.org.cn/sjzs/news?id=22522" target="_blank" rel="noopener">浙江省贸促会调研：43%外贸企业新增订单同比下降，订单向越南印度转移</a>
+  <div class="dmeta">浙江 · wzs.org.cn · 2026-09-29</div>
+  <div class="dsum">浙江外贸直面订单外流：近半企业新增订单下滑，四成订单向东南亚转移，叠加成本与壁垒，中小企业被动接单。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>43%企业新增订单同比下降</li><li>40%企业订单向越南、印度转移</li><li>物流仓储滞港费用上升，综合成本高</li><li>贸易摩擦中中小企业应诉成本高、被动</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>市场视角</b>：客户是否向东南亚外迁；大单拆小单、试单成主流</li><li><b>供应链视角</b>：是否过度依赖单一市场/单一大客户，抗风险弱</li><li><b>产品视角</b>：附加值与不可替代性够不够，凭什么不被替代</li><li><b>财务视角</b>：汇率/信保/账期是否吃掉利润，回款是否安全</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：浙江外贸厂订单变薄了，是行情差还是自己被替代了？</div>
+    <ul class="pts"><li>① 市场视角：客户是否向东南亚外迁；大单拆小单、试单成主流</li><li>① 供应链视角：是否过度依赖单一市场/单一大客户，抗风险弱</li><li>① 产品视角：附加值与不可替代性够不够，凭什么不被替代</li><li>④ 本案实锤：43%企业新增订单同比下降；40%企业订单向越南、印度转移；物流仓储滞港费用上升，综合成本高</li></ul>
+    <div class="se">💡 结尾避坑：避坑：老客深度开发+微创新打样，分散市场，别把命系在一个客户身上。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="现金流断裂 / 资金链" data-score="91.2" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
+    <span class="dscore">内容价值 ★ 91.2</span>
+  </div>
+  <a class="dtitle" href="https://www.chinacourt.org/article/detail/2020/01/id/4777011.shtml" target="_blank" rel="noopener">浙江金盾系破产重整：年产值13.8亿集团资金链断裂，84亿债务化解</a>
+  <div class="dmeta">浙江 · chinacourt.org · 2026-09-29</div>
+  <div class="dsum">浙江大型民企金盾系资金链断裂，关联公司人格混同，靠府院联动+合并重整化解84亿债务保住生产力。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>资金链断裂，关联8家公司人格高度混同</li><li>债务规模达84亿余元</li><li>大型企业集团扩张与治理失控</li><li>依赖府院联动+重整投资化解区域性金融风险</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>财务视角</b>：安全垫是否够3-6个月；利润≠现金的误区</li><li><b>运营视角</b>：应收/库存/扩产各卡了多少钱</li><li><b>战略视角</b>：是否重资产扩张、短贷长投导致错配</li><li><b>心智视角</b>：老板是否过度乐观、忽视预警信号</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：账上数字好看、付款时抓瞎——浙江厂现金流怎么断的？</div>
+    <ul class="pts"><li>① 财务视角：安全垫是否够3-6个月；利润≠现金的误区</li><li>① 运营视角：应收/库存/扩产各卡了多少钱</li><li>① 战略视角：是否重资产扩张、短贷长投导致错配</li><li>④ 本案实锤：资金链断裂，关联8家公司人格高度混同；债务规模达84亿余元；大型企业集团扩张与治理失控</li></ul>
+    <div class="se">💡 结尾避坑：避坑：利润当不了现金，留安全垫、控扩张节奏，周转比规模重要。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="现金流断裂 / 资金链" data-score="91.2" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
+    <span class="dscore">内容价值 ★ 91.2</span>
+  </div>
+  <a class="dtitle" href="https://baike.baidu.com/view/4012008.htm" target="_blank" rel="noopener">浙江赐富集团资金链危机：总负债超45亿，两年亏损13亿</a>
+  <div class="dmeta">浙江 · baike.baidu.com · 2026-09-29</div>
+  <div class="dsum">浙江化纤龙头赐富因盲目扩张+互保连带+行业低迷资金链断裂，负债45亿，揭示担保链与多元化陷阱。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>总负债超45亿，近3亿银行信贷逾期</li><li>两年合计亏损约13亿元，净资产为负</li><li>盲目扩张、非生产性资产过多、管理缺陷</li><li>为关联企业承担约4亿连带担保，丧失7亿授信</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>财务视角</b>：安全垫是否够3-6个月；利润≠现金的误区</li><li><b>运营视角</b>：应收/库存/扩产各卡了多少钱</li><li><b>战略视角</b>：是否重资产扩张、短贷长投导致错配</li><li><b>心智视角</b>：老板是否过度乐观、忽视预警信号</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：账上数字好看、付款时抓瞎——浙江厂现金流怎么断的？</div>
+    <ul class="pts"><li>① 财务视角：安全垫是否够3-6个月；利润≠现金的误区</li><li>① 运营视角：应收/库存/扩产各卡了多少钱</li><li>① 战略视角：是否重资产扩张、短贷长投导致错配</li><li>④ 本案实锤：总负债超45亿，近3亿银行信贷逾期；两年合计亏损约13亿元，净资产为负；盲目扩张、非生产性资产过多、管理缺陷</li></ul>
+    <div class="se">💡 结尾避坑：避坑：利润当不了现金，留安全垫、控扩张节奏，周转比规模重要。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="现金流断裂 / 资金链" data-score="91.2" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
+    <span class="dscore">内容价值 ★ 91.2</span>
+  </div>
+  <a class="dtitle" href="https://www.chinacourt.org/article/detail/2024/08/id/8053555.shtml" target="_blank" rel="noopener">昆山金属制品资金链断裂：高新企业拖19家小微，执行转破产重生</a>
+  <div class="dmeta">江苏 · chinacourt.org · 2026-09-29</div>
+  <div class="dsum">昆山高新汽配厂扩张致资金链断裂，牵动19家小微供应商，靠执转破保产业链稳定。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>外地购地建厂投超2000万，遇需求变化资金链断裂</li><li>无力清偿到期债务1560万，含职工债权14万</li><li>下接19家中小供应商，连锁拖垮风险</li><li>重资产扩张与主业现金流错配</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>财务视角</b>：安全垫是否够3-6个月；利润≠现金的误区</li><li><b>运营视角</b>：应收/库存/扩产各卡了多少钱</li><li><b>战略视角</b>：是否重资产扩张、短贷长投导致错配</li><li><b>心智视角</b>：老板是否过度乐观、忽视预警信号</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：账上数字好看、付款时抓瞎——江苏厂现金流怎么断的？</div>
+    <ul class="pts"><li>① 财务视角：安全垫是否够3-6个月；利润≠现金的误区</li><li>① 运营视角：应收/库存/扩产各卡了多少钱</li><li>① 战略视角：是否重资产扩张、短贷长投导致错配</li><li>④ 本案实锤：外地购地建厂投超2000万，遇需求变化资金链断裂；无力清偿到期债务1560万，含职工债权14万；下接19家中小供应商，连锁拖垮风险</li></ul>
+    <div class="se">💡 结尾避坑：避坑：利润当不了现金，留安全垫、控扩张节奏，周转比规模重要。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="亏损 / 增收不增利" data-score="89.0" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
+    <span class="dscore">内容价值 ★ 89.0</span>
+  </div>
+  <a class="dtitle" href="https://finance.sina.com.cn/jjxw/2026-03-24/doc-inhrzysx7340105.shtml" target="_blank" rel="noopener">浙江黎明2025年增收不增利：新兴事业部量产初期成本拖累，整体利润下滑</a>
+  <div class="dmeta">浙江 · sina.com.cn · 2026-09-29</div>
+  <div class="dsum">老牌零部件厂浙江黎明营收增长但利润下滑，新事业部前期重资产投入未形成规模效应，成熟业务占比95%，转型阵痛期增收不增利。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>营收增长但利润下滑，增收不增利</li><li>新兴事业部产能利用率仅3%-40%，重资产投入未达产</li><li>研发费用高企（4250万/+15.59%）进一步挤压利润</li><li>过度依赖2个成熟事业部，抗风险集中</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>财务视角</b>：营收涨但利润率薄，成本传导是否滞后（高进低出）</li><li><b>产品视角</b>：是否在附加值低的通用品上内卷，缺乏定价权</li><li><b>运营视角</b>：良率/能耗/库存是否吃掉利润；是否只靠压价换单</li><li><b>市场视角</b>：客户集中度过高、被大客户压价的风险</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：订单不少、为啥就是不赚钱？这家浙江厂的利润去哪了？</div>
+    <ul class="pts"><li>① 财务视角：营收涨但利润率薄，成本传导是否滞后（高进低出）</li><li>① 产品视角：是否在附加值低的通用品上内卷，缺乏定价权</li><li>① 运营视角：良率/能耗/库存是否吃掉利润；是否只靠压价换单</li><li>④ 本案实锤：营收增长但利润下滑，增收不增利；新兴事业部产能利用率仅3%-40%，重资产投入未达产；研发费用高企（4250万/+15.59%）进一步挤压利润</li></ul>
+    <div class="se">💡 结尾避坑：避坑：把成本传导机制建起来，往高附加值走，宁可少单也要保毛利。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="欠款 / 劳资纠纷" data-score="86.5" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">欠款 / 劳资纠纷</span>
+    <span class="dscore">内容价值 ★ 86.5</span>
+  </div>
+  <a class="dtitle" href="https://www.peopleapp.com/rmharticle/30013705184" target="_blank" rel="noopener">上海青浦鞋厂老板跑路：拖欠51名员工工资106万，拒不支付劳动报酬获刑</a>
+  <div class="dmeta">上海 · peopleapp.com · 2026-09-29</div>
+  <div class="dsum">上海鞋厂经营不善欠薪106万后老板跑路，触犯拒不支付劳动报酬罪获刑，政府垫付工资，典型欠薪跑路案例。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>经营不善拖欠51名员工工资106万元</li><li>责令支付后仍逃匿失联，拒不配合</li><li>政府垫付工资51.7万元，财政资金兜底</li><li>触犯拒不支付劳动报酬罪获刑一年</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>合规视角</b>：欠薪/欠款是否触及劳动法与合同责任，风险敞口多大</li><li><b>财务视角</b>：现金流是否紧张到发不出工资，资金计划是否失序</li><li><b>组织视角</b>：激励与信任是否破裂，核心团队是否流失</li><li><b>运营视角</b>：上下游欠款连锁，是否引发供应链断供</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：厂子还在转，工资却发不出——上海这家厂的账怎么平的？</div>
+    <ul class="pts"><li>① 合规视角：欠薪/欠款是否触及劳动法与合同责任，风险敞口多大</li><li>① 财务视角：现金流是否紧张到发不出工资，资金计划是否失序</li><li>① 组织视角：激励与信任是否破裂，核心团队是否流失</li><li>④ 本案实锤：经营不善拖欠51名员工工资106万元；责令支付后仍逃匿失联，拒不配合；政府垫付工资51.7万元，财政资金兜底</li></ul>
+    <div class="se">💡 结尾避坑：避坑：现金流排期先于扩张，欠薪是信任崩塌起点，合规红线不能碰。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="欠款 / 劳资纠纷" data-score="86.5" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">欠款 / 劳资纠纷</span>
+    <span class="dscore">内容价值 ★ 86.5</span>
+  </div>
+  <a class="dtitle" href="https://www.sh.jcy.gov.cn/xwdt/jcxw/34100.jhtml" target="_blank" rel="noopener">为不支付工资直接搬走工厂：上海奉贤服装厂人去楼空，23名工人18万欠薪</a>
+  <div class="dmeta">上海 · sh.jcy.gov.cn · 2026-09-29</div>
+  <div class="dsum">上海服装厂老板为躲18万欠薪连夜搬空设备跑路，入不敷出+小贷债务压垮，最终刑责。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>经营亏损靠小额贷款维持，入不敷出</li><li>拖欠23名工人工资18万余元</li><li>为躲薪连夜搬走设备半成品、关机失联</li><li>触碰拒不支付劳动报酬罪红线</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>合规视角</b>：欠薪/欠款是否触及劳动法与合同责任，风险敞口多大</li><li><b>财务视角</b>：现金流是否紧张到发不出工资，资金计划是否失序</li><li><b>组织视角</b>：激励与信任是否破裂，核心团队是否流失</li><li><b>运营视角</b>：上下游欠款连锁，是否引发供应链断供</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：厂子还在转，工资却发不出——上海这家厂的账怎么平的？</div>
+    <ul class="pts"><li>① 合规视角：欠薪/欠款是否触及劳动法与合同责任，风险敞口多大</li><li>① 财务视角：现金流是否紧张到发不出工资，资金计划是否失序</li><li>① 组织视角：激励与信任是否破裂，核心团队是否流失</li><li>④ 本案实锤：经营亏损靠小额贷款维持，入不敷出；拖欠23名工人工资18万余元；为躲薪连夜搬走设备半成品、关机失联</li></ul>
+    <div class="se">💡 结尾避坑：避坑：现金流排期先于扩张，欠薪是信任崩塌起点，合规红线不能碰。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="欠款 / 劳资纠纷" data-score="86.5" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">欠款 / 劳资纠纷</span>
+    <span class="dscore">内容价值 ★ 86.5</span>
+  </div>
+  <a class="dtitle" href="https://chinajob.mohrss.gov.cn/c/2020-07-08/221196.shtml" target="_blank" rel="noopener">上海青浦制衣厂欠薪27.5万法定代表人失联，设备转移涉刑移送</a>
+  <div class="dmeta">上海 · mohrss.gov.cn · 2026-09-29</div>
+  <div class="dsum">上海制衣厂欠薪+转移资产+失联，未签合同加重取证难，劳动保障监察预警机制待补强。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>拖欠13名劳动者工资27.5万元</li><li>法定代表人失联、设备资产转移</li><li>未与劳动者签书面劳动合同，取证难</li><li>欠薪预警信息获取渠道窄、滞后</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>合规视角</b>：欠薪/欠款是否触及劳动法与合同责任，风险敞口多大</li><li><b>财务视角</b>：现金流是否紧张到发不出工资，资金计划是否失序</li><li><b>组织视角</b>：激励与信任是否破裂，核心团队是否流失</li><li><b>运营视角</b>：上下游欠款连锁，是否引发供应链断供</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：厂子还在转，工资却发不出——上海这家厂的账怎么平的？</div>
+    <ul class="pts"><li>① 合规视角：欠薪/欠款是否触及劳动法与合同责任，风险敞口多大</li><li>① 财务视角：现金流是否紧张到发不出工资，资金计划是否失序</li><li>① 组织视角：激励与信任是否破裂，核心团队是否流失</li><li>④ 本案实锤：拖欠13名劳动者工资27.5万元；法定代表人失联、设备资产转移；未与劳动者签书面劳动合同，取证难</li></ul>
+    <div class="se">💡 结尾避坑：避坑：现金流排期先于扩张，欠薪是信任崩塌起点，合规红线不能碰。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="质量事故 / 召回" data-score="84.5" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">质量事故 / 召回</span>
+    <span class="dscore">内容价值 ★ 84.5</span>
+  </div>
+  <a class="dtitle" href="http://scjgj.lyg.gov.cn/sscjdglj/tzgg/content/ba506616-12f4-43f5-a0ea-bd0b004cd8c4.html" target="_blank" rel="noopener">连云港根深纸制品召回纸餐盒：负重挺度不够，装高温食物变形渗漏</a>
+  <div class="dmeta">江苏 · lyg.gov.cn · 2026-09-29</div>
+  <div class="dsum">江苏纸制品厂纸餐盒挺度不达标致高温渗漏烫伤风险，批量召回3.4万包，质量设计缺陷。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>纸餐盒负重挺度不够，高温食物易变形渗漏</li><li>存在烫伤消费者安全隐患</li><li>质量设计/检测环节未拦截缺陷</li><li>批量召回34000包，品牌与赔付成本</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>质量视角</b>：质量体系是否漏洞：首检/过程检/溯源是否到位</li><li><b>合规视角</b>：责任与赔偿边界，是否触及产品责任法</li><li><b>品牌视角</b>：信任如何修复，危机公关是否及时透明</li><li><b>运营视角</b>：批次管理与溯源能否快速定位、隔离损失</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：一批货出问题，厂子差点被拖垮——江苏这个质量坑怎么挖的？</div>
+    <ul class="pts"><li>① 质量视角：质量体系是否漏洞：首检/过程检/溯源是否到位</li><li>① 合规视角：责任与赔偿边界，是否触及产品责任法</li><li>① 品牌视角：信任如何修复，危机公关是否及时透明</li><li>④ 本案实锤：纸餐盒负重挺度不够，高温食物易变形渗漏；存在烫伤消费者安全隐患；质量设计/检测环节未拦截缺陷</li></ul>
+    <div class="se">💡 结尾避坑：避坑：把质量当生命线，建批次溯源+前置品控，一次召回够亏半年。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="质量事故 / 召回" data-score="84.5" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">质量事故 / 召回</span>
+    <span class="dscore">内容价值 ★ 84.5</span>
+  </div>
+  <a class="dtitle" href="https://scjgj.taizhou.gov.cn/xwzx/tzgg/art/2025/art_a2e9a6f23e2e4c6c854d0e74d965db50.html" target="_blank" rel="noopener">泰州睿阳印刷召回淋膜纸杯：微生物限量不达标，或致腹泻呕吐</a>
+  <div class="dmeta">江苏 · taizhou.gov.cn · 2026-09-29</div>
+  <div class="dsum">江苏纸杯厂微生物限量不达标引发10万余只召回，食品接触材料合规红线失守。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>淋膜纸杯微生物限量不符合国标GB4806.8-2022</li><li>使用或致腹泻呕吐，伤害健康</li><li>食品接触材料合规体系失效</li><li>召回10.55万只，舆情与赔付风险</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>质量视角</b>：质量体系是否漏洞：首检/过程检/溯源是否到位</li><li><b>合规视角</b>：责任与赔偿边界，是否触及产品责任法</li><li><b>品牌视角</b>：信任如何修复，危机公关是否及时透明</li><li><b>运营视角</b>：批次管理与溯源能否快速定位、隔离损失</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：一批货出问题，厂子差点被拖垮——江苏这个质量坑怎么挖的？</div>
+    <ul class="pts"><li>① 质量视角：质量体系是否漏洞：首检/过程检/溯源是否到位</li><li>① 合规视角：责任与赔偿边界，是否触及产品责任法</li><li>① 品牌视角：信任如何修复，危机公关是否及时透明</li><li>④ 本案实锤：淋膜纸杯微生物限量不符合国标GB4806.8-2022；使用或致腹泻呕吐，伤害健康；食品接触材料合规体系失效</li></ul>
+    <div class="se">💡 结尾避坑：避坑：把质量当生命线，建批次溯源+前置品控，一次召回够亏半年。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="转型失败 / 智能化踩坑" data-score="82.5" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
+    <span class="dscore">内容价值 ★ 82.5</span>
+  </div>
+  <a class="dtitle" href="https://m.toutiao.com/article/7649976977180361268" target="_blank" rel="noopener">江苏数字化工厂改造踩过的3个坑：软件堆砌、忽视人才、认证外包</a>
+  <div class="dmeta">江苏 · toutiao.com · 2026-09-29</div>
+  <div class="dsum">江苏小微企业数字化三大坑：重软件轻流程、重设备轻人才、认证外包无落地，投入打水漂。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>软件堆砌、数据对不上，一线不会用拖慢效率</li><li>只抓设备联网，缺维护人才，数字白板成摆设</li><li>体系认证外包，拿证后审核露馅、废品率反升</li><li>未先做现状诊断即迷信工具</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>战略视角</b>：是否盲目跟风'大而全'，为数字化而数字化</li><li><b>组织视角</b>：人才与数字化能力是否匹配，是否'系统上了人没跟上'</li><li><b>财务视角</b>：投入产出是否算清，重资产系统是否拖累现金流</li><li><b>运营视角</b>：是否从最痛的业务痛点切入，还是全面铺开</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：砸钱上系统，为啥反而更亏？江苏厂智能化踩的坑。</div>
+    <ul class="pts"><li>① 战略视角：是否盲目跟风'大而全'，为数字化而数字化</li><li>① 组织视角：人才与数字化能力是否匹配，是否'系统上了人没跟上'</li><li>① 财务视角：投入产出是否算清，重资产系统是否拖累现金流</li><li>④ 本案实锤：软件堆砌、数据对不上，一线不会用拖慢效率；只抓设备联网，缺维护人才，数字白板成摆设；体系认证外包，拿证后审核露馅、废品率反升</li></ul>
+    <div class="se">💡 结尾避坑：避坑：从轻量化、单点痛点切入，数据先打通再谈智能，别被'全家桶'套牢。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="倒闭 / 关停" data-score="82.5" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
+    <span class="dscore">内容价值 ★ 82.5</span>
+  </div>
+  <a class="dtitle" href="https://m.cnfin.com/dz-lb//zixun/20220728/3671556_1.html" target="_blank" rel="noopener">江苏长乐纤维关停清算：中等规模化纤厂主动止损退出红海</a>
+  <div class="dmeta">江苏 · cnfin.com · 2026-09-29</div>
+  <div class="dsum">江苏中等化纤厂在龙头一体化碾压+行业产能过剩下主动关停止损，凸显中小制造规模劣势与周期脆弱。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>行业头部一体化扩产，中小企业无规模成本优势</li><li>产品优势丧失、效益持续恶化</li><li>高库存、低利润、低负荷行业‘阵痛期’</li><li>主动止损退出，但前期投资沉没</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>战略视角</b>：是否死守低端红海、无产品壁垒，靠低价内卷抢单</li><li><b>财务视角</b>：现金流是否断裂；应收账款/账期是否被大客户拉长抽空</li><li><b>运营视角</b>：成本结构是否失衡（原料涨、终端不涨、增收不增利）</li><li><b>心智视角</b>：老板是否路径依赖、不愿技改升级，把困境归咎大环境</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：一家江苏的（行业）厂，说关就关，钱到底卡在哪？</div>
+    <ul class="pts"><li>① 战略视角：是否死守低端红海、无产品壁垒，靠低价内卷抢单</li><li>① 财务视角：现金流是否断裂；应收账款/账期是否被大客户拉长抽空</li><li>① 运营视角：成本结构是否失衡（原料涨、终端不涨、增收不增利）</li><li>④ 本案实锤：行业头部一体化扩产，中小企业无规模成本优势；产品优势丧失、效益持续恶化；高库存、低利润、低负荷行业‘阵痛期’</li></ul>
+    <div class="se">💡 结尾避坑：中小厂避坑：留足现金流安全垫、砍低端红海、早做升级，别等潮水退了才发现没穿裤。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="订单流失 / 外贸下滑" data-score="81.8" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
+    <span class="dscore">内容价值 ★ 81.8</span>
+  </div>
+  <a class="dtitle" href="https://tz.zjol.com.cn/tzxw/202406/t20240615_26913180.shtml?mode=m2pc" target="_blank" rel="noopener">台州星星冷链海外订单流失：老客户转单土耳其，车间一半产能空余</a>
+  <div class="dmeta">浙江 · zjol.com.cn · 2026-09-29</div>
+  <div class="dsum">台州冷链设备厂因海运费+海外竞争丢单土耳其，产能闲置一半；靠精细化改进+服务重新赢回客户，揭示‘打价格战活不下去’。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>老客户将订单转移至低成本地区（土耳其）</li><li>订单流失后车间半数产能空置</li><li>原靠拼价格无差异化，抗替代弱</li><li>海运费高涨+海外同类竞争双重挤压</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>市场视角</b>：客户是否向东南亚外迁；大单拆小单、试单成主流</li><li><b>供应链视角</b>：是否过度依赖单一市场/单一大客户，抗风险弱</li><li><b>产品视角</b>：附加值与不可替代性够不够，凭什么不被替代</li><li><b>财务视角</b>：汇率/信保/账期是否吃掉利润，回款是否安全</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：浙江外贸厂订单变薄了，是行情差还是自己被替代了？</div>
+    <ul class="pts"><li>① 市场视角：客户是否向东南亚外迁；大单拆小单、试单成主流</li><li>① 供应链视角：是否过度依赖单一市场/单一大客户，抗风险弱</li><li>① 产品视角：附加值与不可替代性够不够，凭什么不被替代</li><li>④ 本案实锤：老客户将订单转移至低成本地区（土耳其）；订单流失后车间半数产能空置；原靠拼价格无差异化，抗替代弱</li></ul>
+    <div class="se">💡 结尾避坑：避坑：老客深度开发+微创新打样，分散市场，别把命系在一个客户身上。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="现金流断裂 / 资金链" data-score="81.2" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
+    <span class="dscore">内容价值 ★ 81.2</span>
+  </div>
+  <a class="dtitle" href="http://ahhfzy.ahcourt.gov.cn/article/detail/2020/09/id/5457076.shtml" target="_blank" rel="noopener">安徽徽铝资金链断裂欠债6亿全面停产，破产重整凭商标重生</a>
+  <div class="dmeta">安徽 · ahcourt.gov.cn · 2026-09-29</div>
+  <div class="dsum">安徽铝业巨头资金链断裂欠6亿停产，靠商标无形资产融资复产重整，揭示重资产+关联混同风险。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>资金链断裂，关联7家公司欠债约6亿全面停产</li><li>重资产扩张、关联公司人格混同</li><li>千名职工就业与区域金融风险</li><li>无形资产（商标）长期被低估未盘活</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>财务视角</b>：安全垫是否够3-6个月；利润≠现金的误区</li><li><b>运营视角</b>：应收/库存/扩产各卡了多少钱</li><li><b>战略视角</b>：是否重资产扩张、短贷长投导致错配</li><li><b>心智视角</b>：老板是否过度乐观、忽视预警信号</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：账上数字好看、付款时抓瞎——安徽厂现金流怎么断的？</div>
+    <ul class="pts"><li>① 财务视角：安全垫是否够3-6个月；利润≠现金的误区</li><li>① 运营视角：应收/库存/扩产各卡了多少钱</li><li>① 战略视角：是否重资产扩张、短贷长投导致错配</li><li>④ 本案实锤：资金链断裂，关联7家公司欠债约6亿全面停产；重资产扩张、关联公司人格混同；千名职工就业与区域金融风险</li></ul>
+    <div class="se">💡 结尾避坑：避坑：利润当不了现金，留安全垫、控扩张节奏，周转比规模重要。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="现金流断裂 / 资金链" data-score="81.2" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
+    <span class="dscore">内容价值 ★ 81.2</span>
+  </div>
+  <a class="dtitle" href="https://finance.sina.com.cn/jjxw/2026-08-06/doc-inimhxzv4930160.shtml" target="_blank" rel="noopener">一道新能流动性危机：光伏链主近10亿债务压顶，并购重整保产业链</a>
+  <div class="dmeta">浙江 · sina.com.cn · 2026-09-29</div>
+  <div class="dsum">衢州光伏链主一道新能流动性危机近10亿债务，凭技术家底与链主地位获并购重整，凸显周期下行风险。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>光伏行业寒潮引发流动性危机，近10亿债务</li><li>百余起涉企纠纷集中涌入法院</li><li>作为产业链‘链主’，倒下引发货款连锁拖欠</li><li>周期下行+扩产节奏错位致现金流承压</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>财务视角</b>：安全垫是否够3-6个月；利润≠现金的误区</li><li><b>运营视角</b>：应收/库存/扩产各卡了多少钱</li><li><b>战略视角</b>：是否重资产扩张、短贷长投导致错配</li><li><b>心智视角</b>：老板是否过度乐观、忽视预警信号</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：账上数字好看、付款时抓瞎——浙江厂现金流怎么断的？</div>
+    <ul class="pts"><li>① 财务视角：安全垫是否够3-6个月；利润≠现金的误区</li><li>① 运营视角：应收/库存/扩产各卡了多少钱</li><li>① 战略视角：是否重资产扩张、短贷长投导致错配</li><li>④ 本案实锤：光伏行业寒潮引发流动性危机，近10亿债务；百余起涉企纠纷集中涌入法院；作为产业链‘链主’，倒下引发货款连锁拖欠</li></ul>
+    <div class="se">💡 结尾避坑：避坑：利润当不了现金，留安全垫、控扩张节奏，周转比规模重要。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="亏损 / 增收不增利" data-score="79.0" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
+    <span class="dscore">内容价值 ★ 79.0</span>
+  </div>
+  <a class="dtitle" href="https://tidenews.com.cn/news.html?id=3539506" target="_blank" rel="noopener">浙江新能源车产业链冷热温差：整车产量全国第一，上游汽配厂利润腰斩、产能空转</a>
+  <div class="dmeta">浙江 · tidenews.com.cn · 2026-09-29</div>
+  <div class="dsum">浙江新能源整车产量登顶但产业链中端利润腰斩，上游汽配两头承压：原料刚性上涨+整车厂持续压价，前期扩产产能闲置、沉没成本双重挤压。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>增产不增利，利润规模近乎腰斩</li><li>上游原料涨30-40%叠加下游整车厂压价，两头承压</li><li>前期重资产扩产（3亿/60亩）遇车型迭代，订单从2万骤降至5000台</li><li>产能利用率不足50%，半工半停超3个月</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>财务视角</b>：营收涨但利润率薄，成本传导是否滞后（高进低出）</li><li><b>产品视角</b>：是否在附加值低的通用品上内卷，缺乏定价权</li><li><b>运营视角</b>：良率/能耗/库存是否吃掉利润；是否只靠压价换单</li><li><b>市场视角</b>：客户集中度过高、被大客户压价的风险</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：订单不少、为啥就是不赚钱？这家浙江厂的利润去哪了？</div>
+    <ul class="pts"><li>① 财务视角：营收涨但利润率薄，成本传导是否滞后（高进低出）</li><li>① 产品视角：是否在附加值低的通用品上内卷，缺乏定价权</li><li>① 运营视角：良率/能耗/库存是否吃掉利润；是否只靠压价换单</li><li>④ 本案实锤：增产不增利，利润规模近乎腰斩；上游原料涨30-40%叠加下游整车厂压价，两头承压；前期重资产扩产（3亿/60亩）遇车型迭代，订单从2万骤降至5000台</li></ul>
+    <div class="se">💡 结尾避坑：避坑：把成本传导机制建起来，往高附加值走，宁可少单也要保毛利。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="亏损 / 增收不增利" data-score="79.0" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
+    <span class="dscore">内容价值 ★ 79.0</span>
+  </div>
+  <a class="dtitle" href="https://zjrb.zjol.com.cn/html/2023-06/13/content_3656044.htm" target="_blank" rel="noopener">浙江日报调查：企业利润去哪儿了——抢单降价+刚性成本吃掉制造业薄利</a>
+  <div class="dmeta">浙江 · zjol.com.cn · 2026-09-29</div>
+  <div class="dsum">浙江制造业普遍微利：降价抢单让利、人工与原料刚性上涨、议价能力弱三重夹击，利润像刀片一样薄甚至为负。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>为抢订单竞相降价，利润被让利吃掉</li><li>人工成本刚性上涨（月均5000→6000）</li><li>大宗原料高位，中间环节议价能力弱</li><li>需求不足+行业内卷，靠勒紧裤腰带硬撑</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>财务视角</b>：营收涨但利润率薄，成本传导是否滞后（高进低出）</li><li><b>产品视角</b>：是否在附加值低的通用品上内卷，缺乏定价权</li><li><b>运营视角</b>：良率/能耗/库存是否吃掉利润；是否只靠压价换单</li><li><b>市场视角</b>：客户集中度过高、被大客户压价的风险</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：订单不少、为啥就是不赚钱？这家浙江厂的利润去哪了？</div>
+    <ul class="pts"><li>① 财务视角：营收涨但利润率薄，成本传导是否滞后（高进低出）</li><li>① 产品视角：是否在附加值低的通用品上内卷，缺乏定价权</li><li>① 运营视角：良率/能耗/库存是否吃掉利润；是否只靠压价换单</li><li>④ 本案实锤：为抢订单竞相降价，利润被让利吃掉；人工成本刚性上涨（月均5000→6000）；大宗原料高位，中间环节议价能力弱</li></ul>
+    <div class="se">💡 结尾避坑：避坑：把成本传导机制建起来，往高附加值走，宁可少单也要保毛利。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="库存积压 / 资金占用" data-score="74.8" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
+    <span class="dscore">内容价值 ★ 74.8</span>
+  </div>
+  <a class="dtitle" href="http://news.fzahw.com/news/2023/06/21/c_98079.htm" target="_blank" rel="noopener">安徽凤阳玻璃公司产品积压资金链断裂，法院‘放水养鱼’助重生</a>
+  <div class="dmeta">安徽 · fzahw.com · 2026-09-29</div>
+  <div class="dsum">安徽玻璃厂疫情下产品积压致资金链断裂，窑炉特性使强制拍卖不可行，法院善意执行‘放水养鱼’盘活。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>产品积压无法销售，资金链断裂</li><li>欠货款899万及利息无力支付</li><li>浮法窑炉不能停，停则再点火成本千万</li><li>500名员工稳就业与社会风险</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>运营视角</b>：是否推式生产、凭经验备货，缺乏拉动式节奏</li><li><b>财务视角</b>：沉淀资金多少、周转天数，是否吃掉流动性</li><li><b>供应链视角</b>：牛鞭效应：下游波动被放大成库存</li><li><b>市场视角</b>：产品是否滞销/过时，清呆滞是否及时</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：仓库堆成山、账面却没钱——安徽厂的库存吃了多少现金流？</div>
+    <ul class="pts"><li>① 运营视角：是否推式生产、凭经验备货，缺乏拉动式节奏</li><li>① 财务视角：沉淀资金多少、周转天数，是否吃掉流动性</li><li>① 供应链视角：牛鞭效应：下游波动被放大成库存</li><li>④ 本案实锤：产品积压无法销售，资金链断裂；欠货款899万及利息无力支付；浮法窑炉不能停，停则再点火成本千万</li></ul>
+    <div class="se">💡 结尾避坑：避坑：按单生产+安全库存，定期清呆滞，库存是负债不是资产。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="库存积压 / 资金占用" data-score="74.8" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
+    <span class="dscore">内容价值 ★ 74.8</span>
+  </div>
+  <a class="dtitle" href="https://finance.sina.com.cn/stock/relnews/cn/2025-07-14/doc-inffkwqv6761519.shtml" target="_blank" rel="noopener">安徽金冠玻璃库存积压拖累现金流：货币资金从147万降至17万，存货周转下滑</a>
+  <div class="dmeta">安徽 · sina.com.cn · 2026-09-29</div>
+  <div class="dsum">安徽玻璃出口企库存积压+应收高企吃掉流动性，货币资金缩水至17万，靠存货质押续贷渡过还贷关口。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>库存积压，存货周转从5.73次降至3.82次</li><li>货币资金从147万骤降至17万</li><li>应收+存货占流动资产近70%，流动性枯竭</li><li>3250万贷款到期，现金流捉襟见肘</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>运营视角</b>：是否推式生产、凭经验备货，缺乏拉动式节奏</li><li><b>财务视角</b>：沉淀资金多少、周转天数，是否吃掉流动性</li><li><b>供应链视角</b>：牛鞭效应：下游波动被放大成库存</li><li><b>市场视角</b>：产品是否滞销/过时，清呆滞是否及时</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：仓库堆成山、账面却没钱——安徽厂的库存吃了多少现金流？</div>
+    <ul class="pts"><li>① 运营视角：是否推式生产、凭经验备货，缺乏拉动式节奏</li><li>① 财务视角：沉淀资金多少、周转天数，是否吃掉流动性</li><li>① 供应链视角：牛鞭效应：下游波动被放大成库存</li><li>④ 本案实锤：库存积压，存货周转从5.73次降至3.82次；货币资金从147万骤降至17万；应收+存货占流动资产近70%，流动性枯竭</li></ul>
+    <div class="se">💡 结尾避坑：避坑：按单生产+安全库存，定期清呆滞，库存是负债不是资产。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="质量事故 / 召回" data-score="74.5" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">质量事故 / 召回</span>
+    <span class="dscore">内容价值 ★ 74.5</span>
+  </div>
+  <a class="dtitle" href="https://m.cqn.com.cn/ms/content/2026-08/24/content_9169867.htm" target="_blank" rel="noopener">沭阳琳可家具厂召回床头柜：甲醛释放量超标、抽屉防脱落损坏</a>
+  <div class="dmeta">江苏 · cqn.com.cn · 2026-09-29</div>
+  <div class="dsum">江苏宿迁家具厂因板材封边工艺缺失致甲醛超标+抽屉防脱落损坏发起召回，暴露质量体系漏洞。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>人造板非交接面未封边未涂饰，甲醛释放量超标</li><li>抽屉防脱落装置损坏，存在砸伤安全隐患</li><li>质量前检/过程检缺失，缺陷品流出</li><li>涉及消费品召回管理合规风险</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>质量视角</b>：质量体系是否漏洞：首检/过程检/溯源是否到位</li><li><b>合规视角</b>：责任与赔偿边界，是否触及产品责任法</li><li><b>品牌视角</b>：信任如何修复，危机公关是否及时透明</li><li><b>运营视角</b>：批次管理与溯源能否快速定位、隔离损失</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：一批货出问题，厂子差点被拖垮——江苏这个质量坑怎么挖的？</div>
+    <ul class="pts"><li>① 质量视角：质量体系是否漏洞：首检/过程检/溯源是否到位</li><li>① 合规视角：责任与赔偿边界，是否触及产品责任法</li><li>① 品牌视角：信任如何修复，危机公关是否及时透明</li><li>④ 本案实锤：人造板非交接面未封边未涂饰，甲醛释放量超标；抽屉防脱落装置损坏，存在砸伤安全隐患；质量前检/过程检缺失，缺陷品流出</li></ul>
+    <div class="se">💡 结尾避坑：避坑：把质量当生命线，建批次溯源+前置品控，一次召回够亏半年。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="转型失败 / 智能化踩坑" data-score="72.5" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
+    <span class="dscore">内容价值 ★ 72.5</span>
+  </div>
+  <a class="dtitle" href="https://tsight.io/articles/11541923" target="_blank" rel="noopener">断裂的数字孪生：江苏专精特新工厂转型陷阱——数据孤岛、成本错配、人才流失</a>
+  <div class="dmeta">江苏 · tsight.io · 2026-09-29</div>
+  <div class="dsum">江苏专精特新工厂数字化沦为摆设：设备接口闭源难打通、固定投入吞噬利润、懂工艺的数字化人才断层，转型成负累。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>数据孤岛：设备来自不同年代厂商，接口闭源难打通</li><li>成本错配：数字化固定投入ROI崩塌式表现</li><li>人才流失：懂底层工艺又懂数字的复合人才断层</li><li>盲目上系统沦为‘填表工程’，现场数据停滞</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>战略视角</b>：是否盲目跟风'大而全'，为数字化而数字化</li><li><b>组织视角</b>：人才与数字化能力是否匹配，是否'系统上了人没跟上'</li><li><b>财务视角</b>：投入产出是否算清，重资产系统是否拖累现金流</li><li><b>运营视角</b>：是否从最痛的业务痛点切入，还是全面铺开</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：砸钱上系统，为啥反而更亏？江苏厂智能化踩的坑。</div>
+    <ul class="pts"><li>① 战略视角：是否盲目跟风'大而全'，为数字化而数字化</li><li>① 组织视角：人才与数字化能力是否匹配，是否'系统上了人没跟上'</li><li>① 财务视角：投入产出是否算清，重资产系统是否拖累现金流</li><li>④ 本案实锤：数据孤岛：设备来自不同年代厂商，接口闭源难打通；成本错配：数字化固定投入ROI崩塌式表现；人才流失：懂底层工艺又懂数字的复合人才断层</li></ul>
+    <div class="se">💡 结尾避坑：避坑：从轻量化、单点痛点切入，数据先打通再谈智能，别被'全家桶'套牢。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="转型失败 / 智能化踩坑" data-score="72.5" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
+    <span class="dscore">内容价值 ★ 72.5</span>
+  </div>
+  <a class="dtitle" href="https://www.szsk.cn/index.php/home/index/article?id=604" target="_blank" rel="noopener">常熟中小企业智能化改造四大痛点：认知偏差、单点改进、资金难、缺人才</a>
+  <div class="dmeta">江苏 · szsk.cn · 2026-09-29</div>
+  <div class="dsum">常熟中小制造企业智能化卡在认知、规划、资金、人才四道关，单点改进难成体系。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>决策层认知不足，重硬件轻信息化两化融合</li><li>头痛医头缺乏整体规划</li><li>无力承担转型所需的持续资金投入</li><li>缺乏智能制造复合型人才</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>战略视角</b>：是否盲目跟风'大而全'，为数字化而数字化</li><li><b>组织视角</b>：人才与数字化能力是否匹配，是否'系统上了人没跟上'</li><li><b>财务视角</b>：投入产出是否算清，重资产系统是否拖累现金流</li><li><b>运营视角</b>：是否从最痛的业务痛点切入，还是全面铺开</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：砸钱上系统，为啥反而更亏？江苏厂智能化踩的坑。</div>
+    <ul class="pts"><li>① 战略视角：是否盲目跟风'大而全'，为数字化而数字化</li><li>① 组织视角：人才与数字化能力是否匹配，是否'系统上了人没跟上'</li><li>① 财务视角：投入产出是否算清，重资产系统是否拖累现金流</li><li>④ 本案实锤：决策层认知不足，重硬件轻信息化两化融合；头痛医头缺乏整体规划；无力承担转型所需的持续资金投入</li></ul>
+    <div class="se">💡 结尾避坑：避坑：从轻量化、单点痛点切入，数据先打通再谈智能，别被'全家桶'套牢。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div>
+<div class="dcard" data-pt="订单流失 / 外贸下滑" data-score="71.8" data-date="2026-09-29">
+  <div class="dcard-head">
+    <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
+    <span class="dscore">内容价值 ★ 71.8</span>
+  </div>
+  <a class="dtitle" href="https://news.qq.com/rain/a/20260320A05CGK00" target="_blank" rel="noopener">义乌外贸‘高波动’：转口订单面临退单风险，库存积压与现金流承压</a>
+  <div class="dmeta">浙江 · qq.com · 2026-09-29</div>
+  <div class="dsum">义乌商家受贸易壁垒冲击转口通道收窄，订单暂停引发库存积压与现金流风险，倒逼市场/创新/产业弹性‘三变’突围。</div>
+  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss"><li>转口通道（墨西哥）收紧，三成订单面临退单</li><li>改道东南亚物流成本直接+15%</li><li>订单暂停导致库存积压、现金流紧张</li><li>高波动下银行贷款违约风险上升</li></ul></div>
+  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang"><li><b>市场视角</b>：客户是否向东南亚外迁；大单拆小单、试单成主流</li><li><b>供应链视角</b>：是否过度依赖单一市场/单一大客户，抗风险弱</li><li><b>产品视角</b>：附加值与不可替代性够不够，凭什么不被替代</li><li><b>财务视角</b>：汇率/信保/账期是否吃掉利润，回款是否安全</li></ul></div>
+  <div class="blk script">
+    <div class="blkh">短视频脚本框架</div>
+    <div class="sh">🎬 开场钩子：浙江外贸厂订单变薄了，是行情差还是自己被替代了？</div>
+    <ul class="pts"><li>① 市场视角：客户是否向东南亚外迁；大单拆小单、试单成主流</li><li>① 供应链视角：是否过度依赖单一市场/单一大客户，抗风险弱</li><li>① 产品视角：附加值与不可替代性够不够，凭什么不被替代</li><li>④ 本案实锤：转口通道（墨西哥）收紧，三成订单面临退单；改道东南亚物流成本直接+15%；订单暂停导致库存积压、现金流紧张</li></ul>
+    <div class="se">💡 结尾避坑：避坑：老客深度开发+微创新打样，分散市场，别把命系在一个客户身上。</div>
+    <div class="smeta">时长 60-90 秒 · 真实案例 + 干货口播，前3秒抛冲突，结尾给避坑</div>
+  </div>
+</div></div></div>
+
+<footer>由 intel_processor.py + dissect.py 自动生成 · 数据源：公开网络 WebSearch · 仅作短视频选题参考</footer>
+</div>
+<script>
+var TODAY = "2026-09-29";
+function scrollToId(id){ var el=document.getElementById(id); if(el) el.scrollIntoView({behavior:"smooth",block:"start"}); }
+function showFilter(text){ var b=document.getElementById("filterbar"); document.getElementById("filtertxt").textContent=text; b.classList.add("show"); }
+function applyFilter(opt){
+  var pt=opt.pt||null, minScore=opt.minScore||0, todayOnly=opt.todayOnly||false, shown=0;
+  document.querySelectorAll(".dcard").forEach(function(c){
+    var okPt=!pt||c.dataset.pt===pt;
+    var okScore=parseFloat(c.dataset.score)>=minScore;
+    var okToday=!todayOnly||c.dataset.date===TODAY;
+    var ok=okPt&&okScore&&okToday;
+    c.style.display=ok?"":"none"; if(ok) shown++;
+  });
+  return shown;
+}
+function goDissect(kind){
+  scrollToId("sec-dissect");
+  if(kind==="all"){ applyFilter({}); document.getElementById("filterbar").classList.remove("show"); }
+  else if(kind==="today"){ var n=applyFilter({todayOnly:true}); showFilter("筛选：今日新增（"+n+" 张）"); }
+  else if(kind==="high"){ var n=applyFilter({minScore:80}); showFilter("筛选：高分素材 ≥80（"+n+" 张）"); }
+}
+function goTypes(){ scrollToId("sec-types"); }
+function clearFilter(){ applyFilter({}); document.getElementById("filterbar").classList.remove("show"); }
+document.querySelectorAll(".row.clickable").forEach(function(r){
+  r.addEventListener("click", function(){
+    var pt=r.dataset.pt; scrollToId("sec-dissect");
+    var n=applyFilter({pt:pt}); showFilter("筛选：问题类型 = "+pt+"（"+n+" 张）");
+  });
+});
+</script>
+</body></html>
