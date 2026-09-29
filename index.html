@@ -51,14 +51,14 @@ td.num{font-weight:700;color:#dc2626}
 .filterbar .clear{margin-left:auto;color:#dc2626;cursor:pointer;font-weight:600;text-decoration:underline}
 footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
 .empty{color:#9ca3af;font-size:13px}
-.refbar{display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap}
-.refbtn{height:40px;padding:0 20px;border:none;border-radius:10px;background:#dc2626;color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:.15s;font-family:inherit}
-.refbtn:hover{filter:brightness(1.08)}
+.refbar{display:flex;align-items:center;gap:12px;margin-top:12px;flex-wrap:wrap}
+.refbtn{height:32px;padding:0 14px;border:1px solid #e5e7eb;border-radius:8px;background:#fafafa;color:#4b5563;font-size:13px;font-weight:500;cursor:pointer;transition:.15s;font-family:inherit}
+.refbtn:hover{background:#f1f3f5;border-color:#d8dde3;color:#374151}
 .refbtn:active{transform:translateY(1px)}
-.refbtn:disabled{background:#f3b0b0;cursor:default;filter:none}
-.refstatus{font-size:12px;color:#6b7280;flex:1;min-width:220px}
-.refstatus.err{color:#dc2626;font-weight:600}
-.refstatus.ok{color:#15803d;font-weight:600}
+.refbtn:disabled{background:#fafafa;color:#b6bcc4;border-color:#eceef1;cursor:default}
+.refstatus{font-size:12px;color:#9ca3af;flex:1;min-width:220px}
+.refstatus.err{color:#c2603c;font-weight:500}
+.refstatus.ok{color:#5c8a6a;font-weight:500}
 </style></head>
 <body><div class="wrap">
 <header>
@@ -71,8 +71,8 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <div class="stat" onclick="goDissect('high')"><div class="n">47</div><div class="l">高分素材(≥80)</div></div>
   </div>
   <div class="refbar">
-    <button id="refbtn" class="refbtn" onclick="doRefresh()">⟳ 立即刷新</button>
-    <span id="refstatus" class="refstatus">每日 08:10 云端自动采集；也可点左侧按钮随时增量搜索（只加新案例、自动去重与解剖）</span>
+    <button id="refbtn" class="refbtn" onclick="doRefresh()">刷新</button>
+    <span id="refstatus" class="refstatus">每日 08:10 云端自动采集；也可点左侧按钮随时增量搜索（只加新案例）</span>
   </div>
 </header>
 
@@ -1328,7 +1328,7 @@ function doRefresh(){
   if(REF_BUSY) return;
   if(window.__YRD_NATIVE__){
     REF_BUSY=true;
-    var b=document.getElementById("refbtn"); b.disabled=true; b.textContent="⟳ 刷新中…";
+    var b=document.getElementById("refbtn"); b.disabled=true; b.textContent="刷新中…";
     setRef("正在云端搜索新增案例…");
     if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.yrdRefresh){
       window.webkit.messageHandlers.yrdRefresh.postMessage("refresh");
@@ -1342,7 +1342,7 @@ function doRefresh(){
 }
 window.__yrdRefreshStatus=function(m){ setRef(m); };
 window.__yrdRefreshDone=function(m){ setRef(m,"ok"); setTimeout(function(){ location.reload(); },900); };
-window.__yrdRefreshFail=function(m){ REF_BUSY=false; var b=document.getElementById("refbtn"); b.disabled=false; b.textContent="⟳ 立即刷新"; setRef(m,"err"); };
+window.__yrdRefreshFail=function(m){ REF_BUSY=false; var b=document.getElementById("refbtn"); b.disabled=false; b.textContent="刷新"; setRef(m,"err"); };
 document.querySelectorAll(".row.clickable").forEach(function(r){
   r.addEventListener("click", function(){
     var pt=r.dataset.pt; scrollToId("sec-dissect");
