@@ -51,6 +51,14 @@ td.num{font-weight:700;color:#dc2626}
 .filterbar .clear{margin-left:auto;color:#dc2626;cursor:pointer;font-weight:600;text-decoration:underline}
 footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
 .empty{color:#9ca3af;font-size:13px}
+.refbar{display:flex;align-items:center;gap:12px;margin-top:14px;flex-wrap:wrap}
+.refbtn{height:40px;padding:0 20px;border:none;border-radius:10px;background:#dc2626;color:#fff;font-size:14px;font-weight:600;cursor:pointer;transition:.15s;font-family:inherit}
+.refbtn:hover{filter:brightness(1.08)}
+.refbtn:active{transform:translateY(1px)}
+.refbtn:disabled{background:#f3b0b0;cursor:default;filter:none}
+.refstatus{font-size:12px;color:#6b7280;flex:1;min-width:220px}
+.refstatus.err{color:#dc2626;font-weight:600}
+.refstatus.ok{color:#15803d;font-weight:600}
 </style></head>
 <body><div class="wrap">
 <header>
@@ -61,6 +69,10 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <div class="stat" onclick="goDissect('today')"><div class="n">25</div><div class="l">今日新增</div></div>
     <div class="stat" onclick="goTypes()"><div class="n">8</div><div class="l">问题类型</div></div>
     <div class="stat" onclick="goDissect('high')"><div class="n">17</div><div class="l">高分素材(≥80)</div></div>
+  </div>
+  <div class="refbar">
+    <button id="refbtn" class="refbtn" onclick="doRefresh()">⟳ 立即刷新</button>
+    <span id="refstatus" class="refstatus">每日 08:10 云端自动采集；也可点左侧按钮随时增量搜索（只加新案例、自动去重与解剖）</span>
   </div>
 </header>
 
@@ -554,6 +566,23 @@ function goDissect(kind){
 }
 function goTypes(){ scrollToId("sec-types"); }
 function clearFilter(){ applyFilter({}); document.getElementById("filterbar").classList.remove("show"); }
+var REF_BUSY=false;
+function setRef(msg,cls){var s=document.getElementById("refstatus");s.textContent=msg;s.className="refstatus"+(cls?(" "+cls):"");}
+function doRefresh(){
+  if(REF_BUSY) return;
+  if(window.__YRD_NATIVE__){
+    REF_BUSY=true;
+    var b=document.getElementById("refbtn"); b.disabled=true; b.textContent="⟳ 刷新中…";
+    setRef("正在云端搜索新增案例…");
+    location.href="yrdintel://refresh";
+  } else {
+    setRef("请在桌面「长三角制造业情报」App 内点击刷新；浏览器中可打开 GitHub Actions 手动运行。");
+    window.open("https://github.com/tedvong894/yrd-mfg-intel/actions/workflows/refresh.yml","_blank");
+  }
+}
+window.__yrdRefreshStatus=function(m){ setRef(m); };
+window.__yrdRefreshDone=function(m){ setRef(m,"ok"); setTimeout(function(){ location.reload(); },900); };
+window.__yrdRefreshFail=function(m){ REF_BUSY=false; var b=document.getElementById("refbtn"); b.disabled=false; b.textContent="⟳ 立即刷新"; setRef(m,"err"); };
 document.querySelectorAll(".row.clickable").forEach(function(r){
   r.addEventListener("click", function(){
     var pt=r.dataset.pt; scrollToId("sec-dissect");
