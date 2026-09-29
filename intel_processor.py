@@ -413,7 +413,11 @@ function doRefresh(){{
     REF_BUSY=true;
     var b=document.getElementById("refbtn"); b.disabled=true; b.textContent="⟳ 刷新中…";
     setRef("正在云端搜索新增案例…");
-    location.href="yrdintel://refresh";
+    if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.yrdRefresh){{
+      window.webkit.messageHandlers.yrdRefresh.postMessage("refresh");
+    }} else {{
+      location.href="yrdintel://refresh";
+    }}
   }} else {{
     setRef("请在桌面「长三角制造业情报」App 内点击刷新；浏览器中可打开 GitHub Actions 手动运行。");
     window.open("https://github.com/tedvong894/yrd-mfg-intel/actions/workflows/refresh.yml","_blank");
