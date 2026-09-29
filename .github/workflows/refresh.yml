@@ -1,0 +1,44 @@
+name: refresh-intel
+
+# 每日 08:10（北京）云端自动增量采集 + 解剖 + 发布；也可在页面点「立即刷新」触发（workflow_dispatch）
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "10 0 * * *"   # 00:10 UTC = 北京 08:10
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh-intel
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: 增量采集（只取新增案例）
+        run: python3 collect.py
+
+      - name: 自动解剖 + 渲染看板
+        run: python3 intel_processor.py
+
+      - name: 提交回仓库（触发 Pages 重建）
+        run: |
+          git config user.name  "yrd-intel-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "本次无新增，无需提交"
+          else
+            git commit -m "auto: 增量采集 $(date -u +%F)"
+            git push
+          fi
