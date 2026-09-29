@@ -1,6 +1,6 @@
 # 长三角制造业问题解剖日报（2026-09-29）
 
-今日新增 **25** 张解剖卡。
+今日新增 **67** 张解剖卡。
 
 
 ## 亏损 / 增收不增利（3）
@@ -30,7 +30,7 @@
 - 链接：https://zjrb.zjol.com.cn/html/2023-06/13/content_3656044.htm
 
 
-## 订单流失 / 外贸下滑（3）
+## 订单流失 / 外贸下滑（4）
 
 ### 浙江省贸促会调研：43%外贸企业新增订单同比下降，订单向越南印度转移 ★91.8
 - 地区：浙江 · 来源：wzs.org.cn
@@ -47,6 +47,14 @@
 - 解剖视角：市场视角; 供应链视角; 产品视角; 财务视角
 - 脚本钩子：浙江外贸厂订单变薄了，是行情差还是自己被替代了？
 - 链接：https://tz.zjol.com.cn/tzxw/202406/t20240615_26913180.shtml?mode=m2pc
+
+### 中国产业链外迁 欧美订单流失近半；出国抢订单 大多老板空手而归 他们怎么说 ★79.2
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">aboluowang.com</font>
+- 企业问题：中国产业链外迁 欧美订单流失近半
+- 解剖视角：市场视角; 供应链视角; 产品视角; 财务视角
+- 脚本钩子：长三角外贸厂订单变薄了，是行情差还是自己被替代了？
+- 链接：https://news.google.com/rss/articles/CBMiXkFVX3lxTE5kTHlRdUZNelQ5bWZ3V3FPYzVxSldiLUxHRmQxM193TEtXTk4zYTJDOThfQXFTeGYxcVB2dkFIb2JNbW1xNmIxcko3akxsRFJwT2hSc0tsWS01bzJOb1E?oc=5
 
 ### 义乌外贸‘高波动’：转口订单面临退单风险，库存积压与现金流承压 ★71.8
 - 地区：浙江 · 来源：qq.com
@@ -111,7 +119,7 @@
 - 链接：https://m.cqn.com.cn/ms/content/2026-08/24/content_9169867.htm
 
 
-## 欠款 / 劳资纠纷（3）
+## 欠款 / 劳资纠纷（12）
 
 ### 上海青浦鞋厂老板跑路：拖欠51名员工工资106万，拒不支付劳动报酬获刑 ★86.5
 - 地区：上海 · 来源：peopleapp.com
@@ -137,6 +145,78 @@
 - 脚本钩子：厂子还在转，工资却发不出——上海这家厂的账怎么平的？
 - 链接：https://chinajob.mohrss.gov.cn/c/2020-07-08/221196.shtml
 
+### 美克家居被曝欠薪、欠货款 公司称在多举措保障稳定 ★74.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">凤凰网</font>
+- 企业问题：美克家居被曝欠薪、欠货款 公司称在多举措保障稳定
+- 解剖视角：合规视角; 财务视角; 组织视角; 运营视角
+- 脚本钩子：厂子还在转，工资却发不出——长三角这家厂的账怎么平的？
+- 链接：https://news.google.com/rss/articles/CBMiUEFVX3lxTE1adFVmUHZvM1FtZ1c0TEt3YWdBYnQtY1UyaDJ3bGk5dUlQRFlYS0w1M09hVXdiZkpFeUNsU3R2MzcxQzN2MWVWenRVNThDbnQ4?oc=5
+
+### “800哥”怒火烧厂八百元欠薪纠纷引社会震荡– 普通话主页 ★74.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">rfa.org</font>
+- 企业问题：“800哥”怒火烧厂八百元欠薪纠纷引社会震荡– 普通话主页
+- 解剖视角：合规视角; 财务视角; 组织视角; 运营视角
+- 脚本钩子：厂子还在转，工资却发不出——长三角这家厂的账怎么平的？
+- 链接：https://news.google.com/rss/articles/CBMihAFBVV95cUxNT2ZEMGpiVnFNNWpZZUptQnJpcHQ5ODZvNXpIQjVPdkVSM2NTVVkzdkUyblBTa2wtcEdmOFVaV1o0dGZ4N3phcGpRQkd2WHBnai1rVkFPakFhRU5ZNk9SYTNod0dGTktPRkZTREhSaTBMdXpxN1I4Q2tIOVplRGRiOURZOHM?oc=5
+
+### 邓紫棋遭中国公司欠薪 320万出场费拖6年没下落 ★74.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">联合早报</font>
+- 企业问题：邓紫棋遭中国公司欠薪 320万出场费拖6年没下落
+- 解剖视角：合规视角; 财务视角; 组织视角; 运营视角
+- 脚本钩子：厂子还在转，工资却发不出——长三角这家厂的账怎么平的？
+- 链接：https://news.google.com/rss/articles/CBMibkFVX3lxTFBrR0tmSWZLaGp1dXgzc25DM0Y1eWY3MmlaUTRiZ3UzZ09wRWhNUHVSQ0NlallnbmJPV3A2eUtwYXBuOV8wVXpDZW93T1FNWGxIdk9OVDlPMy15TXRvV29fXzdRUnRwSWwzb1NQTWxR?oc=5
+
+### 记者采访欠薪纠纷遭公司负责人辱骂，上海市劳动监察部门已介入 ★74.0
+- 地区：上海 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">搜狐网</font>
+- 企业问题：记者采访欠薪纠纷遭公司负责人辱骂，上海市劳动监察部门已介入
+- 解剖视角：合规视角; 财务视角; 组织视角; 运营视角
+- 脚本钩子：厂子还在转，工资却发不出——上海这家厂的账怎么平的？
+- 链接：https://news.google.com/rss/articles/CBMiVEFVX3lxTE40bmlZTVVDcVVsb2I3WmxBMXg4RlFHRmI4QXlTQjM5OXI3N1JzZ1NLNUh3eWdtOVRKMV91aFoyMFZkcVhUQ2FJZlRVU25COEhXZmVkcg?oc=5
+
+### 马未都公司突裁员八十人部分员工被欠薪– 普通话主页 ★74.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">rfa.org</font>
+- 企业问题：马未都公司突裁员八十人部分员工被欠薪– 普通话主页
+- 解剖视角：合规视角; 财务视角; 组织视角; 运营视角
+- 脚本钩子：厂子还在转，工资却发不出——长三角这家厂的账怎么平的？
+- 链接：https://news.google.com/rss/articles/CBMie0FVX3lxTE5BWmxzcVo3aFYyVWpJZGhUVnRjdlB6bERpOWY3Y3hGaTh4VGtETEF6ai12RTVPWTRpQXR0TWZETGpCa3V0RUdFZlF1dnBVaXY1cHNjNXBuNVo0bzJpWDZuTDJQZFdVUkRsTEVZQmhsZHdlOFVtRUMzWGJuVQ?oc=5
+
+### Q房网“子母公司”两则通知背后：深陷欠薪、撤铺困境，2022年关掉了800多家门店 ★74.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">每日经济新闻</font>
+- 企业问题：Q房网“子母公司”两则通知背后：深陷欠薪、撤铺困境，2022年关掉了800多家门店
+- 解剖视角：合规视角; 财务视角; 组织视角; 运营视角
+- 脚本钩子：厂子还在转，工资却发不出——长三角这家厂的账怎么平的？
+- 链接：https://news.google.com/rss/articles/CBMiZkFVX3lxTE5IT1BMMUV2MWMySXlsZkRLaVpJS21UNnFYaXNXWDFlWkpzT0lPdml3ZW1jcTZoYTFKX0JidTQ4LXduWkk2THp0N1hOZ1BJdk1HcU9Ca1BzRWxLMVZRWkN0NElzRF9TQQ?oc=5
+
+### 欠款1.5亿成被执行人，公司股权遭冻结......王思聪的2019不太平！ ★74.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">第一财经</font>
+- 企业问题：欠款1.5亿成被执行人，公司股权遭冻结......王思聪的2019不太平
+- 解剖视角：合规视角; 财务视角; 组织视角; 运营视角
+- 脚本钩子：厂子还在转，工资却发不出——长三角这家厂的账怎么平的？
+- 链接：https://news.google.com/rss/articles/CBMiU0FVX3lxTFA0OHNrT3JKdHNYSkxHdzNpS25aempkd1piYW1RcUhUcXZQQU1wSG5NWlZHQXNhb0EtLUhQM2JZY2RheFdoS3MwSnIxTHdiSjhTU19r?oc=5
+
+### 林志玲遭《极挑3》欠薪4年 拖欠400万通告费公司被执行 ★74.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">360娱乐</font>
+- 企业问题：林志玲遭《极挑3》欠薪4年 拖欠400万通告费公司被执行
+- 解剖视角：合规视角; 财务视角; 组织视角; 运营视角
+- 脚本钩子：厂子还在转，工资却发不出——长三角这家厂的账怎么平的？
+- 链接：https://news.google.com/rss/articles/CBMiS0FVX3lxTFB6SmNmS0lxb1prQ0pJRXJuc0gwMkRfRDZFblRGTXBFaU82dC1lV0JTT0RiNWVzZVdWYldaZlFSQTdoU2EwdXZHRDVuSQ?oc=5
+
+### 经济疲弱产能过剩钢价跌逾两成再有工人集体讨薪– 普通话主页 ★64.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">rfa.org</font>
+- 企业问题：经济疲弱产能过剩钢价跌逾两成再有工人集体讨薪– 普通话主页
+- 解剖视角：合规视角; 财务视角; 组织视角; 运营视角
+- 脚本钩子：厂子还在转，工资却发不出——长三角这家厂的账怎么平的？
+- 链接：https://news.google.com/rss/articles/CBMie0FVX3lxTE9FYko3clJaMDVwVUlhYkY2TWlIaGpicE9wd1FnRjBQN2sxS0JqTm1QcWtLV0owVjZvX3FBbUpVR01FRy1TUXdId2xISlJZbjVpb19raEhTMGcyZ0YxaXl2VHpsdjZBNTZ2Y0hCRGkzMXVqeGYyYlpWSkhvbw?oc=5
+
 
 ## 库存积压 / 资金占用（2）
 
@@ -157,7 +237,7 @@
 - 链接：https://finance.sina.com.cn/stock/relnews/cn/2025-07-14/doc-inffkwqv6761519.shtml
 
 
-## 现金流断裂 / 资金链（5）
+## 现金流断裂 / 资金链（6）
 
 ### 浙江金盾系破产重整：年产值13.8亿集团资金链断裂，84亿债务化解 ★91.2
 - 地区：浙江 · 来源：chinacourt.org
@@ -199,8 +279,16 @@
 - 脚本钩子：账上数字好看、付款时抓瞎——浙江厂现金流怎么断的？
 - 链接：https://finance.sina.com.cn/jjxw/2026-08-06/doc-inimhxzv4930160.shtml
 
+### 合肥建工资金链断裂负债百亿 员工就地解散 | 资金链断 | 负债百亿元 | 建工集团 | 大纪元 ★78.8
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">亲友传真</font>
+- 企业问题：合肥建工资金链断裂负债百亿 员工就地解散 | 资金链断 | 负债百亿元 | 建工集团 | 大纪元
+- 解剖视角：财务视角; 运营视角; 战略视角; 心智视角
+- 脚本钩子：账上数字好看、付款时抓瞎——长三角厂现金流怎么断的？
+- 链接：https://news.google.com/rss/articles/CBMiWEFVX3lxTE5Jc0JYWkFpaFVsRzFURVZqV25QTXE0cUJGTnVMOVNBOFkxTkk0TUY3eHFWUDV0UjBfeFMwTVhSOW9MdW5KczF0MEJkQ1BsbUladUMxenpzdGo?oc=5
 
-## 倒闭 / 关停（3）
+
+## 倒闭 / 关停（34）
 
 ### 常州厚文五金配件加工厂破产：成立5年资不抵债退出市场 ★92.5
 - 地区：江苏 · 来源：toutiao.com
@@ -218,6 +306,14 @@
 - 脚本钩子：一家江苏的（行业）厂，说关就关，钱到底卡在哪？
 - 链接：https://www.sabaan.com/hangyexinwen/1703.html
 
+### 欠款162亿！合肥建工集团宣布破产重整！ ★86.2
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">新浪财经</font>
+- 企业问题：欠款162亿；合肥建工集团宣布破产重整
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMihgFBVV95cUxNV2pUMEFIdjN5RmF6TnNHazEzM005cFZFMS1FNzY0NW9yVG5SWGlYNC15VEduV0RqdzI5dWlUNXlPbWZaaGg2c2Mtc3NnbV9hRm9JMzhlanpSTnl3LWxnamYteFp2MVo5bWZmaUNscXZNWFNudmZlU1ZsQXYyUmZtdlQ2dklDQQ?oc=5
+
 ### 江苏长乐纤维关停清算：中等规模化纤厂主动止损退出红海 ★82.5
 - 地区：江苏 · 来源：cnfin.com
 - 背景：江苏中等化纤厂在龙头一体化碾压+行业产能过剩下主动关停止损，凸显中小制造规模劣势与周期脆弱。
@@ -225,6 +321,246 @@
 - 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
 - 脚本钩子：一家江苏的（行业）厂，说关就关，钱到底卡在哪？
 - 链接：https://m.cnfin.com/dz-lb//zixun/20220728/3671556_1.html
+
+### 杭州一明星水产企业申请破产：鱼塘大门紧锁，直播间却忙着卖货，属地证实：已停工 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">新浪财经</font>
+- 企业问题：杭州一明星水产企业申请破产：鱼塘大门紧锁，直播间却忙着卖货，属地证实：已停工
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMidkFVX3lxTE1xazRCSjNyVlREejQzbDJnR3lGTGtlOFRvdjMyeG11ckxEaWRfN1owaENEc3ZMTjdiTlBGZXQwNExhSjV3aWlTdWpxWklJNXVKZkJUd1d2elRsZldBTVV1QU5VdVFUUHd4VV9FX19FWlJZemNpN0E?oc=5
+
+### 浙江8名员工贷款2000万救公司未果 倒闭后贷款竟成个人债务 ★80.0
+- 地区：浙江 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">香港01</font>
+- 企业问题：浙江8名员工贷款2000万救公司未果 倒闭后贷款竟成个人债务
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家浙江的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiogNBVV95cUxOWUNuQndad1pnNkhGdmFJVVFlbnh0OFl6MlNKUFZxZzJ6d19NZVBINUVoNWlBYmtscDlYQ2lYa05iTzVNQjMzM0ZDa0haMTVyR3llZjFrV1hzVjlETnBqc3Z5ODNHMGJVNlJfZ1UzMjRhaUJrNlVfSjJOWV94M2FfOTVKR3A3S3pmbDRka3NsTUhOSlVVLUVNMlJwNDVLOVFyRVhTT1IwbnFTS0IzdWk0bUNHVmJ2VmVMSUk3S1NYa1B4VlhKeUNyYTRMSmFSbXNWRmNnM2pjWGRfUy02eG1sREVCaWJEQVF4Wklhdm9GVlNhNkxWY3p5dnJCVWVBTHdMYWMxQ0hjU0NrZ1BxbjdYM1ZYT21wNXJ0NDd1a1pPT3R1dU1RbnNFTV84Nm83YzlMU0xja2tkWkFVdzFjdXd0VFZYd3c3RzNaYl9xdWdiUXlYYUdFX2tLWEhKeVkzMTloTjJiVmdBRDh1SG5VYmtjNW5KcnBGMnpwTFR0THNJTHVCYkNzMjQ0VjBpRW8tQ1RDRXhvM2p6Qm1YR1JSSnIxZkFR?oc=5
+
+### 中国首季46万家企业倒闭 新公司注册率同比下降近三成 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">美国之音</font>
+- 企业问题：中国首季46万家企业倒闭 新公司注册率同比下降近三成
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMi3AFBVV95cUxNejhaN3cyU0RyUkMxZzkzVldLN2VFajBieGpUbWxoVXlVZkZ3VzlyWHpMNlBmOFZ0OG84QkNjbmpXZVY3QjBrTnh1Smx6S2NWZFduZ1NsT0tSRzhUMDE5X2Q1emFvQ2JyUl9uZXh4M3hsTGN0REdWUjU2YTlTb0k4VjlLdC1kb3JVN0sxLUthc292LXVwZ3RqbWhpVDIxSm5zaWRhSHY4Q3BNTWZIdVFXQTMtUFgzOEpIcFliV0U5SzhDYVdxN1lkbzQ2WU1MaGdSNHNmY2RMZHRCczZ20gHfAUFVX3lxTE4wNVJPdkxKcHlDdG1aRXpWLUp3VmF4WFZiNE95OFZIR1czVlFoRHcyZ3ZaRVkyZlE3V2tZYmVaakNmSEktTTcyX1JxU1JEY0ZRMzNuMlRNR2dBai1Lc01uNC1KNi1WZ1h0dHE1ek1McjdRWXk0eDFKaEdpLWtqTlY1N1hsTTZlT0FCLTcxRFpmRWp5TGFWdWFKalF4V3V0ZUVXemRqRmhwcmR0cTJwQk1jaU9ybkZXVURKV3d2R2FMVXlMUW11VUl3dVZqVFlicEp0VnBmcDhRMlQ5RnI0Smc?oc=5
+
+### 萧山这家大企业宣告破产，99%的民企倒闭都有这些原因…… ★80.0
+- 地区：浙江 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">浙江新闻</font>
+- 企业问题：萧山这家大企业宣告破产，99%的民企倒闭都有这些原因……
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家浙江的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMie0FVX3lxTE53cDZnM1cxQUFOY2QxT0ZpMDg2QUNiMC1iV2NUbVh4RHJVUV9CdXd1UmloeExmU0ljd1pueGNsSVFGSC10U25lSXhqYW9MX2lLNVFNTUxsU2RSblBaYnhta05lcjhtU2JSQkhORXdNZV9UY2VmTTZIUV9MRQ?oc=5
+
+### 原来，这才是“江南皮革厂倒闭”的真实结局 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">新浪军事_手机新浪网</font>
+- 企业问题：原来，这才是“江南皮革厂倒闭”的真实结局
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMic0FVX3lxTE5vN2Z4MmRhRmJQX1pFcHhHeFVYcHEtOEJPWTZjUXFaRWVrcUpNOVF1clJVcVA0eVVUQVNHY2RTc1lINm5yV0NtZmh2Qm56eldTZXpVQW10WWNXT0pzUjZEQm5RZFkyRmJJb3ZqelduejB2TzA?oc=5
+
+### 这不是段子！江南皮革厂真的倒闭了…… ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">21财经</font>
+- 企业问题：江南皮革厂真的倒闭了……
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMijAFBVV95cUxQOE1YZ3lwN0VkSzM3Zm0wN1V4LWlBZm1VSmN6dGJuWDdfd251ZGkwM3Q3NjRSZ3N3dWJuSjkzQ2xCaXJMc1gtbkFBbzVDLXUtMHR1cUhJRHE2dU5pOXc0eXJMbmIzNGMtZkJFczFicWZFUEVna2E5VF9Pd3NPYnB5cHJnSWR6azBNTXcxNQ?oc=5
+
+### 江南皮革厂真的倒闭了：老板黄鹤跑路 曾14岁被托孤 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">rmzxw.com.cn</font>
+- 企业问题：江南皮革厂真的倒闭了：老板黄鹤跑路 曾14岁被托孤
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiZ0FVX3lxTE9TdWtzeDNRRXhwc3ZDZ1FkYVREZUZWNFN1Z2h6LWtrMzlvbUtXMjlLdmN0YlRyS3VlbVdJdURKYmttN2xxRXVGcE1CREJwLUtIZEs4ZlNxTFd6MDF6QlI0VlFTazNLeE0?oc=5
+
+### 浙江衢州又一家光伏企业停产，幕后老板竟是隆基研究院前副院长李华？ ★80.0
+- 地区：浙江 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">维科号</font>
+- 企业问题：浙江衢州又一家光伏企业停产，幕后老板竟是隆基研究院前副院长李华
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家浙江的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiU0FVX3lxTE5KWjRFTkFtZERmd01ncTNfX2I2amQ1SmxRaEZVQ2hHcWhaMlpvRTd2bktjSFRnMTlaU2xJdzlxanFVZVZsdUJ2M1NRdUZVNkZVd0dF?oc=5
+
+### “江南皮革厂倒闭”大结局 跑路老板黄鹤还没回来 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">news.sina.cn</font>
+- 企业问题：“江南皮革厂倒闭”大结局 跑路老板黄鹤还没回来
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMieEFVX3lxTE0tYzM2VWJaaVBxa25RdkxWQXlsSDF2OUJ5bGJGNm9ybGN4MzRON3MtdjkzMkwwdkUzOGdmbms0SllyM3Blbk5WRGNxVFZfWmZETnZSY1JUNF9hb3dsc1g2ekk2c3hLNG1iN0IyN0IwekxpVnJUdkFlNg?oc=5
+
+### 法媒:中国首家国企船厂倒闭 造船业或迎破产高峰 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">凤凰网</font>
+- 企业问题：法媒:中国首家国企船厂倒闭 造船业或迎破产高峰
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiUEFVX3lxTE84VDlBVC1qWGJpOHNMYXg4azAyN2ZMMTIxXzdxdmh6VWdaR19xWnNmcVJyN3VKLU4tOGlRRDFpN1NlQnFaTmswVWl3dF9YTkdv?oc=5
+
+### 中国家装企业持续出现倒闭潮 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">aboluowang.com</font>
+- 企业问题：中国家装企业持续出现倒闭潮
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiXkFVX3lxTFBtYV9CeHJ1RXlYV29CVGJmVVNJREs3VEstcHhUUzlsNTdPclpOaE9nY0xTUjNpb0t2eXpPRkFxd1ZtdXJTVkxWSXRUcGo3NXl2aW1oMklrRnZLLXA1TUHSAWNBVV95cUxNYmRNUU1zYkQ4R2ROSHZUak4xaHlOLXZpSy1VS3VGZkREa0gyRjEwSFBZVy1zclFhOXZhLXdiTlYxVnhyLWc5eE9KbXRGTUktUjY4SmdOMjVwRC1vQWVESnQ5bGc?oc=5
+
+### 竞争不过中国，欧洲太阳能企业发出“破产警告” ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">观察者网</font>
+- 企业问题：竞争不过中国，欧洲太阳能企业发出“破产警告”
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiakFVX3lxTE9SQ0dmX2JMRW1ZMmNYTXgwVUJ5M1BfejAtSDZDRUVKanBwdUpzQXZFM1lGTnJOOXplRktwcjJPVDBtMkFMb3VvZ2ZlY2tFOWtiNVVSYUVMd2tTQksxMWNTSzlHRzREc2VadWc?oc=5
+
+### 中国超市"大润发"关闭多地门店深圳等地公司裁员失业网民感叹生活艰难– 普通话主页 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">rfa.org</font>
+- 企业问题：中国超市"大润发"关闭多地门店深圳等地公司裁员失业网民感叹生活艰难– 普通话主页
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMifEFVX3lxTE5nRnF6TmMwRlZtMEZoNTBRLW1tQUVQRHZJSHZGS01aTmwxMU1wYXppeGNldjFTZlgxeWZSc3VMZXluT1I5TThkLWVDUzJVaTlQVS02YVlZTWhZbldrRGQza09HR1hibnp0clREUVdLVllSUHh6TmRWMW90M1A?oc=5
+
+### 江苏最大建筑企业南通三建陷倒闭危机，连4629元都拿不出 ★80.0
+- 地区：江苏 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">finance.sina.com.cn</font>
+- 企业问题：江苏最大建筑企业南通三建陷倒闭危机，连4629元都拿不出
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家江苏的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiiwFBVV95cUxOSXppaWdiSFpaeUowbFp1OGRrYkItLTBoSTN6Zy1nb2FNX1VzMU9xWnZjQjNLWjItbnRWVHN3NXlFTzgwU01aV0ZZSWFOenFzbmxNb2hTb0Zvc1dVYjZoM0QzZHVsOVpUVng4Zmxlc0lKLWhXSU00UTVJbzVybk1ieVQ2Q2paaU5rOUpv?oc=5
+
+### 破产、裁员、倒闭……2025年20+机器人企业退场！ ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">电子工程专辑</font>
+- 企业问题：破产、裁员、倒闭……2025年20+机器人企业退场
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiU0FVX3lxTE9ua1ZuZXlIR1dsRGFVckItLVBtazg0dEVWSHg1RFI3WVFfNFlnNVdvV293LVFzTURXRXU4d2dCMHZkN1RFd1phcEVkdlpEcDNLNHlR?oc=5
+
+### 「都不容易」，2023 年国内倒闭公司全貌总览 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">QQ News</font>
+- 企业问题：「都不容易」，2023 年国内倒闭公司全貌总览
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiVkFVX3lxTE80MG44SFVlUy1kWW55elpuQkU5bmFhS0VrSi1NcElTVTM3QmF6aTdmcjV3X1pRakU0UzZZc2ZPY0xFVUw4dlJhazQwN19ma3RaT3UwcThR?oc=5
+
+### 上海龙慧医疗破产清算，骨科手术机器人获批后公司倒闭 ★80.0
+- 地区：上海 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">虎嗅网</font>
+- 企业问题：上海龙慧医疗破产清算，骨科手术机器人获批后公司倒闭
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家上海的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiVEFVX3lxTE5ERVZJWkhtT200RVNtY0g1ZkZuVWRmb3BBZjlUTE93QmxCMDloQ0ZFVUxpS21fQ1hoZ2RFWHM3N0RlU0Y3cjRBbVFTaHFySU5MZTlfZQ?oc=5
+
+### 2021年创业公司倒闭名录：775家公司倒下，近八成公司是因为这个原因 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">中国经济网</font>
+- 企业问题：2021年创业公司倒闭名录：775家公司倒下，近八成公司是因为这个原因
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMid0FVX3lxTE9QNEVTdl9tOEpHQV9Ca083RWViX3UxOU1kbVp3V3BDNnl2bUtDN3UwM3pCV2U3RmRDMnRlRnF3RnU4TWZ3LS01ZVVQeEZpcURSWEYzWDBBTnNHVk1Zd0U2UVhEOVJYTW5aRjY3VDlCSEZ1T3ZWTlFz?oc=5
+
+### 又有航空公司宣告破产了！ ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">finance.sina.com.cn</font>
+- 企业问题：又有航空公司宣告破产了
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMi3AFBVV95cUxNNFo1TVl4Q01XZVRtT2RjRW5sV2lqVFY4RHNWT0VBUmZtU1NKWGJnSEF4ZVJoeWZXejFsT3RjQmRteU9KVUZUUUt5YThzR1RQOWoxWllMZm5Rdl9MVlRqdnpSWndQNVl5UUV6TUgtNmlfcndvMV9rSU9IdFptRWZhN2VublJoVXNLdFZyb1ZQRmYtOUlPbGFLQ1lucDdaUjUwa3NObV85TWRsMHRUVnFadHNBUDVOeFBCMkpzSUZMLUdFOHExODA0dW9IZnpEZHZ5Q1RaWUZkQWtYZENS?oc=5
+
+### 一家造车公司宣布倒闭，一声叹息 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">汽车之家</font>
+- 企业问题：一家造车公司宣布倒闭，一声叹息
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiXkFVX3lxTE5sOUVSMUtJU1cxTDI0QWNMTFp0UXBPOGFYd0hoTVVySEhUbFItak14VzFKdkItTV84dk1mSEZoVTdNOFZoemd0My1zZjR2WEUxYXdYRzJuYnNERTlnV2c?oc=5
+
+### 20年老牌化妆品企业要破产了 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">36kr.com</font>
+- 企业问题：20年老牌化妆品企业要破产了
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiTkFVX3lxTE1hQ1VJTnUtZHhvUHN3bXFIUEtUZmFvLW9nUi1ZSjRMb0xqczA0NDU1N1hFbVduTEJJei11WllROFlYNHV1Z3llb1RURm9MQQ?oc=5
+
+### 跨境电商货品积压无订单东莞一大型电子厂资金链断裂倒闭– 普通话主页 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">rfa.org</font>
+- 企业问题：跨境电商货品积压无订单东莞一大型电子厂资金链断裂倒闭– 普通话主页
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMifEFVX3lxTE1XZkJfUFJoc0lYajJPa1p2ZWVRZmFFeUNvZC00TjZjM3lJOFRrbHdtc1RNaS04aE9Zd3VTU1hpYlAyR3ZDU1c5UjJHUGU5bUQ5ZF9zd0t5c1ZoUVZDdUJVU2RnVzlFMnpIOXg4bnpYbkx6eGVHUHcybHlvQkQ?oc=5
+
+### 倒闭的轮胎企业，改名重生 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">汽车之家</font>
+- 企业问题：倒闭的轮胎企业，改名重生
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiW0FVX3lxTE9Mc19QTnN4WlZENS1NZ2ZZenJ6YjR3eGhGb0NremJjTEN2RW90aXdjcE5KbldJUmx4YldMemJoMFZmNzdIel9VbzZkTGRFX3RvbWpWQ3h5ZW5xNDg?oc=5
+
+### 老牌线缆大厂东莞威雅电子关停结业 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">电子工程专辑</font>
+- 企业问题：老牌线缆大厂东莞威雅电子关停结业
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiXEFVX3lxTFBqdUg3bjBTMmhteEgzb2diTW9sZmlpZlRzM0FEaU1oUU5ZV0FMWGY5QUwwNTc4ZHRoaHFvVWFuTXNCN3k4cHZGRWUtdTdtTHFGRW9jbVlvbC1GWVhX?oc=5
+
+### 付不起1.5万元工资被起诉后，这家自动驾驶企业开始“破产清算”，创始人曾打造“全球Robotaxi第一股”前身 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">36kr.com</font>
+- 企业问题：付不起1.5万元工资被起诉后，这家自动驾驶企业开始“破产清算”，创始人曾打造“全球Robotaxi第一股”前身
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiTkFVX3lxTE1WYjRNUzNNZXJiVVhIc2JEaHVqbzJaRmdyakFWYUVudTc0SnpUVXJBMndrSnl4b1gzMHFaeno4S1lRQXZKOWFxckpYS3QyZw?oc=5
+
+### 唏嘘！巨头落幕！江苏中洋集团破产拍卖正式启动 ★80.0
+- 地区：江苏 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">腾讯新闻</font>
+- 企业问题：江苏中洋集团破产拍卖正式启动
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家江苏的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiV0FVX3lxTFA4bkZjNkgySWJBM0toU0RLX0R3NEpVSmljQkNsSnJsVG9fWkhVWlRDNDlvNEhVZm53YUozN0dtaFRSY0xVQjlWMFd3dzRIeG96bFRsV0FHaw?oc=5
+
+### 钢铁价大跌 中国钢厂爆破产潮 专家解读 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">aboluowang.com</font>
+- 企业问题：钢铁价大跌 中国钢厂爆破产潮 专家解读
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiXkFVX3lxTE5pdWh1bFdrNkh2VHlhUWZYV3FXR0tMd1NUUXh5WkttMzFQQmw3d0hrbnRfN3ZHN1VzUEFaT1ZYUGk2ZW5DaGFTdHNZakdxX2hHcHBJTFVWZlc4TVlMTEHSAWNBVV95cUxNQm9vcE9fek1SWmd4czlyZXRiY1JhZDF2QVBDbGdLR0xKVDl1a2l4OU9sRklET3Rkb0tXeG1pTi1jckVBbzFoVnB3bXpNYlRpbG1pY0xuaWJvS1h3bXN6RE5sZXc?oc=5
+
+### 调查丨中国中铁旗下部分公司登上“失信”或“限高”名单：业主方支付进度缓慢 已在慢慢还款，部分已结清 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">finance.sina.com.cn</font>
+- 企业问题：调查丨中国中铁旗下部分公司登上“失信”或“限高”名单：业主方支付进度缓慢 已在慢慢还款，部分已结清
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMieEFVX3lxTE1sdUs3YVpFSk1SeVg2VW9Ed0lZR2NEUXNCQXVGb05SY3ppRTVMUGhBZnVFR0ZPNGI4Rk1WSTRnTm5IY2pnUy1FMHBrUWhuS1IwaVNFME8tM3lNWnBQNklIdlN4Q1hNcmhMMDlHTUthdVRrUHY4bjlBMw?oc=5
+
+### 一次重整25家公司化解1400亿债务，江苏“审判天团”是怎样炼成的？ ★80.0
+- 地区：江苏 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">搜狐网</font>
+- 企业问题：一次重整25家公司化解1400亿债务，江苏“审判天团”是怎样炼成的
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家江苏的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiVEFVX3lxTE0xVWprc1Z1UkNkVjlBMVYtcEtxUzB3S0EtZF9mZi1tc0RiS1hvSUs2NHhjdnRfbVQ2Nmh5dFoxNkhRX2xKemw0UENjLTR3UXpvTTJELQ?oc=5
+
+### 阮小明：从民企500强领袖到破产清算，他的商海传奇何以落幕？ ★70.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">搜狐网</font>
+- 企业问题：阮小明：从民企500强领袖到破产清算，他的商海传奇何以落幕
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiVEFVX3lxTE4wWk84WUZ2RWU5X3JfVERlTF9tRE5FUmdmNWxZdkZCeHI2U0haa1VKbDRYZUxuLWlsNTRRYzE5NGlQa3pWbWhldHlSQjliNmFnTVVaZQ?oc=5
 
 
 ---
