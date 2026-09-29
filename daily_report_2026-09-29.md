@@ -1,6 +1,6 @@
 # 长三角制造业问题解剖日报（2026-09-29）
 
-今日新增 **67** 张解剖卡。
+今日新增 **69** 张解剖卡。
 
 
 ## 亏损 / 增收不增利（3）
@@ -288,7 +288,7 @@
 - 链接：https://news.google.com/rss/articles/CBMiWEFVX3lxTE5Jc0JYWkFpaFVsRzFURVZqV25QTXE0cUJGTnVMOVNBOFkxTkk0TUY3eHFWUDV0UjBfeFMwTVhSOW9MdW5KczF0MEJkQ1BsbUladUMxenpzdGo?oc=5
 
 
-## 倒闭 / 关停（34）
+## 倒闭 / 关停（36）
 
 ### 常州厚文五金配件加工厂破产：成立5年资不抵债退出市场 ★92.5
 - 地区：江苏 · 来源：toutiao.com
@@ -553,6 +553,22 @@
 - 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
 - 脚本钩子：一家江苏的（行业）厂，说关就关，钱到底卡在哪？
 - 链接：https://news.google.com/rss/articles/CBMiVEFVX3lxTE0xVWprc1Z1UkNkVjlBMVYtcEtxUzB3S0EtZF9mZi1tc0RiS1hvSUs2NHhjdnRfbVQ2Nmh5dFoxNkhRX2xKemw0UENjLTR3UXpvTTJELQ?oc=5
+
+### 千亿三胞集团“被破产”，南京前首富“杠杆游戏”能否继续？ ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">新浪财经</font>
+- 企业问题：千亿三胞集团“被破产”，南京前首富“杠杆游戏”能否继续
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMihwFBVV95cUxOR0hnRXlMNXlnaFpWeGZxeThTbnZseFV1c1VVX2M4UDVHNk9rMGZLeVRYUEVkamFyc0ZNckFVT1hmYVZPbFozZHNOVGRvd0p4WGZGMWtiUWw2ci1TTURhZVY5R0xjTjdYWDBHcHgyQ3ZzQzM1WUVpLUt2YUZDa0FCUEo1NFM2dU0?oc=5
+
+### 跨境电商货品积压无订单 东莞一大型电子厂资金链断裂倒闭 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">aboluowang.com</font>
+- 企业问题：跨境电商货品积压无订单 东莞一大型电子厂资金链断裂倒闭
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiXkFVX3lxTE5udzBpQi01ZDhHTXZyb0JFRTZNbGhhWHJjNV9pNHc5XzFaSC1nM1hoNHhXZVEyeG14Z0NCdFhnZ01EZGlEZC1xRG9fc0hZVlBrWEdPQmtQNmYtcVNZd2fSAWNBVV95cUxOOEFaQ0I2dlA2TWlnX1M0c3FMcE5FRUxmTDAzSGV2RkVoVGE4anJpVHN4Tm5GNmU3cWpZY0dTMEVkZlVCMlZPZzhXaklUdWVubDVycGl6Tkc4WmJMQzk2WGhqWlE?oc=5
 
 ### 阮小明：从民企500强领袖到破产清算，他的商海传奇何以落幕？ ★70.0
 - 地区：长三角 · 来源：news.google.com
