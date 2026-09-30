@@ -1,9 +1,9 @@
 # 长三角制造业问题解剖日报（2026-09-30）
 
-今日新增 **62** 张解剖卡。
+今日新增 **63** 张解剖卡。
 
 
-## 倒闭 / 关停（17）
+## 倒闭 / 关停（18）
 
 ### 浙江恒诺家具破产：24年杭州老厂资不抵债超6062万 ★92.5
 - 地区：浙江 · 来源：sina.com.cn
@@ -140,6 +140,14 @@
 - 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
 - 脚本钩子：一家江苏的（行业）厂，说关就关，钱到底卡在哪？
 - 链接：https://www.toutiao.com/article/7494593663821988386
+
+### 对标宇树的机器人公司要倒闭了 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">36kr.com</font>
+- 企业问题：对标宇树的机器人公司要倒闭了
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
+- 链接：https://news.google.com/rss/articles/CBMiTkFVX3lxTE5JYmIzLUIxeXdwdmEwQ1VVMVBBUGZrZmdEd3VLN01KanZvd2VWVnNrOWIwN3puNnlwR0Q5Vlp5NnFRNG9BNnF5d2ExMlVVdw?oc=5
 
 
 ## 欠款 / 劳资纠纷（16）
