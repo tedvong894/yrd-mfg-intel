@@ -254,6 +254,7 @@ def render_workshop(intel_dir):
 
     PREVIEW_ROWS = 14
     script_map = {}
+    kw_map = {}
     cards_html = []
 
     for it in items:
@@ -274,6 +275,37 @@ def render_workshop(intel_dir):
             f'<span class="wsegtxt">{"，".join(txts)}</span></div>'
             for s, txts in seg_lines)
         script_map[cid] = "".join(t + "。" for _, txts in seg_lines for t in ["，".join(txts)])
+
+        # 素材采集单（可勾选）：机器出清单，人去挑素材。勾选进度存在浏览器本地。
+        mats = it.get("materials", [])
+        kw_lines = []
+        mrows = []
+        for m in mats:
+            layer = m.get("层级", "")
+            lc = "l1" if layer.startswith("L1") else ("l2" if layer.startswith("L2") else "l3")
+            if layer.startswith("L2"):
+                kw_lines.append(f'{m.get("场景","")}: {m.get("怎么做","")}')
+            cover = f'镜次 {m["覆盖镜次"]}' if m.get("覆盖镜次") else "全程备用"
+            mrows.append(
+                f'<label class="mrow" data-n="{m.get("序号","")}">'
+                f'<input type="checkbox" onchange="wsToggle(this)">'
+                f'<div class="mmain">'
+                f'<div class="mhead"><span class="mtag {lc}">{layer}</span>'
+                f'<span class="mscene">{m.get("场景","")}</span>'
+                f'<span class="mcover">{cover}</span></div>'
+                f'<div class="mline"><b>怎么做</b>{m.get("怎么做","")}</div>'
+                f'<div class="mline"><b>去哪找</b>{m.get("去哪找","")}</div>'
+                f'<div class="mline"><b>备注</b>{m.get("备注","")}</div>'
+                f'</div><span class="mqty">{m.get("要几条","")} 条</span></label>')
+        kw_map[cid] = "\n".join(kw_lines)
+        mats_html = f'''
+  <details class="wdet wmats" data-cid="{cid}"><summary>素材采集单 · {len(mats)} 条（找完打勾，进度自动存）</summary>
+    <div class="wmah"><span class="wmt">照着办 → 先从浅黄的 L1 开始（自己拍 / 自己出图）</span>
+      <span class="wmprog">0 / {len(mats)} 条已办</span></div>
+    <div class="mrows">{"".join(mrows)}</div>
+    <div class="mfoot"><button class="wbtn" onclick="wsCopyKw('{cid}', this)">复制检索词（{len(kw_lines)} 组）</button>
+      <span class="wtools-hint">粘到 Pexels / Pixabay 逐个搜；一次下满 30-50 条再动剪</span></div>
+  </details>'''
 
         # 镜次表预览
         trs = "".join(
@@ -301,8 +333,9 @@ def render_workshop(intel_dir):
       <th>镜次</th><th>起</th><th>止</th><th>时长</th><th>口播文案</th><th>节奏</th><th>画面类型</th>
       <th>画面素材（待挑）</th><th>字幕/图示</th><th>音效</th><th>BGM</th><th>转场</th>
     </tr></thead><tbody>{trs}</tbody></table></div>
-    <div class="wnote">完整 {len(rows)} 镜请看下载的底稿文件（含素材检索词清单 + 节奏与声音标准）。</div>
+    <div class="wnote">完整 {len(rows)} 镜请看下载的底稿文件（含素材采集单 + 节奏与声音标准）。</div>
   </details>
+  {mats_html}
   <div class="wbtns">
     {dl}
     <button class="wbtn" onclick="copyScript('{cid}', this)">复制口播文案</button>
@@ -311,9 +344,9 @@ def render_workshop(intel_dir):
 
     html = f"""
 <div class="section" id="sec-workshop"><h2>🎬 短视频工坊 · 解剖卡 → 可直接开剪的底稿（{len(items)} 张）</h2>
-  <div class="wlead">机器负责「文案 + 底稿」，人负责「画面 + 声音」——这条线就是标准化的边界。<br>
-  每张底稿 = 五段式口播文案 + 12 列剪辑底稿（镜次/时间码/口播/节奏/画面类型/素材建议/字幕/音效/BGM/转场）+ 素材检索词清单 + 节奏与声音标准。
-  画面素材列留空并附检索词，请人工从素材仓库挑好后替换为实际文件名。</div>
+  <div class="wlead">机器负责「文案 + 底稿 + 素材采集单」，人负责「画面 + 声音」——这条线就是标准化的边界。<br>
+  每张底稿 = 五段式口播文案 + 12 列剪辑底稿（镜次/时间码/口播/节奏/画面类型/素材建议/字幕/音效/BGM/转场）+ <b>素材采集单（可勾选）</b> + 节奏与声音标准。
+  采集单按 <b>L1 自己拍/自己出图 → L2 免费站下载 → L3 AI 兜底</b> 分好层，每条都写明覆盖哪几个镜次、要几条、去哪找；找完打勾，进度存在本机浏览器里。</div>
   <div class="wtools">
     <a class="wbtn" href="workshop-template.xlsx" download="剪辑底稿模板.xlsx">⬇ 空白模板</a>
     <a class="wbtn" href="video-SOP.md" target="_blank" rel="noopener">📄 完整 SOP</a>
@@ -322,25 +355,44 @@ def render_workshop(intel_dir):
   <div class="wgrid">{''.join(cards_html)}</div>
 </div>"""
 
-    return html, script_map
+    return html, script_map, kw_map
 
 
 def render_dashboard(intel_dir, cards, today_cards, today):
     pt_counter = Counter(c.get("problem_type", "其他") for c in cards)
-    reg_counter = Counter(c.get("region", "其他") for c in cards)
     top = sorted(cards, key=lambda x: x.get("score", 0), reverse=True)[:12]
 
     pt_max = max(pt_counter.values()) if pt_counter else 1
-    reg_max = max(reg_counter.values()) if reg_counter else 1
     pt_html = "".join(bar(p, n, pt_max, PT_COLORS.get(p, "#6b7280"), clickable=True, data_pt=p)
                       for p, n in sorted(pt_counter.items(), key=lambda x: x[1], reverse=True))
-    reg_html = "".join(bar(r, n, reg_max, REG_COLORS.get(r, "#6b7280")) for r, n in
-                       sorted(reg_counter.items(), key=lambda x: x[1], reverse=True))
+
+    # 按月份分组（月度时间分类，可折叠）——取入库日期 added（无则文章 date），格式 YYYY-MM
+    month_groups = {}
+    for c in cards:
+        d = c.get("added", c.get("date", ""))
+        m = d[:7] if len(d) >= 7 else "未知月份"
+        month_groups.setdefault(m, []).append(c)
+    months_sorted = sorted(month_groups.keys(), reverse=True)  # 最新月在前
+    if months_sorted:
+        items = []
+        for m in months_sorted:
+            grp = sorted(month_groups[m], key=lambda x: x.get("score", 0), reverse=True)
+            rows = "".join(
+                f'<div class="mrow2"><span class="mtag2" style="background:{PT_COLORS.get(x.get("problem_type"),"#6b7280")}">{x.get("problem_type","")}</span>'
+                f'<a class="mtitle" href="#dc-{x.get("card_id","")}" onclick="scrollToDc(event,this)">{x.get("title","")}</a>'
+                f'<span class="mscore">★{x.get("score",0)}</span></div>'
+                for x in grp)
+            items.append(
+                f'<details class="wdet wmonth"><summary>{m} · {len(grp)} 张</summary>'
+                f'<div class="mrows2">{rows}</div></details>')
+        month_html = "".join(items)
+    else:
+        month_html = ""
 
     hi = sum(1 for c in cards if c.get("score", 0) >= 80)
 
     # 短视频工坊（第二模块）：先算，解剖卡里才能挂「查看底稿」跳转
-    workshop_html, script_map = render_workshop(intel_dir)
+    workshop_html, script_map, kw_map = render_workshop(intel_dir)
     ws_count = len(script_map)
 
     def dissect_block(c):
@@ -350,7 +402,7 @@ def render_dashboard(intel_dir, cards, today_cards, today):
         sc = c.get("script", {})
         points = "".join(f"<li>{p}</li>" for p in sc.get("points", []))
         return f"""
-<div class="dcard" data-pt="{c.get('problem_type','')}" data-score="{c.get('score',0)}" data-date="{c.get('added', c.get('date',''))}">
+<div class="dcard" id="dc-{c.get('card_id','')}" data-pt="{c.get('problem_type','')}" data-score="{c.get('score',0)}" data-date="{c.get('added', c.get('date',''))}">
   <div class="dcard-head">
     <span class="pt" style="background:{pcolor}">{c.get('problem_type','')}</span>
     <span class="dscore">内容价值 ★ {c.get('score',0)}</span>
@@ -483,6 +535,43 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
 .wlink{{color:#2f5597;text-decoration:none;font-weight:600}}
 .wlink:hover{{text-decoration:underline}}
 .wcard:target{{border-color:#cfe0f2;box-shadow:0 0 0 3px rgba(47,85,151,.09)}}
+.wmats{{border:1px solid #e8eef6;border-radius:10px;background:#fff;padding:11px 13px}}
+.wmats summary{{color:#2f5597}}
+.wmah{{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;
+ margin:6px 0 2px;padding-bottom:7px;border-bottom:1px solid #eef2f7}}
+.wmt{{font-size:12px;color:#6b7280}}
+.wmprog{{font-size:11.5px;color:#2f5597;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}}
+.mrows{{display:flex;flex-direction:column}}
+.mrow{{display:grid;grid-template-columns:auto 1fr auto;gap:9px;padding:9px 4px;border-top:1px solid #f6f8fb;
+ cursor:pointer;align-items:start}}
+.mrow:first-child{{border-top:none}}
+.mrow:hover{{background:#fbfcfe}}
+.mrow input{{margin:2px 0 0;width:15px;height:15px;accent-color:#2f5597;cursor:pointer;flex:none}}
+.mrow.done .mscene{{text-decoration:line-through;color:#b6bcc4}}
+.mrow.done .mline,.mrow.done .mcover,.mrow.done .mqty{{opacity:.45}}
+.mmain{{min-width:0;display:flex;flex-direction:column;gap:2px}}
+.mhead{{display:flex;align-items:baseline;gap:7px;flex-wrap:wrap}}
+.mscene{{font-size:12.5px;font-weight:600;color:#374151;line-height:1.45}}
+.mcover{{font-size:11px;color:#9ca3af;white-space:nowrap}}
+.mline{{font-size:11.5px;color:#6b7280;line-height:1.6;word-break:break-word}}
+.mline b{{color:#4b5563;font-weight:600;margin-right:6px}}
+.mqty{{font-size:11.5px;color:#9ca3af;white-space:nowrap;padding-top:1px}}
+.mtag{{font-size:10.5px;border-radius:4px;padding:1px 6px;white-space:nowrap;font-weight:600}}
+.mtag.l1{{background:#fef3c7;color:#92400e}}
+.mtag.l2{{background:#eef4fb;color:#2f5597}}
+.mtag.l3{{background:#f3f4f6;color:#6b7280}}
+.mfoot{{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:9px;padding-top:9px;border-top:1px solid #eef2f7}}
+.wmonth{{margin:6px 0;border:1px solid #e8eef6;border-radius:10px;background:#fff;padding:9px 14px}}
+.wmonth summary{{color:#2f5597;font-weight:600;cursor:pointer;outline:none;font-size:13.5px}}
+.mrows2{{margin-top:8px;display:flex;flex-direction:column}}
+.mrow2{{display:grid;grid-template-columns:auto 1fr auto;gap:10px;align-items:center;padding:6px 2px;border-top:1px solid #f6f8fb;font-size:12.5px}}
+.mrow2:first-child{{border-top:none}}
+.mtag2{{color:#fff;font-size:10.5px;padding:1px 7px;border-radius:20px;white-space:nowrap}}
+.mtitle{{color:#374151;text-decoration:none;line-height:1.45}}
+.mtitle:hover{{color:#2f5597;text-decoration:underline}}
+.mscore{{color:#dc2626;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}}
+.dcard.flash{{box-shadow:0 0 0 3px rgba(220,38,38,.18);border-color:#fca5a5;transition:.2s}}
+@media(max-width:560px){{.mrow{{grid-template-columns:auto 1fr}}.mqty{{grid-column:2;padding-top:2px}}}}
 </style></head>
 <body><div class="wrap">
 <header>
@@ -507,7 +596,7 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
 </div>
 
 <div class="section" id="sec-types"><h2>问题类型分布（点击柱状条可筛选下方解剖卡）</h2>{pt_html or '<div class="empty">暂无数据</div>'}</div>
-<div class="section" id="sec-regions"><h2>覆盖地区分布</h2>{reg_html or '<div class="empty">暂无数据</div>'}</div>
+<div class="section" id="sec-months"><h2>按时间分类 · 月度（点击月份展开，共 {len(months_sorted)} 个月）</h2>{month_html or '<div class="empty">暂无数据</div>'}</div>
 
 <div class="section" id="sec-top"><h2>内容价值评分 Top 12</h2>
 <table><thead><tr><th>#</th><th>标题</th><th>问题类型</th><th>地区</th><th>评分</th></tr></thead>
@@ -539,7 +628,55 @@ function copyScript(cid, btn){{
   }}
 }}
 function goWorkshop(){{ scrollToId("sec-workshop"); }}
+var WSKW = {json.dumps(kw_map, ensure_ascii=False)};
+// ── 素材采集单：勾选进度存浏览器本地（离线 App 里也能存住）
+function wsProg(box){{
+  var all=box.querySelectorAll(".mrow"), n=0;
+  all.forEach(function(r){{
+    var c=r.querySelector("input");
+    r.classList.toggle("done", c.checked);
+    if(c.checked) n++;
+  }});
+  var p=box.querySelector(".wmprog");
+  if(p) p.textContent = n+" / "+all.length+" 条已办";
+}}
+function wsToggle(el){{
+  var box=el.closest(".wmats"), row=el.closest(".mrow");
+  try{{
+    if(el.checked) localStorage.setItem("yrd_ws_"+box.dataset.cid+"_"+row.dataset.n,"1");
+    else localStorage.removeItem("yrd_ws_"+box.dataset.cid+"_"+row.dataset.n);
+  }}catch(e){{}}
+  wsProg(box);
+}}
+function wsInit(){{
+  document.querySelectorAll(".wmats").forEach(function(box){{
+    box.querySelectorAll(".mrow").forEach(function(r){{
+      var c=r.querySelector("input");
+      try{{ c.checked = !!localStorage.getItem("yrd_ws_"+box.dataset.cid+"_"+r.dataset.n); }}catch(e){{}}
+    }});
+    wsProg(box);
+  }});
+}}
+function wsCopyKw(cid, btn){{
+  var t = WSKW[cid] || "";
+  var old = btn.textContent;
+  function done(ok){{ btn.textContent = ok ? "已复制 ✓" : "复制失败"; setTimeout(function(){{ btn.textContent=old; }},1400); }}
+  if(navigator.clipboard && navigator.clipboard.writeText){{
+    navigator.clipboard.writeText(t).then(function(){{ done(true); }}, function(){{ done(false); }});
+  }} else {{
+    var ta=document.createElement("textarea"); ta.value=t; document.body.appendChild(ta);
+    ta.select(); var ok=false; try{{ ok=document.execCommand("copy"); }}catch(e){{}}
+    document.body.removeChild(ta); done(ok);
+  }}
+}}
 function scrollToId(id){{ var el=document.getElementById(id); if(el) el.scrollIntoView({{behavior:"smooth",block:"start"}}); }}
+function scrollToDc(e, a){{
+  e.preventDefault();
+  clearFilter();
+  var id=a.getAttribute("href").slice(1);
+  var el=document.getElementById(id);
+  if(el){{ el.scrollIntoView({{behavior:"smooth",block:"center"}}); el.classList.add("flash"); setTimeout(function(){{ el.classList.remove("flash"); }},1200); }}
+}}
 function showFilter(text){{ var b=document.getElementById("filterbar"); document.getElementById("filtertxt").textContent=text; b.classList.add("show"); }}
 function applyFilter(opt){{
   var pt=opt.pt||null, minScore=opt.minScore||0, todayOnly=opt.todayOnly||false, shown=0;
@@ -581,6 +718,7 @@ function doRefresh(){{
 window.__yrdRefreshStatus=function(m){{ setRef(m); }};
 window.__yrdRefreshDone=function(m){{ setRef(m,"ok"); setTimeout(function(){{ location.reload(); }},900); }};
 window.__yrdRefreshFail=function(m){{ REF_BUSY=false; var b=document.getElementById("refbtn"); b.disabled=false; b.textContent="刷新"; setRef(m,"err"); }};
+wsInit();
 document.querySelectorAll(".row.clickable").forEach(function(r){{
   r.addEventListener("click", function(){{
     var pt=r.dataset.pt; scrollToId("sec-dissect");
