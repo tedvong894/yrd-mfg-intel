@@ -419,12 +419,102 @@ def build_beats(card):
     return ptype, rows, round(t, 1)
 
 
+def _compress_shots(shots):
+    """['001','002','005','006'] → '001-002、005-006'。只为了好读，不改数据。"""
+    if not shots:
+        return ""
+    nums = sorted(int(s) for s in shots)
+    out, start, prev = [], nums[0], nums[0]
+    for x in nums[1:]:
+        if x == prev + 1:
+            prev = x
+            continue
+        out.append(f"{start:03d}" if start == prev else f"{start:03d}-{prev:03d}")
+        start = prev = x
+    out.append(f"{start:03d}" if start == prev else f"{start:03d}-{prev:03d}")
+    return "、".join(out)
+
+
+def _how_many(n):
+    """一个场景本片复用 n 镜 → 建议下几条（留轮换余地，避免同一素材反复出现）。"""
+    if n <= 3:
+        return "2-3"
+    if n <= 8:
+        return "3-4"
+    return "4-6"
+
+
 def build_material_list(ptype, rows):
+    """本片素材采集单（照着办，找完打勾）。
+
+    和 SOP §2.3「检索词速查表」的区别：速查表是**参考**，这张单子是**这一期要做什么**——
+    每条都带覆盖镜次、要几条、去哪找、怎么弄到手。
+    分界线没变：**机器出清单，人去挑素材**（底稿「画面素材」列永远是空的）。
+    """
     scenes = SCENE_HINTS.get(ptype, SCENE_HINTS[DEFAULT_TYPE])
+    # 片头钩子 / 片尾落点归 L1 自拍（SOP 硬要求），这两段的镜次从 L2 场景里剔除——
+    # 否则同一个镜次会同时出现在「自己拍」和「下载」两行，看的人不知道该办哪个。
+    hooks = [r["镜次"] for r in rows if r.get("段落") == "钩子"][:2]
+    tails = [r["镜次"] for r in rows if r.get("段落") == "收尾"][-2:]
+    taken = set(hooks) | set(tails)
+
+    # 各场景实际覆盖了哪些镜次。build_beats 里场景是按顺序轮播分配的，
+    # 这里用同样的顺序还原，避免再去正则解析「画面素材」列（那列格式会变）。
+    used = {}
+    for k, r in enumerate(rows):
+        if r["镜次"] in taken:
+            continue
+        used.setdefault(scenes[k % len(scenes)][0], []).append(r["镜次"])
+
     out = []
-    for i, (scene, kw) in enumerate(scenes, 1):
-        out.append({"序号": f"{i}", "场景": scene, "检索词（英文，主用）": kw,
-                    "建议条数": "2-3", "来源": "Pexels / Pixabay（免署名可商用）"})
+
+    def add(layer, scene, shots, how, where, qty, note):
+        out.append({
+            "序号": str(len(out) + 1), "层级": layer, "场景": scene,
+            "覆盖镜次": _compress_shots(shots), "怎么做": how,
+            "去哪找": where, "要几条": qty, "备注": note,
+        })
+
+    # ① 片头钩子：SOP 硬要求自拍（0 版权风险 + 只有你有）
+    if hooks:
+        add("L1 自拍", "片头钩子 · 自拍空镜", hooks,
+            "手机拍：园区大门 / 拉闸门 / 车间过道横移 / 账本红字，每条 5-8 秒",
+            "自己拍（手机横屏）", "3-4",
+            "这 3 秒决定完播。素材站的画面「没有你的厂味」，钩子必用自拍")
+
+    # ② 各场景主体画面 → 免费站下载（已剔除自拍段，覆盖镜次与上一条不重叠）
+    for scene, kw in scenes:
+        shots = used.get(scene, [])
+        if not shots:
+            continue
+        add("L2 免费站", scene, shots, kw,
+            "Pexels / Pixabay（免署名、可商用）", _how_many(len(shots)),
+            f"本片复用 {len(shots)} 镜；一次下满，顺着「相似推荐」滚雪球，风格天然统一")
+
+    # ③ 数据图表 → 自制。注意这是**叠加层**（画面类型写的是「图表+实拍」），
+    #    不替代上面那些空镜：底层放场景素材，上面压自己出的图。
+    data_shots = [r["镜次"] for r in rows
+                  if str(r.get("字幕/图示", "")).startswith("数字上大字幕")]
+    if data_shots:
+        add("L1 自制", "数据图表 · Excel 出图（叠加层）", data_shots,
+            "用国家统计局 / 地方统计局 / 海关总署的官方数据，自己用 Excel 出图",
+            "自己做（Excel 截图或导出 PNG 透明底）", _how_many(len(data_shots)),
+            "这是叠加在场景素材上的透明图，不占镜次、不替代空镜。"
+            "带数字的镜头一律上自己出的图——这是可信度来源，也是素材站给不了的")
+
+    # ④ 片尾落点：也自拍
+    if tails:
+        add("L1 自拍", "片尾落点 · 自拍空镜", tails,
+            "手机拍：厂区远景 / 关门镜头 / 老板背影 / 空账本合上",
+            "自己拍", "2-3",
+            "收尾要留白，自拍空镜最压得住；接避坑清单上屏")
+
+    # ⑤ 实拍拍不到、素材站也没有的 → AI 兜底（默认不给，避免一眼假）
+    add("L3 AI 兜底", "仅在实拍和素材站都拿不到时启用", [],
+        "可灵 / 即梦 / Runway；或 Pexels、Pixabay 的 AI 素材专区",
+        "按需", "0-1",
+        "AI 视频细节仍有破绽，一眼假。除非「货堆到天花板」这种实拍拍不到的，否则别用")
+
     return out
 
 
@@ -496,10 +586,13 @@ def export_xlsx(card, ptype, rows, total, out_path):
         ws.row_dimensions[rr].height = 30
     ws.freeze_panes = "A5"
 
-    # ── 表2 素材清单
-    ws2 = wb.create_sheet("素材清单（人工去挑）")
-    M_COLS = ["序号", "场景", "检索词（英文，主用）", "建议条数", "来源"]
-    M_WIDTHS = [7, 14, 52, 10, 30]
+    # ── 表2 素材采集单（照着办：找完在「✓」列打勾）
+    ws2 = wb.create_sheet("素材采集单（照着办）")
+    mats = build_material_list(ptype, rows)
+    M_COLS = ["✓", "序号", "层级", "场景", "覆盖镜次", "怎么做（检索词 / 拍摄内容）",
+              "去哪找", "要几条", "备注"]
+    M_KEYS = [None, "序号", "层级", "场景", "覆盖镜次", "怎么做", "去哪找", "要几条", "备注"]
+    M_WIDTHS = [4, 5, 11, 24, 14, 46, 30, 8, 44]
     for i, h in enumerate(M_COLS, 1):
         c = ws2.cell(row=1, column=i, value=h)
         c.font = F_HEAD
@@ -509,22 +602,30 @@ def export_xlsx(card, ptype, rows, total, out_path):
     for i, w in enumerate(M_WIDTHS, 1):
         ws2.column_dimensions[get_column_letter(i)].width = w
     ws2.row_dimensions[1].height = 26
-    for k, m in enumerate(build_material_list(ptype, rows)):
+    for k, m in enumerate(mats):
         rr = 2 + k
-        for i, key in enumerate(M_COLS, 1):
-            c = ws2.cell(row=rr, column=i, value=list(m.values())[i - 1])
+        for i, key in enumerate(M_KEYS, 1):
+            v = "" if key is None else m.get(key, "")
+            c = ws2.cell(row=rr, column=i, value=v)
             c.font = F_BODY
             c.border = BORDER
-            c.alignment = LEFT
-        ws2.row_dimensions[rr].height = 26
-    note_r = 2 + len(SCENE_HINTS.get(ptype, SCENE_HINTS[DEFAULT_TYPE])) + 1
+            c.alignment = CENT if i in (1, 2, 3, 5, 8) else LEFT
+        # 自拍/自制的行底色标出来——这两类最容易拖着不做
+        if m["层级"].startswith("L1"):
+            for i in range(1, len(M_COLS) + 1):
+                ws2.cell(row=rr, column=i).fill = FILL_LIGHT
+        ws2.row_dimensions[rr].height = 30
+    note_r = 2 + len(mats) + 1
     ws2.cell(row=note_r, column=1,
-             value="Pexels/Pixabay 免署名可商用（注意顶部「赞助」行是 iStock 付费位）；"
+             value="用法：从左往右办——『去哪找』决定打开哪个站还是拿手机；办完一行就在「✓」列打个勾。"
+                   "浅蓝底 = 要你自己拍/自己出图（L1），这最容易拖着不做，先办。"
+                   "Pexels/Pixabay 免署名可商用（注意结果顶部「赞助」行是 iStock 付费位）；"
                    "Videvo 逐条协议不同需逐条看；央视/央视频/他人成片一律别用。"
-                   "下载后按「问题类型_场景_序号.mp4」命名，并记入素材台账。")
+                   "下载后按「问题类型_场景_序号.mp4」命名，并记入素材台账（另一张表）。")
     ws2.cell(row=note_r, column=1).font = Font(size=9, color="FF7F7F7F")
-    ws2.merge_cells(start_row=note_r, start_column=1, end_row=note_r, end_column=5)
-    ws2.row_dimensions[note_r].height = 32
+    ws2.merge_cells(start_row=note_r, start_column=1, end_row=note_r, end_column=len(M_COLS))
+    ws2.row_dimensions[note_r].height = 46
+    ws2.freeze_panes = "A2"
 
     # ── 表3 节奏规范
     ws3 = wb.create_sheet("节奏与声音标准")
@@ -619,6 +720,7 @@ def generate(intel_dir, top_n=TOP_N):
             "dl_name": f"底稿_{pt_short}_{cid}.xlsx",
             "beats": rows,   # 看板内预览用（同一份数据，页面直接渲染成表）
             "segments": build_segments(c, rows),   # 配音脚本按整段合成 + 回填实测时间码用
+            "materials": build_material_list(ptype, rows),  # 素材采集单：页面渲染成可勾选清单
         })
 
     idx = {
