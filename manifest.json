@@ -10,7 +10,12 @@
     "raw_20261007_part1.json",
     "raw_20261007_part2.json",
     "raw_20261007_part3.json",
-    "raw_20261007_part4.json"
+    "raw_20261007_part4.json",
+    "raw_20261008.json",
+    "raw_20261008_part1.json",
+    "raw_20261008_part2.json",
+    "raw_20261008_part3.json",
+    "raw_20261008_part4.json"
   ],
-  "last_run": "2026-10-07T05:46:50"
+  "last_run": "2026-10-08T08:59:30"
 }
