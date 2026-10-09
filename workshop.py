@@ -19,6 +19,7 @@ import re
 import sys
 import json
 import glob
+import hashlib
 import datetime
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -104,6 +105,102 @@ DISEASE = {
     "库存积压": "症结在推式生产、凭经验备货",
     "现金流断裂": "症结在短贷长投、安全垫太薄",
 }
+
+# ── 短视频法则：完播率优先 + 价值换关注点赞 ───────────────
+# 钩子多变体（避免同类型千篇一律）；有披露数字时优先用「数据钩子」抓前 3 秒。
+HOOK_VARIANTS = {
+    "倒闭关停": ["说关就关，钱到底卡在哪", "厂子说没就没，账上钱去哪了", "不是行情差，是现金先断了"],
+    "亏损": ["订单没少接，钱去哪了", "越干越亏，这账怎么平的", "营收涨了，利润为啥没影"],
+    "订单流失": ["订单一年比一年薄，是被替代了", "大单变试单，客户去哪了", "不是没单，是单不跟你了"],
+    "转型失败": ["砸钱上系统，为啥更亏", "数字化没救命，先要了命", "系统上了，人和流程没跟上"],
+    "质量事故": ["一批货出事，厂差点被拖垮", "质量坑，踩一次够亏半年", "召回一次，信任碎一地"],
+    "欠款劳资": ["厂还在转，工资发不出", "欠薪不是终点，是雪崩起点", "账期一乱，链就断了"],
+    "库存积压": ["仓库堆成山，账面没钱", "货在仓库，钱在别人兜里", "库存是负债，不是资产"],
+    "现金流断裂": ["账上好看，付款抓瞎", "利润漂亮，现金先断", "短贷长投，雷迟早爆"],
+}
+
+# 财务透镜：每类问题对应 CPA 视角的「深读框架」（非泛泛而谈）
+# 框架源自财报分析四维：盈利/偿债/运营/现金流；用语让厂长「看懂这类厂看哪几个数」。
+FIN_LENS = {
+    "倒闭关停": "把这家{ind}厂的账拆开看：倒闭极少突发，是现金循环周期被拉长——应收收不回、存货压钱、扩产吞现金，三条管道同时漏，安全垫撑不到回款那天。看三数：安全垫月数、应收周转天数、资产负债率。",
+    "亏损": "亏损本质是毛利守不住——营收是流水、利润才是留的钱，原料涨终端不涨、成本传导没建起来，接一单亏一单。看三数：毛利率、费用率、单笔盈亏平衡点。",
+    "订单流失": "订单流失常是被替代：客户外迁、大单拆试单，议价权与不可替代性出问题。看三数：客户集中度、海外占比与汇率敏感度、在手订单能见度。",
+    "转型失败": "转型失败多因重资产踩坑：为数字化而数字化，系统上了人没跟上，回收期算不清、ROIC 跑不赢资金成本，反拖垮现金流。看三数：回收期、固定资产周转率、ROIC-资金成本差。",
+    "质量事故": "质量事故成本远高于肉眼：预防+鉴定+内部+外部失败（COPQ）四块加总，一次召回吞半年净利。看三数：一次合格率、溯源速度、召回侵蚀净利比。",
+    "欠款劳资": "欠薪是现金流排期失序的信号灯：工资保障倍数跌破 1 人心就散，上游晚付下游敢拖更久，链一断就连锁。看三数：现金循环周期、工资保障倍数、短贷占比。",
+    "库存积压": "库存是冻起来的现金不是资产：推式生产凭经验备货，牛鞭效应把波动放大成仓库的山。看三数：存货周转天数、呆滞占比、存货占流动资产比。",
+    "现金流断裂": "利润是体检报告、现金是呼吸——短贷长投、扩产吞钱、应收存货各卡一块，安全垫一薄一笔回款迟到就断。看三数：自由现金流、现金循环周期、安全垫月数。",
+}
+
+# 收尾金句（ownable，制造「关注/点赞」的落点）
+CLOSE_LINE = {
+    "倒闭关停": "记住一句话：潮水退了才知道谁没穿裤——安全垫比规模重要。",
+    "亏损": "利润是留下来的钱，不是流水——宁可少单也要保毛利。",
+    "订单流失": "客户不会回来，除非你变得不可替代——分散市场、做深老客。",
+    "转型失败": "上系统前先算回本——工具是手段，现金流是命。",
+    "质量事故": "质量是生命线，一次召回够亏半年——批次溯源必须前置。",
+    "欠款劳资": "欠薪是信任崩塌的起点——现金流排期永远先于扩张。",
+    "库存积压": "仓库里的货不是钱——周转天数才是厂长该天天看的数。",
+    "现金流断裂": "利润当不了现金——留安全垫、控节奏，周转比规模重要。",
+}
+
+
+def _pick(seq, key):
+    h = int(hashlib.md5(key.encode("utf-8")).hexdigest(), 16)
+    return seq[h % len(seq)]
+
+
+def make_hook(ptype, region, industry, big, cid):
+    """钩子：有披露数字优先「数据钩子」；否则按 card_id 稳定取一个变体（同类型不同卡不雷同）。"""
+    q = HOOK_SHORT.get(ptype, ("出了大问题", "问题出在哪"))[1]
+    if big:
+        return f"{region}一家{industry}厂，{big[0]}——{q}？"
+    return _pick(HOOK_VARIANTS.get(ptype, HOOK_VARIANTS[DEFAULT_TYPE]), cid) + "？"
+
+
+def financial_read(card, ptype, industry, nums):
+    """解剖段核心透镜：CPA 财务框架的深读 + 该看哪几个数（随本案披露数字变化）。"""
+    lens = FIN_LENS.get(ptype, FIN_LENS[DEFAULT_TYPE]).replace("{ind}", industry or "制造")
+    anchor = ""
+    if nums:
+        anchor = f"（公开数字：{'、'.join(nums[:2])}——负债率与现金缺口一目了然）"
+    return lens + anchor
+
+
+# 同类型不同卡，开口要不一样：按本案事实匹配「财务病灶」，避免千篇一律。
+# 顺序很关键——具体病灶放前面，通用的「资不抵债」放最后兜底（所有破产都命中它，
+# 若它排第一，12 张倒闭卡会全部撞同一个开头）。匹配文本含 标题+摘要+点名问题。
+CAUSE_MAP = [
+    (r"塌方式腐败|腐败|预算超标|超支", "搬迁项目塌方式腐败，资本开支成无底洞，工程超支直接吃掉安全垫。"),
+    (r"退二进三|拆迁", "非经营性的拆迁等待期把现金流架空——产线停了、补偿未到，两头不靠。"),
+    (r"盲目扩张|顺周期", "顺周期加杠杆盲目扩产，周期一反转，短贷长投错配就爆。"),
+    (r"被收购|退市|深大通|母公司", "被外部股东收购后资金链被切断，母公司一断粮，子公司立刻缺血。"),
+    (r"重资产|无品牌|轻管理|无技术", "重资产轻管理，固定资产周转率低、ROIC 跑不赢资金成本，资产多却不赚钱。"),
+    (r"失联|抗拒执行", "法定代表人失联、抗拒执行，早该止损却硬撑成僵尸，资产僵死只能靠拍卖。"),
+    (r"实控人|拒不配合|拒执罪|强占", "实控人拒不配合接管甚至获刑，治理失序让清算资产长期无法盘活。"),
+    (r"停止经营|停产|实质合并", "关联公司实质合并破产，早已停止经营，无人申请重整，剩的是残值清算。"),
+    (r"重整|整体收购|重生", "清算转重整、被新投资人整体收购——到这步是残值博弈，能重生已属侥幸。"),
+    (r"外销|出口|贴牌|自有品牌", "外销为主、自有品牌净利不超5%，汇兑与客户议价两头受压。"),
+    (r"国有|负债率149|决策失误|连年亏损", "国有机制不适市场、重大决策失误，连年亏损把负债率推到149%。"),
+    (r"账期|订单依赖|成本上升", "订单高度依赖大客户、账期被拉长、成本刚性上升，毛利被两头夹。"),
+    (r"老牌|深耕|40年|参保员工仅", "老牌厂船大难掉头，品牌老化、渠道僵死，几十年没做产品革新。"),
+    # 兜底（所有破产都命中，但放最后）
+    (r"资不抵债|负债|净资产为负", "资不抵债、杠杆(D/E)已击穿，权益为负，回款稍一波动就冲垮偿债能力。"),
+]
+
+
+def diagnose(card, ptype, problems, industry):
+    """按本案标题+摘要+点名问题匹配财务病灶（去模板化：同类型不同卡，开口不一样）。"""
+    text = " ".join([str(card.get("title", "")),
+                     str(card.get("summary", "") or ""),
+                     " ".join(problems)])
+    for kw, phrase in CAUSE_MAP:
+        if re.search(kw, text):
+            return "本案的财务病灶很具体：" + phrase
+    if problems:
+        return "本案点名的问题很具体：" + clip(problems[0], 22)
+    return f"把这家{industry}厂的问题放进财务框架："
+
 
 # 事实段/解剖段画面建议：场景 + 英文检索词（Pexels/Pixabay 英文命中率远高于中文）
 SCENE_HINTS = {
@@ -293,56 +390,60 @@ SEG_DUR_RANGE = {"钩子": (0.9, 1.9), "定题": (1.2, 2.6), "事实": (1.6, 3.4
 # ① 五段式口播文案
 # ══════════════════════════════════════════════════════════
 def build_copywriting(card):
-    """产出 [(段名, 文本), ...]，顺序即口播顺序。总时长按 4.8 字/秒控制在 60-90 秒。"""
+    """产出 [(段名, 文本), ...]，顺序即口播顺序。
+
+    短视频法则落点：
+      ① 完播率优先 —— 0-3s 钩子必须「强冲突 / 数据钩子」，多变体不千篇一律；
+      ② 价值换关注点赞 —— 中段「解剖」段给真实财务深读（CPA 框架），是观众愿意
+         转发/关注的核心；收尾给 ownable 金句 + 可执行避坑，制造落点。
+    总时长按 4.8 字/秒控制在 60-90 秒。
+    """
     ptype = card.get("problem_type_key") or dissect.infer_type(
         (card.get("title", "") + card.get("summary", "")))
     angles = card.get("angles") or dissect.get_angles(ptype)
     problems = card.get("problems") or []
     region = card.get("region") or "长三角"
-    blob = card.get("title", "") + " " + card.get("summary", "")
-
     industry = pick_industry(card.get("title", ""), card.get("summary", ""))
-    big = pick_numbers(blob, BIG_NUM_RE, 3)
+    blob = card.get("title", "") + " " + card.get("summary", "")
+    big = pick_numbers(blob, BIG_NUM_RE, 2)
     nums = pick_numbers(blob, MID_NUM_RE, 5)
+    cid = card.get("card_id", "")
     assoc = ASSOC.get(ptype, ASSOC[DEFAULT_TYPE])
     tips = TIPS.get(ptype, TIPS[DEFAULT_TYPE])
-    strong, question = HOOK_SHORT.get(ptype, ("出了大问题", "问题出在哪"))
+    cnum = "①②③④⑤⑥"
 
     segs = []
 
-    # ── 钩子｜0-3s｜12-18 字｜必须带强词（关停/欠薪/断供/跑路…）
-    segs.append(("钩子", clip(f"{strong}——{question}", 18) + "？"))
+    # ── 钩子｜0-3s｜完播率命门：强冲突 / 数据钩子（按卡变化，不千篇一律）
+    segs.append(("钩子", clip(make_hook(ptype, region, industry, big, cid), 20)))
 
-    # ── 定题｜3-8s｜20-30 字｜哪里的什么厂、得什么病
-    if big:
-        tail = f"公开报道里的关键数字：{'、'.join(big)}"
-    else:
-        tail = DISEASE.get(ptype, "症结在经营结构本身")
-    segs.append(("定题", f"{region}一家{industry}厂，{clip(tail, 22)}。"))
+    # ── 定题｜3-8s｜谁 + 什么病 + 为什么值得看（价值钩子）
+    segs.append(("定题", f"{region}一家{industry}厂，栽在「{card.get('problem_type', '')}」上。"))
 
-    # ── 事实｜8-30s｜80-110 字｜时间线 + 数字
-    fact = f"先把事实说清楚。{clean_summary(card.get('summary', ''), 84)}"
-    if not big and nums:
-        fact += f"公开信息里出现过的数字：{'、'.join(nums[:3])}。"
+    # ── 事实｜8-25s｜先给事实与数字（前移价值，留住人）
+    fact = f"先把事实摆出来。{clean_summary(card.get('summary', ''), 72)}"
+    if nums:
+        fact += f"公开信息里的数字：{'、'.join(nums[:3])}。"
     segs.append(("事实", fact))
 
-    # ── 翻译（比喻 1）｜穿插
+    # ── 翻译（比喻 1）｜留人：固定比喻 IP，反复用形成记忆点
     segs.append(("翻译", f"打个比方。{assoc[0]}"))
 
-    # ── 解剖｜30-65s｜130-180 字｜4 个视角一个不能少
-    cnum = "①②③④⑤⑥"
-    parts = []
-    for i, a in enumerate(angles[:4]):
-        parts.append(f"{cnum[i]}{a['视角']}。{clip(a['要点'], 24)}。")
-    if problems:
-        parts.append(f"公开信息点名的问题：{'；'.join(clip(p, 20) for p in problems[:2])}。")
-    segs.append(("解剖", "".join(parts)))
+    # ── 解剖｜25-60s｜财务深读（价值核心，赚关注/点赞）
+    # 先用 diagnose 给「本案特有的财务病灶」开口（同类型不雷同），再上 FIN_LENS 框架。
+    diag = diagnose(card, ptype, problems, industry)
+    lens = financial_read(card, ptype, industry, nums)
+    body = diag + " " + lens
+    if problems and "点名" not in diag and "病灶" not in diag:
+        body += "本案点名的问题：" + "；".join(clip(p, 16) for p in problems[:2]) + "。"
+    segs.append(("解剖", body))
 
     # ── 翻译（比喻 2）｜落点
     segs.append(("翻译", assoc[1] if len(assoc) > 1 else "这笔账，最后都要有人来付。"))
 
-    # ── 收尾｜65-90s｜40-60 字｜≤3 条可执行避坑
-    segs.append(("收尾", "最后给同类厂三句话。" +
+    # ── 收尾｜60-90s｜ownable 金句 + 可执行避坑（引导关注/点赞）
+    segs.append(("收尾", CLOSE_LINE.get(ptype, "这笔账，最后都要有人来付。") +
+                 "同类厂记住三件事：" +
                  "；".join(f"{cnum[i]}{clip(t, 16)}" for i, t in enumerate(tips[:3])) + "。"))
 
     return ptype, segs
