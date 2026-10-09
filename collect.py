@@ -7,7 +7,8 @@
   2) Bing 网页搜索 HTML 解析（www.bing.com/search）— 兜底
   3) 36氪 RSS 快讯（www.36kr.com/feed）— 通用商业资讯补充
 流程：批量检索（8 类问题 × 4 地区）→ 相关性过滤（必须同时命中"问题词"与"制造/企业词"）
-      → 与 intel_db.jsonl 及当日 raw 去重 → **只产出新增案例** → 合并写回 raw_YYYYMMDD.json。
+      → **时效性过滤（只保留近 N 年，更早的旧案例丢弃）** → 与 intel_db.jsonl 及当日 raw 去重
+      → **只产出新增案例** → 合并写回 raw_YYYYMMDD.json。
 用法：
   python3 collect.py [--limit N] [--dry-run] [--workers 6] [--intel-dir DIR]
 依赖：仅 Python 标准库，不需要任何 API Key。
@@ -81,6 +82,32 @@ def to_iso(pub):
         return email.utils.parsedate_to_datetime(pub).date().isoformat()
     except Exception:
         return datetime.date.today().isoformat()
+
+
+# ── 时效性：只保留近 N 年的材料，过早的旧案例不入库 ──
+# 用户要求：素材搜集时间限定在近 3 年，不要搜集过早的材料。
+RECENCY_YEARS = 3  # 若想放宽/收紧，改这里，或用命令行 --max-age-years 覆盖
+
+
+def _cutoff_date(today):
+    """近 N 年的起始日期；处理闰年 2/29 → 回退到 3/1，避免 replace 抛错。"""
+    y = today.year - RECENCY_YEARS
+    try:
+        return today.replace(year=y)
+    except ValueError:
+        return today.replace(year=y, month=3, day=1)
+
+
+def recent_enough(it, cutoff):
+    """item 是否不早于 cutoff（近 N 年窗口）。无明确发布日期（Bing 等）按最新处理，保留。"""
+    d = it.get("date", "")
+    if len(d) < 10:
+        return True  # 没有可解析日期 → 视为近期，保留
+    try:
+        pub = datetime.date.fromisoformat(d)
+    except Exception:
+        return True
+    return pub >= cutoff
 
 
 # ── 源 1：Google News RSS ──────────────────────────────
@@ -221,16 +248,28 @@ def main():
     ap.add_argument("--limit", type=int, default=0)
     ap.add_argument("--workers", type=int, default=6)
     ap.add_argument("--dry-run", action="store_true")
+    ap.add_argument("--max-age-years", type=int, default=RECENCY_YEARS,
+                    help=f"只保留近 N 年的材料（默认 {RECENCY_YEARS}）；更早的旧案例丢弃")
     args = ap.parse_args()
 
     intel_dir = args.intel_dir
-    today = datetime.date.today().isoformat()
+    today_date = datetime.date.today()
+    today = today_date.isoformat()  # 路径/文件名用字符串
+    # 时效窗口（近 N 年）；--max-age-years 可临时覆盖，不改全局常量
+    if args.max_age_years != RECENCY_YEARS:
+        y = today_date.year - args.max_age_years
+        try:
+            cutoff = today_date.replace(year=y)
+        except ValueError:
+            cutoff = today_date.replace(year=y, month=3, day=1)
+    else:
+        cutoff = _cutoff_date(today_date)
     queries = build_queries()
     if args.limit:
         queries = queries[:args.limit]
 
     known, existing, raw_path = load_known(intel_dir, today)
-    scanned, kept, new_items, source_hits = 0, 0, [], {}
+    scanned, kept, new_items, source_hits, old_dropped = 0, 0, [], {}, 0
 
     with ThreadPoolExecutor(max_workers=args.workers) as ex:
         for q, rows, src in ex.map(scan_one, queries):
@@ -239,6 +278,9 @@ def main():
             for row in rows:
                 it = build_item(row, row.get("query", q))
                 if not relevant(it):
+                    continue
+                if not recent_enough(it, cutoff):
+                    old_dropped += 1
                     continue
                 kept += 1
                 cid = ipro.card_id(it)
@@ -251,7 +293,7 @@ def main():
     try:
         for row in src_36kr():
             it = build_item(row, "36氪快讯")
-            if relevant(it) and ipro.card_id(it) not in known:
+            if relevant(it) and recent_enough(it, cutoff) and ipro.card_id(it) not in known:
                 known.add(ipro.card_id(it))
                 new_items.append(it)
         source_hits["36kr"] = source_hits.get("36kr", 0) + 1
@@ -265,13 +307,14 @@ def main():
     else:
         action = "dry-run" if args.dry_run else "无新增（未写文件）"
 
-    print(f"[collect] 查询 {len(queries)} 条 · 命中网页 {scanned} 条 · 相关 {kept} 条 · 新增 {len(new_items)} 条 · {action}")
+    print(f"[collect] 查询 {len(queries)} 条 · 命中网页 {scanned} 条 · 相关 {kept} 条 · 超龄丢弃 {old_dropped} 条 · 新增 {len(new_items)} 条 · {action}")
     print(f"[collect] 源命中：{source_hits}")
+    print(f"[collect] 时效窗口：保留 >= {cutoff.isoformat()}（近 {RECENCY_YEARS} 年）")
     for it in new_items[:10]:
         print(f"   + [{it['problem_type']}] {it['region']} {it['title'][:44]}")
     print("__YRD_SUMMARY__ " + json.dumps(
-        {"queries": len(queries), "scanned": scanned, "kept": kept, "new": len(new_items),
-         "date": today, "sources": source_hits, "action": action}, ensure_ascii=False))
+        {"queries": len(queries), "scanned": scanned, "kept": kept, "old_dropped": old_dropped,
+         "new": len(new_items), "date": today, "sources": source_hits, "action": action}, ensure_ascii=False))
     return 0
 
 
