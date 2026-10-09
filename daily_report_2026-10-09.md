@@ -1,9 +1,9 @@
 # 长三角制造业问题解剖日报（2026-10-09）
 
-今日新增 **24** 张解剖卡。
+今日新增 **22** 张解剖卡。
 
 
-## 倒闭 / 关停（9）
+## 倒闭 / 关停（8）
 
 ### 建湖法院一案例入选2020年江苏法院破产审判典型案例 ★92.5
 - 地区：江苏 · 来源：盐城长安网
@@ -44,14 +44,6 @@
 - 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
 - 脚本钩子：一家江苏的（行业）厂，说关就关，钱到底卡在哪？
 - 链接：https://m.toutiao.com/article/7680866850292417059
-
-### 总欠款6.3亿！资不抵债、关店、破产限高，这56家化妆品代工厂沦为了“老赖” ★86.2
-- 地区：长三角 · 来源：news.google.com
-- 背景：&nbsp;&nbsp;<font color="#6f6f6f">QQ News</font>
-- 企业问题：总欠款6.3亿；资不抵债、关店、破产限高，这56家化妆品代工厂沦为了“老赖”
-- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
-- 脚本钩子：一家长三角的（行业）厂，说关就关，钱到底卡在哪？
-- 链接：https://news.google.com/rss/articles/CBMiVkFVX3lxTE84MUwxZ2l0QTJmZjNUVVFaZ014RXdKaHFYNUJrMEx0R1ZkekgyQ2QtZXNsMTNLOEo0amJDSFNQRk9ZTDZHZEd1cGRPX3hPenhqZ1E1aHVB?oc=5
 
 ### 浙江鸿粤半导体之困：成立两年多即进入破产审查程序 曾规划年产8000万米键合丝线 ★82.5
 - 地区：浙江 · 来源：东方财富网/科创板日报
@@ -170,7 +162,7 @@
 - 链接：https://scjgj.yangzhou.gov.cn/zfxxgk/fdzdgk/ywgz/cpzljg/art/2026/art_0957ad6cfc604dc59e6ec55be81f9602.html
 
 
-## 欠款 / 劳资纠纷（2）
+## 欠款 / 劳资纠纷（1）
 
 ### 拒不支付劳动报酬，老板锒铛入狱 ★86.5
 - 地区：上海 · 来源：上海政法综治网（松江法院）
@@ -179,14 +171,6 @@
 - 解剖视角：合规视角; 财务视角; 组织视角; 运营视角
 - 脚本钩子：厂子还在转，工资却发不出——上海这家厂的账怎么平的？
 - 链接：https://www.shzfzz.net/node2/zzb/shzfzz2013/node3367/u1ai1269591.html
-
-### 又到年底讨薪潮涌现 中国企业掀裁员潮 上海数百工人上街维权遭警暴力镇压 ★74.0
-- 地区：上海 · 来源：news.google.com
-- 背景：&nbsp;&nbsp;<font color="#6f6f6f">希望之声国际广播电台</font>
-- 企业问题：又到年底讨薪潮涌现 中国企业掀裁员潮 上海数百工人上街维权遭警暴力镇压
-- 解剖视角：合规视角; 财务视角; 组织视角; 运营视角
-- 脚本钩子：厂子还在转，工资却发不出——上海这家厂的账怎么平的？
-- 链接：https://news.google.com/rss/articles/CBMiUEFVX3lxTE5YOGdCQTZISXZ6cDRIYnRiMVNLdlJhM0ltMVo3Q2kzTFAtbGNZMFd1TU03Uk1veWZ0VklMb0M1Z2VfcDBTNmVHQlZKeEJPa19Y?oc=5
 
 
 ## 现金流断裂 / 资金链（3）
