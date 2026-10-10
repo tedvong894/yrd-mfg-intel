@@ -25,16 +25,10 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: 安装依赖（导出底稿 xlsx 用）
-        run: python3 -m pip install --quiet openpyxl>=3.1.0
-
       - name: 增量采集（只取新增案例）
         run: python3 collect.py
 
-      - name: 短视频工坊（解剖卡 → 口播文案 + 12 列剪辑底稿）
-        run: python3 workshop.py --top 12
-
-      - name: 自动解剖 + 渲染看板
+      - name: 自动解剖 + 渲染看板（仅 2026 案例 + 案例综述）
         run: python3 intel_processor.py
 
       - name: 提交回仓库（触发 Pages 重建）
