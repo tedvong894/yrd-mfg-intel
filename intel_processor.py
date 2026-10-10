@@ -420,6 +420,40 @@ def build_review(c):
   </div>"""
 
 
+# 涉事公司背景字段顺序与中文标签（公开渠道检索填充，无则留空）
+BG_FIELDS = [
+    ("company", "公司名称"),
+    ("location", "所在地"),
+    ("scale", "企业规模"),
+    ("employees", "员工数量"),
+    ("founded", "经营年限"),
+    ("products", "主营产品"),
+    ("revenue", "营收规模"),
+]
+
+
+def render_company_bg(bg):
+    """渲染「涉事公司背景」块。bg 为 dict，字段无值则跳过；全空显示占位说明。
+    sources 为来源链接列表（可空）。"""
+    if not isinstance(bg, dict):
+        bg = {}
+    rows = []
+    for key, label in BG_FIELDS:
+        val = (bg.get(key) or "").strip()
+        if val:
+            rows.append(f'<div class="bgrow"><span class="bgl">{label}</span><span class="bgv">{val}</span></div>')
+    srcs = bg.get("sources") or []
+    if isinstance(srcs, list) and srcs:
+        links = "".join(
+            f'<a class="bgsrc" href="{s}" target="_blank" rel="noopener">来源</a>' for s in srcs[:3] if s)
+        if links:
+            rows.append(f'<div class="bgrow"><span class="bgl">信息来源</span><span class="bgv">{links}</span></div>')
+    if not rows:
+        return ('<div class="blk"><div class="blkh">涉事公司背景</div>'
+                '<div class="bgnone">暂未收录该公司背景（公开渠道未检索到，或非单一企业案例）</div></div>')
+    return '<div class="blk bgblk"><div class="blkh">涉事公司背景</div>' + "".join(rows) + '</div>'
+
+
 def render_dashboard(intel_dir, cards, today_cards, today):
     pt_counter = Counter(c.get("problem_type", "其他") for c in cards)
     top = sorted(cards, key=lambda x: x.get("score", 0), reverse=True)[:12]
@@ -458,19 +492,21 @@ def render_dashboard(intel_dir, cards, today_cards, today):
 
     def dissect_block(c):
         pcolor = PT_COLORS.get(c.get("problem_type"), "#6b7280")
+        cid = c.get("card_id", "")
         problems = "".join(f"<li>{p}</li>" for p in c.get("problems", [])) or "<li>（采集层未标注具体问题）</li>"
-        angles = "".join(f"<li><b>{a['视角']}</b>：{a['要点']}</li>" for a in c.get("angles", []))
+        bg = render_company_bg(c.get("company_bg"))
         return f"""
-<div class="dcard" id="dc-{c.get('card_id','')}" data-pt="{c.get('problem_type','')}" data-score="{c.get('score',0)}" data-date="{c.get('added', c.get('date',''))}">
+<div class="dcard" id="dc-{cid}" data-pt="{c.get('problem_type','')}" data-score="{c.get('score',0)}" data-date="{c.get('added', c.get('date',''))}">
   <div class="dcard-head">
     <span class="pt" style="background:{pcolor}">{c.get('problem_type','')}</span>
     <span class="dscore">内容价值 ★ {c.get('score',0)}</span>
+    <button class="ddel" type="button" onclick="delCard('{cid}')" title="删除此案例（仅本浏览器隐藏）">✕</button>
   </div>
   <a class="dtitle" href="{c.get('url','#')}" target="_blank" rel="noopener">{c.get('title','')}</a>
   <div class="dmeta">{c.get('region','')} · {c.get('source','')} · {c.get('date','')}</div>
   <div class="dsum">{c.get('summary','')}</div>
   <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss">{problems}</ul></div>
-  <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang">{angles}</ul></div>
+  {bg}
   {build_review(c)}
 </div>"""
 
@@ -544,6 +580,23 @@ td.num{{font-weight:700;color:#dc2626}}
 .rev-sec{{font-size:12.5px;color:#4b5563;line-height:1.7;margin-top:6px}}
 .rev-sec b{{color:#1f2937}}
 .risk{{font-weight:700;font-size:12px;margin-right:4px}}
+/* ── 涉事公司背景 ── */
+.bgblk{{border-color:#e7f0e9;background:#f6fbf7}}
+.bgrow{{display:flex;gap:8px;font-size:12px;line-height:1.6;margin:3px 0}}
+.bgl{{flex-shrink:0;width:62px;color:#6b7280;font-weight:600}}
+.bgv{{color:#374151;word-break:break-word}}
+.bgnone{{font-size:12px;color:#9ca3af;line-height:1.6}}
+.bgsrc{{color:#2f5597;text-decoration:none;font-weight:600;margin-right:8px}}
+.bgsrc:hover{{text-decoration:underline}}
+/* ── 卡片删除按钮 ── */
+.ddel{{margin-left:auto;border:1px solid #f0c9c9;background:#fff5f5;color:#c0392b;width:24px;height:24px;border-radius:6px;font-size:13px;line-height:1;cursor:pointer;font-family:inherit;transition:.15s;flex-shrink:0}}
+.ddel:hover{{background:#fdeaea;border-color:#e3a3a3}}
+.ddel:active{{transform:translateY(1px)}}
+.delbar{{display:none;align-items:center;gap:12px;background:#fff7f7;border:1px solid #f3c9c9;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#9a3412}}
+.delbar.show{{display:flex}}
+.delbar .dn{{font-weight:700;color:#c0392b}}
+.delbar .clear{{margin-left:auto;color:#dc2626;cursor:pointer;font-weight:600;text-decoration:underline}}
+.delbar .export{{color:#2f5597;cursor:pointer;font-weight:600;text-decoration:underline}}
 .filterbar{{display:none;align-items:center;gap:10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px}}
 .filterbar.show{{display:flex}}
 .filterbar .ftxt{{color:#9a3412;font-weight:600}}
@@ -647,6 +700,12 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
   </div>
 </header>
 
+<div class="delbar" id="delbar">
+  <span>已删除 <b class="dn">0</b> 张（仅本浏览器隐藏，未真正删除数据）</span>
+  <span class="export" onclick="exportDel()">导出删除清单</span>
+  <span class="clear" onclick="restoreAll()">恢复全部</span>
+</div>
+
 <div class="filterbar" id="filterbar">
   <span class="ftxt" id="filtertxt"></span>
   <span class="clear" onclick="clearFilter()">清除筛选</span>
@@ -666,6 +725,33 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
 </div>
 <script>
 var TODAY = "{today}";
+/* ── 卡片删除（仅本浏览器 localStorage 隐藏，不改源数据）── */
+var DEL_KEY = "yrd_deleted_cards";
+function getDel(){{ try{{ return JSON.parse(localStorage.getItem(DEL_KEY) || "[]"); }}catch(e){{ return []; }} }}
+function saveDel(a){{ localStorage.setItem(DEL_KEY, JSON.stringify(a)); }}
+function delCard(cid){{
+  var a = getDel(); if(a.indexOf(cid) < 0) a.push(cid); saveDel(a);
+  var el = document.getElementById("dc-" + cid); if(el) el.style.display = "none";
+  updDelBar();
+}}
+function restoreAll(){{ localStorage.removeItem(DEL_KEY); location.reload(); }}
+function exportDel(){{
+  var a = getDel();
+  var blob = new Blob([JSON.stringify({{deleted:a, exported:new Date().toISOString()}}, null, 2)], {{type:"application/json"}});
+  var url = URL.createObjectURL(blob); var x = document.createElement("a");
+  x.href = url; x.download = "yrd_deleted_cards.json"; document.body.appendChild(x); x.click();
+  document.body.removeChild(x); URL.revokeObjectURL(url);
+}}
+function updDelBar(){{
+  var n = getDel().length, el = document.getElementById("delbar");
+  if(!el) return;
+  if(n > 0){{ el.classList.add("show"); el.querySelector(".dn").textContent = n; }}
+  else {{ el.classList.remove("show"); }}
+}}
+function applyDel(){{
+  getDel().forEach(function(cid){{ var el = document.getElementById("dc-" + cid); if(el) el.style.display = "none"; }});
+  updDelBar();
+}}
 function scrollToId(id){{ var el=document.getElementById(id); if(el) el.scrollIntoView({{behavior:"smooth",block:"start"}}); }}
 function scrollToDc(e, a){{
   e.preventDefault();
@@ -721,6 +807,7 @@ document.querySelectorAll(".row.clickable").forEach(function(r){{
     var n=applyFilter({{pt:pt}}); showFilter("筛选：问题类型 = "+pt+"（"+n+" 张）");
   }});
 }});
+applyDel();
 </script>
 </body></html>"""
 
