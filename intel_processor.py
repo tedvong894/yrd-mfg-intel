@@ -2,12 +2,13 @@
 # -*- coding: utf-8 -*-
 """
 长三角中小制造业案例情报平台 — 核心处理器（问题解剖版）
-定位：搜集「问题分析类案例」→ 自动解剖（企业存在哪些问题 / 从哪些视角拆）→ 产出短视频脚本框架。
+定位：搜集「问题分析类案例」→ 自动解剖（企业存在哪些问题 / 从哪些视角拆）→ 生成案例综述（摘要 + 分析 + 风险研判）。
+约束：仅保留 2026 年案例；短视频脚本框架 / 底稿 / 口播稿模块已取消（2026-10）。
 数据流：
   raw_YYYYMMDD.json        采集层（每日自动化 WebSearch 后写入，含 problems/problem_type）
         │ manifest.json 记录已处理文件，保证幂等
         ▼
-  intel_db.jsonl          累积解剖卡（每行一张）
+  intel_db.jsonl          累积解剖卡（每行一张，渲染时按 date 过滤 2026）
   index.html              可视化解剖看板（GitHub Pages 入口 + 本地预览）
   dashboard.html          index.html 的同 contents 副本（本地兼容）
   daily_report.md         当日增量摘要
