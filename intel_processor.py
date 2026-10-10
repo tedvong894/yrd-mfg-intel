@@ -434,7 +434,8 @@ BG_FIELDS = [
 
 def render_company_bg(bg):
     """渲染「涉事公司背景」块。bg 为 dict，字段无值则跳过；全空显示占位说明。
-    sources 为来源链接列表（可空）。"""
+    支持结构化字段（company/location/scale/employees/founded/products/revenue）
+    与自由文本 text（叙事式背景）；sources 为来源链接列表（可空）。"""
     if not isinstance(bg, dict):
         bg = {}
     rows = []
@@ -442,6 +443,9 @@ def render_company_bg(bg):
         val = (bg.get(key) or "").strip()
         if val:
             rows.append(f'<div class="bgrow"><span class="bgl">{label}</span><span class="bgv">{val}</span></div>')
+    text = (bg.get("text") or "").strip()
+    if text:
+        rows.append(f'<div class="bgtext">{text}</div>')
     srcs = bg.get("sources") or []
     if isinstance(srcs, list) and srcs:
         links = "".join(
