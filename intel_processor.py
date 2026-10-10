@@ -504,7 +504,10 @@ def render_dashboard(intel_dir, cards, today_cards, today):
   <div class="dcard-head">
     <span class="pt" style="background:{pcolor}">{c.get('problem_type','')}</span>
     <span class="dscore">内容价值 ★ {c.get('score',0)}</span>
-    <button class="ddel" type="button" onclick="delCard('{cid}')" title="删除此案例（仅本浏览器隐藏）">✕</button>
+    <span class="dctrls">
+      <button class="dfav" type="button" onclick="favCard('{cid}')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('{cid}')" title="删除此案例（仅本浏览器隐藏）">✕</button>
+    </span>
   </div>
   <a class="dtitle" href="{c.get('url','#')}" target="_blank" rel="noopener">{c.get('title','')}</a>
   <div class="dmeta">{c.get('region','')} · {c.get('source','')} · {c.get('date','')}</div>
@@ -592,10 +595,22 @@ td.num{{font-weight:700;color:#dc2626}}
 .bgnone{{font-size:12px;color:#9ca3af;line-height:1.6}}
 .bgsrc{{color:#2f5597;text-decoration:none;font-weight:600;margin-right:8px}}
 .bgsrc:hover{{text-decoration:underline}}
+/* ── 卡片收藏 / 删除复合键 ── */
+.dctrls{{display:flex;align-items:center;gap:6px;flex-shrink:0}}
+.dfav{{border:1px solid #d9e2ef;background:#f4f8fd;color:#2f5597;width:26px;height:26px;border-radius:6px;font-size:14px;line-height:1;cursor:pointer;font-family:inherit;transition:.15s;flex-shrink:0}}
+.dfav:hover{{background:#e7f0fa;border-color:#c2d4ea}}
+.dfav:active{{transform:translateY(1px)}}
+.dfav.on{{color:#e6a700;border-color:#f0d68a;background:#fff9ec}}
+.dcard.faved{{border-color:#f0d68a;box-shadow:0 0 0 2px rgba(230,167,0,.10)}}
 /* ── 卡片删除按钮 ── */
 .ddel{{border:1px solid #f0c9c9;background:#fff5f5;color:#c0392b;width:26px;height:26px;border-radius:6px;font-size:14px;line-height:1;cursor:pointer;font-family:inherit;transition:.15s;flex-shrink:0}}
 .ddel:hover{{background:#fdeaea;border-color:#e3a3a3}}
 .ddel:active{{transform:translateY(1px)}}
+.favbar{{display:none;align-items:center;gap:12px;background:#fffbeb;border:1px solid #f3e3a8;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#92710a}}
+.favbar.show{{display:flex}}
+.favbar .fn{{font-weight:700;color:#e6a700}}
+.favbar .only{{color:#2f5597;cursor:pointer;font-weight:600;text-decoration:underline}}
+.favbar .clear{{margin-left:auto;color:#dc2626;cursor:pointer;font-weight:600;text-decoration:underline}}
 .delbar{{display:none;align-items:center;gap:12px;background:#fff7f7;border:1px solid #f3c9c9;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#9a3412}}
 .delbar.show{{display:flex}}
 .delbar .dn{{font-weight:700;color:#c0392b}}
@@ -710,6 +725,12 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
   <span class="clear" onclick="restoreAll()">恢复全部</span>
 </div>
 
+<div class="favbar" id="favbar">
+  <span>已收藏 <b class="fn">0</b> 张（仅本浏览器标记，未改源数据）</span>
+  <span class="only" onclick="goFavOnly()">仅看收藏</span>
+  <span class="clear" onclick="clearFilter()">退出</span>
+</div>
+
 <div class="filterbar" id="filterbar">
   <span class="ftxt" id="filtertxt"></span>
   <span class="clear" onclick="clearFilter()">清除筛选</span>
@@ -756,6 +777,31 @@ function applyDel(){{
   getDel().forEach(function(cid){{ var el = document.getElementById("dc-" + cid); if(el) el.style.display = "none"; }});
   updDelBar();
 }}
+/* ── 卡片收藏（仅本浏览器 localStorage 标记，不改源数据）── */
+var FAV_KEY = "yrd_fav_cards";
+function getFav(){{ try{{ return JSON.parse(localStorage.getItem(FAV_KEY) || "[]"); }}catch(e){{ return []; }} }}
+function saveFav(a){{ localStorage.setItem(FAV_KEY, JSON.stringify(a)); }}
+function favCard(cid){{
+  var a = getFav(), i = a.indexOf(cid);
+  var el = document.getElementById("dc-" + cid), b = el ? el.querySelector(".dfav") : null;
+  if(i < 0){{ a.push(cid); if(el) el.classList.add("faved"); if(b){{ b.textContent = "★"; b.classList.add("on"); }} }}
+  else {{ a.splice(i,1); if(el) el.classList.remove("faved"); if(b){{ b.textContent = "☆"; b.classList.remove("on"); }} }}
+  saveFav(a); updFavBar();
+}}
+function goFavOnly(){{ var n = applyFilter({{favOnly:true}}); showFilter("筛选：仅看收藏（" + n + " 张）"); }}
+function applyFav(){{
+  getFav().forEach(function(cid){{
+    var el = document.getElementById("dc-" + cid);
+    if(el){{ el.classList.add("faved"); var b = el.querySelector(".dfav"); if(b){{ b.textContent = "★"; b.classList.add("on"); }} }}
+  }});
+  updFavBar();
+}}
+function updFavBar(){{
+  var n = getFav().length, el = document.getElementById("favbar");
+  if(!el) return;
+  if(n > 0){{ el.classList.add("show"); el.querySelector(".fn").textContent = n; }}
+  else {{ el.classList.remove("show"); }}
+}}
 function scrollToId(id){{ var el=document.getElementById(id); if(el) el.scrollIntoView({{behavior:"smooth",block:"start"}}); }}
 function scrollToDc(e, a){{
   e.preventDefault();
@@ -766,12 +812,16 @@ function scrollToDc(e, a){{
 }}
 function showFilter(text){{ var b=document.getElementById("filterbar"); document.getElementById("filtertxt").textContent=text; b.classList.add("show"); }}
 function applyFilter(opt){{
-  var pt=opt.pt||null, minScore=opt.minScore||0, todayOnly=opt.todayOnly||false, shown=0;
+  var pt=opt.pt||null, minScore=opt.minScore||0, todayOnly=opt.todayOnly||false, favOnly=opt.favOnly||false, shown=0;
+  var del=getDel(), fav=getFav();
   document.querySelectorAll(".dcard").forEach(function(c){{
+    var cid=c.id.slice(3);
     var okPt=!pt||c.dataset.pt===pt;
     var okScore=parseFloat(c.dataset.score)>=minScore;
     var okToday=!todayOnly||c.dataset.date===TODAY;
-    var ok=okPt&&okScore&&okToday;
+    var okFav=!favOnly||fav.indexOf(cid)>=0;
+    var okDel=del.indexOf(cid)<0;
+    var ok=okPt&&okScore&&okToday&&okFav&&okDel;
     c.style.display=ok?"":"none"; if(ok) shown++;
   }});
   return shown;
@@ -812,6 +862,7 @@ document.querySelectorAll(".row.clickable").forEach(function(r){{
   }});
 }});
 applyDel();
+applyFav();
 </script>
 </body></html>"""
 
