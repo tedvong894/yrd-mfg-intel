@@ -208,6 +208,10 @@ def process(intel_dir):
                 except Exception:
                     continue
 
+    # 仅保留 2026 年案例（按文章发布日期 date 过滤；无日期或非 2026 一律剔除）
+    all_cards = [c for c in all_cards
+                 if str(c.get("date", "")).startswith("2026")]
+
     today = datetime.date.today().isoformat()
     # "今日新增"按入库日期统计（增量采集会把旧文章也新增进来）
     today_cards = [c for c in all_cards if c.get("added", c.get("date")) == today]
@@ -358,6 +362,76 @@ def render_workshop(intel_dir):
     return html, script_map, kw_map
 
 
+def risk_grade(severity, universal):
+    """风险等级（financial-report-analysis 方法论：风险识别 + 风险等级）。"""
+    s = severity * universal
+    if s >= 0.7:
+        return "高风险", "#dc2626"
+    if s >= 0.55:
+        return "中风险", "#ea580c"
+    return "需关注", "#2563eb"
+
+
+def build_review(c):
+    """案例综述：对原素材（summary/problems/angles）做「摘要 + 分析」。
+    方法论参照 data-analysis-plus（核心数据 → 关键洞察 → 行动建议）与
+    financial-report-analysis（风险识别 + 风险等级）。纯规则、可重跑、不依赖模型。"""
+    pkey = c.get("problem_type_key") or "倒闭关停"
+    tpl = dissect.get_template(pkey)
+    region = c.get("region", "") or "长三角"
+    ptype = c.get("problem_type", "")
+    summary = (c.get("summary", "") or "").strip()
+    problems = c.get("problems", []) or []
+    angles = c.get("angles", []) or []
+
+    # —— 摘要：原素材凝练（事件概述）——
+    gist = summary if summary else (c.get("title", "") or "（暂无素材摘要）")
+    if len(gist) > 150:
+        gist = gist[:150] + "…"
+
+    # —— 核心事实数据条（核心数据）——
+    facts = [
+        ("地区", region),
+        ("问题类型", ptype),
+        ("发生时间", c.get("date", "") or "—"),
+        ("信息来源", c.get("source", "") or "—"),
+        ("内容价值", "★%s" % c.get("score", 0)),
+    ]
+    facts_html = "".join(f'<span class="rf"><b>{k}</b>{v}</span>' for k, v in facts)
+
+    # —— 问题剖析（关键洞察）：把具体问题点 + 解剖视角编织成叙述 ——
+    if problems:
+        prob_txt = "；".join(problems)
+    else:
+        prob_txt = "采集层未标注具体条目，可结合下方「解剖视角」对照行业通病自行研判"
+    ang_pts = [a.get("要点", "") for a in angles if a.get("要点")]
+    ang_join = "；".join(ang_pts[:3]) if ang_pts else ""
+    if ang_join:
+        analysis = (f"本案核心症结——{prob_txt}。"
+                    f"从{tpl['label']}的惯常逻辑看，最值得警惕的是：{ang_join}。")
+    else:
+        analysis = f"本案核心症结——{prob_txt}。"
+
+    # —— 风险研判 + 同行启示（行动建议）——
+    level, lcolor = risk_grade(tpl["severity"], tpl["universal"])
+    lesson_pts = [a.get("要点", "") for a in angles
+                  if a.get("视角") in ("财务视角", "战略视角", "运营视角")]
+    if not lesson_pts:
+        lesson_pts = ang_pts[:2]
+    lesson = "；".join(lesson_pts[:2]) if lesson_pts else ang_join
+    risk_reason = ("该类问题在中小制造业中冲突性强、普遍性高，单家出事易引发连锁" if level == "高风险"
+                   else "该类问题在局部企业或景气下行周期中易集中暴露" if level == "中风险"
+                   else "该类问题多与特定经营决策或管理短板相关，影响面相对可控")
+    return f"""
+  <div class="blk review">
+    <div class="blkh">案例综述 · 摘要 + 分析</div>
+    <div class="rev-gist"><b>摘要：</b>{gist}</div>
+    <div class="rev-facts">{facts_html}</div>
+    <div class="rev-sec"><b>问题剖析：</b>{analysis}</div>
+    <div class="rev-sec"><b>风险研判：</b><span class="risk" style="color:{lcolor}">● {level}</span> {risk_reason}。<b>同行启示：</b>{lesson}。</div>
+  </div>"""
+
+
 def render_dashboard(intel_dir, cards, today_cards, today):
     pt_counter = Counter(c.get("problem_type", "其他") for c in cards)
     top = sorted(cards, key=lambda x: x.get("score", 0), reverse=True)[:12]
@@ -391,16 +465,13 @@ def render_dashboard(intel_dir, cards, today_cards, today):
 
     hi = sum(1 for c in cards if c.get("score", 0) >= 80)
 
-    # 短视频工坊（第二模块）：先算，解剖卡里才能挂「查看底稿」跳转
-    workshop_html, script_map, kw_map = render_workshop(intel_dir)
-    ws_count = len(script_map)
+    # 短视频工坊已取消（2026-10）：不再渲染底稿 / 口播模块
+    workshop_html = ""
 
     def dissect_block(c):
         pcolor = PT_COLORS.get(c.get("problem_type"), "#6b7280")
         problems = "".join(f"<li>{p}</li>" for p in c.get("problems", [])) or "<li>（采集层未标注具体问题）</li>"
         angles = "".join(f"<li><b>{a['视角']}</b>：{a['要点']}</li>" for a in c.get("angles", []))
-        sc = c.get("script", {})
-        points = "".join(f"<li>{p}</li>" for p in sc.get("points", []))
         return f"""
 <div class="dcard" id="dc-{c.get('card_id','')}" data-pt="{c.get('problem_type','')}" data-score="{c.get('score',0)}" data-date="{c.get('added', c.get('date',''))}">
   <div class="dcard-head">
@@ -412,14 +483,7 @@ def render_dashboard(intel_dir, cards, today_cards, today):
   <div class="dsum">{c.get('summary','')}</div>
   <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss">{problems}</ul></div>
   <div class="blk"><div class="blkh">解剖视角（自动挂接）</div><ul class="ang">{angles}</ul></div>
-    <div class="blk script">
-    <div class="blkh">短视频脚本框架</div>
-    <div class="sh">🎬 开场钩子：{sc.get('hook','')}</div>
-    <ul class="pts">{points}</ul>
-    <div class="se">💡 结尾避坑：{sc.get('ending','')}</div>
-    <div class="smeta">时长 {sc.get('duration','')} · {sc.get('style','')}
-      {"· <a class='wlink' href='#ws-" + c.get("card_id","") + "'>查看已生成底稿 ↓</a>" if c.get("card_id") in script_map else ""}</div>
-  </div>
+  {build_review(c)}
 </div>"""
 
     top_html = "".join(
@@ -486,6 +550,15 @@ td.num{{font-weight:700;color:#dc2626}}
 .sh{{font-size:12px;color:#92400e;font-weight:600;margin-bottom:4px}}
 .se{{font-size:12px;color:#15803d;font-weight:600;margin-top:4px}}
 .smeta{{font-size:11px;color:#9ca3af;margin-top:6px}}
+/* ── 案例综述 ── */
+.review{{border-color:#e0e7ff;background:#f8faff}}
+.rev-gist{{font-size:12.5px;color:#374151;line-height:1.7;margin-bottom:8px}}
+.rev-facts{{display:flex;flex-wrap:wrap;gap:6px 14px;margin-bottom:8px;padding:8px 10px;background:#fff;border:1px solid #eef2f7;border-radius:8px}}
+.rf{{font-size:11.5px;color:#6b7280}}
+.rf b{{color:#374151;margin-right:5px;font-weight:600}}
+.rev-sec{{font-size:12.5px;color:#4b5563;line-height:1.7;margin-top:6px}}
+.rev-sec b{{color:#1f2937}}
+.risk{{font-weight:700;font-size:12px;margin-right:4px}}
 .filterbar{{display:none;align-items:center;gap:10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px}}
 .filterbar.show{{display:flex}}
 .filterbar .ftxt{{color:#9a3412;font-weight:600}}
@@ -582,7 +655,6 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
     <div class="stat" onclick="goDissect('today')"><div class="n">{len(today_cards)}</div><div class="l">今日新增</div></div>
     <div class="stat" onclick="goTypes()"><div class="n">{len(pt_counter)}</div><div class="l">问题类型</div></div>
     <div class="stat" onclick="goDissect('high')"><div class="n">{hi}</div><div class="l">高分素材(≥80)</div></div>
-    <div class="stat" onclick="goWorkshop()"><div class="n">{ws_count}</div><div class="l">可开剪底稿</div></div>
   </div>
   <div class="refbar">
     <button id="refbtn" class="refbtn" onclick="doRefresh()">刷新</button>
@@ -605,70 +677,10 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
 <div class="section" id="sec-dissect"><h2>自动解剖卡（全部 {len(cards)} 张，可筛选）</h2>
 <div class="dissect-grid">{dissect_html}</div></div>
 
-{workshop_html}
-
-<footer>由 intel_processor.py + dissect.py + workshop.py 自动生成 · 数据源：公开网络 WebSearch · 仅作短视频选题参考</footer>
+<footer>由 intel_processor.py + dissect.py 自动生成 · 数据源：公开网络 WebSearch · 仅作制造业案例研究参考</footer>
 </div>
 <script>
 var TODAY = "{today}";
-var WS = {json.dumps(script_map, ensure_ascii=False)};
-function copyScript(cid, btn){{
-  var t = WS[cid] || "";
-  var old = btn.textContent;
-  function done(ok){{
-    btn.textContent = ok ? "已复制 ✓" : "复制失败";
-    setTimeout(function(){{ btn.textContent = old; }}, 1400);
-  }}
-  if(navigator.clipboard && navigator.clipboard.writeText){{
-    navigator.clipboard.writeText(t).then(function(){{ done(true); }}, function(){{ done(false); }});
-  }} else {{
-    var ta=document.createElement("textarea"); ta.value=t; document.body.appendChild(ta);
-    ta.select(); var ok=false; try{{ ok=document.execCommand("copy"); }}catch(e){{}}
-    document.body.removeChild(ta); done(ok);
-  }}
-}}
-function goWorkshop(){{ scrollToId("sec-workshop"); }}
-var WSKW = {json.dumps(kw_map, ensure_ascii=False)};
-// ── 素材采集单：勾选进度存浏览器本地（离线 App 里也能存住）
-function wsProg(box){{
-  var all=box.querySelectorAll(".mrow"), n=0;
-  all.forEach(function(r){{
-    var c=r.querySelector("input");
-    r.classList.toggle("done", c.checked);
-    if(c.checked) n++;
-  }});
-  var p=box.querySelector(".wmprog");
-  if(p) p.textContent = n+" / "+all.length+" 条已办";
-}}
-function wsToggle(el){{
-  var box=el.closest(".wmats"), row=el.closest(".mrow");
-  try{{
-    if(el.checked) localStorage.setItem("yrd_ws_"+box.dataset.cid+"_"+row.dataset.n,"1");
-    else localStorage.removeItem("yrd_ws_"+box.dataset.cid+"_"+row.dataset.n);
-  }}catch(e){{}}
-  wsProg(box);
-}}
-function wsInit(){{
-  document.querySelectorAll(".wmats").forEach(function(box){{
-    box.querySelectorAll(".mrow").forEach(function(r){{
-      var c=r.querySelector("input");
-      try{{ c.checked = !!localStorage.getItem("yrd_ws_"+box.dataset.cid+"_"+r.dataset.n); }}catch(e){{}}
-    }});
-    wsProg(box);
-  }});
-}}
-function wsCopyKw(cid, btn){{
-  var t = WSKW[cid] || "";
-  var old = btn.textContent;
-  function done(ok){{ btn.textContent = ok ? "已复制 ✓" : "复制失败"; setTimeout(function(){{ btn.textContent=old; }},1400); }}
-  if(navigator.clipboard && navigator.clipboard.writeText){{
-    navigator.clipboard.writeText(t).then(function(){{ done(true); }}, function(){{ done(false); }});
-  }} else {{
-    var ta=document.createElement("textarea"); ta.value=t; document.body.appendChild(ta);
-    ta.select(); var ok=false; try{{ ok=document.execCommand("copy"); }}catch(e){{}}
-    document.body.removeChild(ta); done(ok);
-  }}
-}}
 function scrollToId(id){{ var el=document.getElementById(id); if(el) el.scrollIntoView({{behavior:"smooth",block:"start"}}); }}
 function scrollToDc(e, a){{
   e.preventDefault();
@@ -718,7 +730,6 @@ function doRefresh(){{
 window.__yrdRefreshStatus=function(m){{ setRef(m); }};
 window.__yrdRefreshDone=function(m){{ setRef(m,"ok"); setTimeout(function(){{ location.reload(); }},900); }};
 window.__yrdRefreshFail=function(m){{ REF_BUSY=false; var b=document.getElementById("refbtn"); b.disabled=false; b.textContent="刷新"; setRef(m,"err"); }};
-wsInit();
 document.querySelectorAll(".row.clickable").forEach(function(r){{
   r.addEventListener("click", function(){{
     var pt=r.dataset.pt; scrollToId("sec-dissect");
@@ -772,7 +783,6 @@ def render_daily_report(intel_dir, today_cards, today):
                              f"- 背景：{c.get('summary','')}\n"
                              f"- 企业问题：{'；'.join(c.get('problems',[])) or '（未标注）'}\n"
                              f"- 解剖视角：{'; '.join(a['视角'] for a in c.get('angles',[]))}\n"
-                             f"- 脚本钩子：{c.get('script',{}).get('hook','')}\n"
                              f"- 链接：{c.get('url','')}\n")
         lines.append("\n---\n_由 intel_processor.py 自动汇总，完整解剖看板见 index.html_")
         md = "\n".join(lines)
