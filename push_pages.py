@@ -27,14 +27,12 @@ FILES = [
     "icon-512.png",
     "icon-1024.png",
     "manifest.webmanifest",
-    "workshop-template.xlsx",
-    "video-SOP.md",
     "collect.py",
     "dissect.py",
     "queries.py",
     "intel_processor.py",
-    "workshop.py",
     "sync_cloud.py",
+    "push_pages.py",
     "refresh_via_actions.sh",
     ".github/workflows/refresh.yml",
     "raw_20260929.json",
@@ -55,13 +53,20 @@ def all_targets():
     return todos
 
 
-def gh_api(args):
-    return subprocess.run(["gh", "api", *args], capture_output=True, text=True)
+def gh_api(args, input_text=None):
+    # 大文件 base64 经 -f content=... 传命令行参数会触发 macOS ARG_MAX "Argument list too long"。
+    # 改为统一用 --input - 从 stdin 喂 JSON body，彻底规避参数长度上限。
+    if input_text is not None:
+        p = subprocess.run(["gh", "api", *args, "--input", "-"],
+                           input=input_text, capture_output=True, text=True)
+    else:
+        p = subprocess.run(["gh", "api", *args], capture_output=True, text=True)
+    return p
 
 
 def get_sha(path):
     """取远端 blob sha（更新已有文件必须带，否则 422 "sha wasn't supplied"）。
-    网络抖动时这一步会失败/返回截断 → 重试 4 次，别被一次失败判定成"文件有问题"。"""
+    网络抖动时这一步会失败/返回截断 → 重试 4 次，别被一次失败判定成"文件有问题"."""
     for _ in range(4):
         r = gh_api([f"repos/{REPO}/contents/{path}", "--jq", ".sha"])
         if r.returncode == 0:
@@ -117,15 +122,11 @@ def push_file(fname):
     b64 = base64.b64encode(data).decode("ascii")  # 无换行，符合 GitHub base64 要求
     for attempt in range(3):
         sha = get_sha(api_path)
-        cmd = [
-            f"repos/{REPO}/contents/{api_path}",
-            "-X", "PUT",
-            "-f", f"message=deploy: update {api_path}",
-            "-f", f"content={b64}",
-        ]
+        body = {"message": f"deploy: update {api_path}", "content": b64}
         if sha:
-            cmd += ["-f", f"sha={sha}"]
-        r = gh_api(cmd)
+            body["sha"] = sha
+        cmd = [f"repos/{REPO}/contents/{api_path}", "-X", "PUT"]
+        r = gh_api(cmd, input_text=json.dumps(body))
         if r.returncode == 0:
             print(f"[ok] {api_path} 推送成功" + ("（更新）" if sha else "（新建）"))
             return
