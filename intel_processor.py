@@ -379,8 +379,6 @@ def build_review(c):
     financial-report-analysis（风险识别 + 风险等级）。纯规则、可重跑、不依赖模型。"""
     pkey = c.get("problem_type_key") or "倒闭关停"
     tpl = dissect.get_template(pkey)
-    region = c.get("region", "") or "长三角"
-    ptype = c.get("problem_type", "")
     summary = (c.get("summary", "") or "").strip()
     problems = c.get("problems", []) or []
     angles = c.get("angles", []) or []
@@ -389,16 +387,6 @@ def build_review(c):
     gist = summary if summary else (c.get("title", "") or "（暂无素材摘要）")
     if len(gist) > 150:
         gist = gist[:150] + "…"
-
-    # —— 核心事实数据条（核心数据）——
-    facts = [
-        ("地区", region),
-        ("问题类型", ptype),
-        ("发生时间", c.get("date", "") or "—"),
-        ("信息来源", c.get("source", "") or "—"),
-        ("内容价值", "★%s" % c.get("score", 0)),
-    ]
-    facts_html = "".join(f'<span class="rf"><b>{k}</b>{v}</span>' for k, v in facts)
 
     # —— 问题剖析（关键洞察）：把具体问题点 + 解剖视角编织成叙述 ——
     if problems:
@@ -427,7 +415,6 @@ def build_review(c):
   <div class="blk review">
     <div class="blkh">案例综述 · 摘要 + 分析</div>
     <div class="rev-gist"><b>摘要：</b>{gist}</div>
-    <div class="rev-facts">{facts_html}</div>
     <div class="rev-sec"><b>问题剖析：</b>{analysis}</div>
     <div class="rev-sec"><b>风险研判：</b><span class="risk" style="color:{lcolor}">● {level}</span> {risk_reason}。<b>同行启示：</b>{lesson}。</div>
   </div>"""
@@ -554,9 +541,6 @@ td.num{{font-weight:700;color:#dc2626}}
 /* ── 案例综述 ── */
 .review{{border-color:#e0e7ff;background:#f8faff}}
 .rev-gist{{font-size:12.5px;color:#374151;line-height:1.7;margin-bottom:8px}}
-.rev-facts{{display:flex;flex-wrap:wrap;gap:6px 14px;margin-bottom:8px;padding:8px 10px;background:#fff;border:1px solid #eef2f7;border-radius:8px}}
-.rf{{font-size:11.5px;color:#6b7280}}
-.rf b{{color:#374151;margin-right:5px;font-weight:600}}
 .rev-sec{{font-size:12.5px;color:#4b5563;line-height:1.7;margin-top:6px}}
 .rev-sec b{{color:#1f2937}}
 .risk{{font-weight:700;font-size:12px;margin-right:4px}}
