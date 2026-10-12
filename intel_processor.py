@@ -30,6 +30,18 @@ import dissect  # 自动解剖引擎
 
 REGIONS = ["浙江", "江苏", "上海", "安徽", "长三角"]
 
+# 已从系统中删除的问题类型：不再入库、不再渲染、不再采集
+SKIP_TYPES = {"质量事故", "欠款劳资"}
+SKIP_LABELS = {"质量事故 / 召回", "欠款 / 劳资纠纷"}
+
+
+def is_skipped_type(item):
+    """判断条目是否属于已下线的问题类型（兼容 problem_type_key / label / raw key 三种形态）。"""
+    pkey = item.get("problem_type_key") or ""
+    plabel = item.get("problem_type") or ""
+    return pkey in SKIP_TYPES or plabel in SKIP_TYPES or plabel in SKIP_LABELS
+
+
 SOURCE_WEIGHT = {
     "gov.cn": 1.0, "gov": 0.95, "xinhua": 1.0, "people": 0.9,
     "stats": 0.95, "21jingji": 0.85, "yicai": 0.85, "stcn": 0.8,
@@ -177,7 +189,11 @@ def process(intel_dir):
             continue
         items = data if isinstance(data, list) else data.get("items", [])
         added = 0
+        skipped = 0
         for it in items:
+            if is_skipped_type(it):
+                skipped += 1
+                continue
             cid = card_id(it)
             if cid in existing_keys:
                 continue
@@ -185,7 +201,7 @@ def process(intel_dir):
             existing_keys.add(cid)
             added += 1
         processed.add(base)
-        print(f"[ok] {base}: 解析 {len(items)} 条，新增 {added} 条")
+        print(f"[ok] {base}: 解析 {len(items)} 条，新增 {added} 条，跳过已下线类型 {skipped} 条")
 
     if new_items:
         with open(db_path, "a", encoding="utf-8") as f:
@@ -226,8 +242,7 @@ def process(intel_dir):
 # ── 渲染 ──────────────────────────────────────────────
 PT_COLORS = {
     "倒闭关停": "#dc2626", "亏损": "#ea580c", "订单流失": "#d97706",
-    "转型失败": "#7c3aed", "质量事故": "#be123c", "欠款劳资": "#db2777",
-    "库存积压": "#0891b2", "现金流断裂": "#b91c1c",
+    "转型失败": "#7c3aed", "库存积压": "#0891b2", "现金流断裂": "#b91c1c",
 }
 REG_COLORS = {"浙江": "#dc2626", "江苏": "#16a34a", "上海": "#2563eb",
               "安徽": "#d97706", "长三角": "#7c3aed"}
