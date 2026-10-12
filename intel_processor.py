@@ -657,7 +657,7 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
 <body><div class="wrap">
 <header>
   <h1>长三角制造业 · 问题解剖情报平台</h1>
-  <div class="sub">公开网络采集问题企业案例 → 自动解剖（问题清单+分析视角+短视频脚本）· 更新于 {today}</div>
+  <div class="sub">公开网络采集问题企业案例 → 自动解剖（问题清单+案例综述）· 更新于 {today}</div>
   <div class="stats">
     <div class="stat" onclick="goDissect('all')"><div class="n">{len(cards)}</div><div class="l">累积解剖卡</div></div>
     <div class="stat" onclick="goDissect('today')"><div class="n">{len(today_cards)}</div><div class="l">今日新增</div></div>
@@ -853,7 +853,6 @@ def render_daily_report(intel_dir, today_cards, today):
                              f"- 地区：{c.get('region','')} · 来源：{c.get('source','')} · 日期：{c.get('date','')}\n"
                              f"- 背景：{c.get('summary','')}\n"
                              f"- 企业问题：{'；'.join(c.get('problems',[])) or '（未标注）'}\n"
-                             f"- 解剖视角：{'; '.join(a['视角'] for a in c.get('angles',[]))}\n"
                              f"- 链接：{c.get('url','')}\n")
         lines.append("\n---\n_由 intel_processor.py 自动汇总，完整解剖看板见 index.html_")
         md = "\n".join(lines)
