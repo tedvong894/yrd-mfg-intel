@@ -90,35 +90,12 @@ def detect_region(item):
     return "长三角" if "长三角" in text else item.get("region", "长三角")
 
 
-def score_item(item, ptype):
-    """内容价值评分（短视频素材视角）：冲突性/普遍性/可解剖性/可拍性。"""
-    t = dissect.PROBLEM_TYPES.get(ptype, dissect.PROBLEM_TYPES[dissect.DEFAULT_TYPE])
-    conflict = t["severity"] * 30
-    universal = t["universal"] * 25
-    problems = item.get("problems", [])
-    body = item.get("summary", "") or item.get("snippet", "")
-    analysable = min((len(problems) + (1 if body else 0)) / 4, 1) * 25
-    text = (item.get("title", "") + " " + body).lower()
-    film = 0
-    if any(k in text for k in ["厂", "公司", "集团", "企业", "老板"]):
-        film += 10
-    if re.search(r"\d", text):
-        film += 10
-    film = min(film, 20)
-    total = conflict + universal + analysable + film
-    return round(total, 1), {
-        "conflict": round(conflict, 1), "universal": round(universal, 1),
-        "analysable": round(analysable, 1), "filmable": round(film, 1),
-    }
-
-
 def build_card(item):
     text = item.get("title", "") + " " + item.get("snippet", "") + " " + item.get("summary", "")
     ptype = item.get("problem_type") or dissect.infer_type(text)
     region = detect_region(item)
     angles = dissect.get_angles(ptype)
     script = dissect.build_script(item, ptype, region)
-    sc, detail = score_item(item, ptype)
     return {
         "card_id": card_id(item),
         "title": item.get("title", ""),
@@ -135,8 +112,6 @@ def build_card(item):
         "query": item.get("query", ""),
         "date": item.get("date", datetime.date.today().isoformat()),
         "added": datetime.date.today().isoformat(),   # 入库日期（用于"今日新增"统计，区别于文章发布时间）
-        "score": sc,
-        "score_detail": detail,
     }
 
 
@@ -378,60 +353,33 @@ def render_workshop(intel_dir):
     return html, script_map, kw_map
 
 
-def risk_grade(severity, universal):
-    """风险等级（financial-report-analysis 方法论：风险识别 + 风险等级）。"""
-    s = severity * universal
-    if s >= 0.7:
-        return "高风险", "#dc2626"
-    if s >= 0.55:
-        return "中风险", "#ea580c"
-    return "需关注", "#2563eb"
-
-
 def build_review(c):
-    """案例综述：对原素材（summary/problems/angles）做「摘要 + 分析」。
-    方法论参照 data-analysis-plus（核心数据 → 关键洞察 → 行动建议）与
-    financial-report-analysis（风险识别 + 风险等级）。纯规则、可重跑、不依赖模型。"""
-    pkey = c.get("problem_type_key") or "倒闭关停"
-    tpl = dissect.get_template(pkey)
+    """案例综述：对原素材做摘要 + 要点整理，保留原素材内容，不做固定化评价。"""
     summary = (c.get("summary", "") or "").strip()
     problems = c.get("problems", []) or []
     angles = c.get("angles", []) or []
 
-    # —— 摘要：原素材凝练（事件概述）——
+    # 摘要优先用原素材 summary，否则 fallback 到标题
     gist = summary if summary else (c.get("title", "") or "（暂无素材摘要）")
-    if len(gist) > 150:
-        gist = gist[:150] + "…"
 
-    # —— 问题剖析（关键洞察）：把具体问题点 + 解剖视角编织成叙述 ——
-    if problems:
-        prob_txt = "；".join(problems)
-    else:
-        prob_txt = "采集层未标注具体条目，可结合下方「解剖视角」对照行业通病自行研判"
-    ang_pts = [a.get("要点", "") for a in angles if a.get("要点")]
-    ang_join = "；".join(ang_pts[:3]) if ang_pts else ""
-    if ang_join:
-        analysis = (f"本案核心症结——{prob_txt}。"
-                    f"从{tpl['label']}的惯常逻辑看，最值得警惕的是：{ang_join}。")
-    else:
-        analysis = f"本案核心症结——{prob_txt}。"
+    # 要点整理：原素材的问题点 + 解剖视角要点，逐条列出，不编织评价
+    points = []
+    for p in problems:
+        points.append(p)
+    for a in angles:
+        pt = a.get("要点", "").strip()
+        if pt and pt not in points:
+            points.append(pt)
+    if not points:
+        points.append("采集层未标注具体条目")
 
-    # —— 风险研判 + 同行启示（行动建议）——
-    level, lcolor = risk_grade(tpl["severity"], tpl["universal"])
-    lesson_pts = [a.get("要点", "") for a in angles
-                  if a.get("视角") in ("财务视角", "战略视角", "运营视角")]
-    if not lesson_pts:
-        lesson_pts = ang_pts[:2]
-    lesson = "；".join(lesson_pts[:2]) if lesson_pts else ang_join
-    risk_reason = ("该类问题在中小制造业中冲突性强、普遍性高，单家出事易引发连锁" if level == "高风险"
-                   else "该类问题在局部企业或景气下行周期中易集中暴露" if level == "中风险"
-                   else "该类问题多与特定经营决策或管理短板相关，影响面相对可控")
+    points_html = "".join(f"<li>{p}</li>" for p in points[:6])
     return f"""
   <div class="blk review">
-    <div class="blkh">案例综述 · 摘要 + 分析</div>
+    <div class="blkh">案例综述</div>
     <div class="rev-gist"><b>摘要：</b>{gist}</div>
-    <div class="rev-sec"><b>问题剖析：</b>{analysis}</div>
-    <div class="rev-sec"><b>风险研判：</b><span class="risk" style="color:{lcolor}">● {level}</span> {risk_reason}。<b>同行启示：</b>{lesson}。</div>
+    <div class="rev-sec"><b>要点整理：</b></div>
+    <ul class="rev-list">{points_html}</ul>
   </div>"""
 
 
@@ -475,7 +423,6 @@ def render_company_bg(bg):
 
 def render_dashboard(intel_dir, cards, today_cards, today):
     pt_counter = Counter(c.get("problem_type", "其他") for c in cards)
-    top = sorted(cards, key=lambda x: x.get("score", 0), reverse=True)[:12]
 
     pt_max = max(pt_counter.values()) if pt_counter else 1
     pt_html = "".join(bar(p, n, pt_max, PT_COLORS.get(p, "#6b7280"), clickable=True, data_pt=p)
@@ -491,11 +438,11 @@ def render_dashboard(intel_dir, cards, today_cards, today):
     if months_sorted:
         items = []
         for m in months_sorted:
-            grp = sorted(month_groups[m], key=lambda x: x.get("score", 0), reverse=True)
+            grp = sorted(month_groups[m], key=lambda x: x.get("date", ""), reverse=True)
             rows = "".join(
                 f'<div class="mrow2"><span class="mtag2" style="background:{PT_COLORS.get(x.get("problem_type"),"#6b7280")}">{x.get("problem_type","")}</span>'
                 f'<a class="mtitle" href="#dc-{x.get("card_id","")}" onclick="scrollToDc(event,this)">{x.get("title","")}</a>'
-                f'<span class="mscore">★{x.get("score",0)}</span></div>'
+                f'<span class="mdate">{x.get("date","")}</span></div>'
                 for x in grp)
             items.append(
                 f'<details class="wdet wmonth"><summary>{m} · {len(grp)} 张</summary>'
@@ -503,8 +450,6 @@ def render_dashboard(intel_dir, cards, today_cards, today):
         month_html = "".join(items)
     else:
         month_html = ""
-
-    hi = sum(1 for c in cards if c.get("score", 0) >= 80)
 
     # 短视频工坊已取消（2026-10）：不再渲染底稿 / 口播模块
     workshop_html = ""
@@ -515,10 +460,9 @@ def render_dashboard(intel_dir, cards, today_cards, today):
         problems = "".join(f"<li>{p}</li>" for p in c.get("problems", [])) or "<li>（采集层未标注具体问题）</li>"
         bg = render_company_bg(c.get("company_bg"))
         return f"""
-<div class="dcard" id="dc-{cid}" data-pt="{c.get('problem_type','')}" data-score="{c.get('score',0)}" data-date="{c.get('added', c.get('date',''))}">
+<div class="dcard" id="dc-{cid}" data-pt="{c.get('problem_type','')}" data-date="{c.get('added', c.get('date',''))}">
   <div class="dcard-head">
     <span class="pt" style="background:{pcolor}">{c.get('problem_type','')}</span>
-    <span class="dscore">内容价值 ★ {c.get('score',0)}</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('{cid}')" title="收藏此案例（仅本浏览器标记）">☆</button>
       <button class="ddel" type="button" onclick="delCard('{cid}')" title="删除此案例（仅本浏览器隐藏）">✕</button>
@@ -532,14 +476,8 @@ def render_dashboard(intel_dir, cards, today_cards, today):
   {build_review(c)}
 </div>"""
 
-    top_html = "".join(
-        f'<tr><td>{i+1}</td><td><a href="{c.get("url","#")}" target="_blank" rel="noopener">{c.get("title","")}</a></td>'
-        f'<td><span class="pill" style="background:{PT_COLORS.get(c.get("problem_type"),"#6b7280")}">{c.get("problem_type","")}</span></td>'
-        f'<td>{c.get("region","")}</td><td class="num">★ {c.get("score",0)}</td></tr>'
-        for i, c in enumerate(top))
-
-    # 解剖卡全量渲染（供筛选），按评分降序
-    dissect_all = sorted(cards, key=lambda x: x.get("score", 0), reverse=True)
+    # 解剖卡全量渲染（供筛选），按文章发布日期降序
+    dissect_all = sorted(cards, key=lambda x: x.get("date", ""), reverse=True)
     dissect_html = "".join(dissect_block(c) for c in dissect_all) or '<div class="empty">暂无数据</div>'
 
     html = f"""<!DOCTYPE html>
@@ -578,13 +516,11 @@ header .sub{{color:#6b7280;font-size:13px;margin-top:6px}}
 table{{width:100%;border-collapse:collapse;font-size:13px}}
 th,td{{text-align:left;padding:9px 8px;border-bottom:1px solid #f0f2f5}}
 th{{color:#6b7280;font-weight:600;font-size:12px}}
-td.num{{font-weight:700;color:#dc2626}}
 .pill{{color:#fff;font-size:11px;padding:2px 8px;border-radius:20px}}
 .dissect-grid{{display:grid;grid-template-columns:repeat(auto-fill,minmax(360px,1fr));gap:16px}}
 .dcard{{background:#f8fafc;border:1px solid #e5e7eb;border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:10px}}
 .dcard-head{{display:flex;justify-content:flex-start;align-items:center;gap:10px}}
 .pt{{color:#fff;font-size:12px;font-weight:600;padding:3px 10px;border-radius:20px;white-space:nowrap}}
-.dscore{{font-size:13px;font-weight:700;color:#dc2626;margin-left:auto;white-space:nowrap}}
 .dtitle{{font-size:15px;font-weight:600;color:#111827;text-decoration:none;line-height:1.4}}
 .dtitle:hover{{text-decoration:underline}}
 .dmeta{{font-size:11px;color:#9ca3af}}
@@ -601,7 +537,7 @@ td.num{{font-weight:700;color:#dc2626}}
 .rev-gist{{font-size:12.5px;color:#374151;line-height:1.7;margin-bottom:8px}}
 .rev-sec{{font-size:12.5px;color:#4b5563;line-height:1.7;margin-top:6px}}
 .rev-sec b{{color:#1f2937}}
-.risk{{font-weight:700;font-size:12px;margin-right:4px}}
+.rev-list{{margin:6px 0 0 18px;padding-left:18px;font-size:12.5px;color:#4b5563;line-height:1.7}}
 /* ── 涉事公司背景 ── */
 .bgblk{{border-color:#e7f0e9;background:#f6fbf7}}
 .bgrow{{display:flex;gap:8px;font-size:12px;line-height:1.6;margin:3px 0}}
@@ -714,7 +650,7 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
 .mtag2{{color:#fff;font-size:10.5px;padding:1px 7px;border-radius:20px;white-space:nowrap}}
 .mtitle{{color:#374151;text-decoration:none;line-height:1.45}}
 .mtitle:hover{{color:#2f5597;text-decoration:underline}}
-.mscore{{color:#dc2626;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}}
+.mdate{{font-size:11px;color:#9ca3af;white-space:nowrap;font-variant-numeric:tabular-nums}}
 .dcard.flash{{box-shadow:0 0 0 3px rgba(220,38,38,.18);border-color:#fca5a5;transition:.2s}}
 @media(max-width:560px){{.mrow{{grid-template-columns:auto 1fr}}.mqty{{grid-column:2;padding-top:2px}}}}
 </style></head>
@@ -726,7 +662,6 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
     <div class="stat" onclick="goDissect('all')"><div class="n">{len(cards)}</div><div class="l">累积解剖卡</div></div>
     <div class="stat" onclick="goDissect('today')"><div class="n">{len(today_cards)}</div><div class="l">今日新增</div></div>
     <div class="stat" onclick="goTypes()"><div class="n">{len(pt_counter)}</div><div class="l">问题类型</div></div>
-    <div class="stat" onclick="goDissect('high')"><div class="n">{hi}</div><div class="l">高分素材(≥80)</div></div>
   </div>
   <div class="refbar">
     <button id="refbtn" class="refbtn" onclick="doRefresh()">刷新</button>
@@ -753,10 +688,6 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
 
 <div class="section" id="sec-types"><h2>问题类型分布（点击柱状条可筛选下方解剖卡）</h2>{pt_html or '<div class="empty">暂无数据</div>'}</div>
 <div class="section" id="sec-months"><h2>按时间分类 · 月度（点击月份展开，共 {len(months_sorted)} 个月）</h2>{month_html or '<div class="empty">暂无数据</div>'}</div>
-
-<div class="section" id="sec-top"><h2>内容价值评分 Top 12</h2>
-<table><thead><tr><th>#</th><th>标题</th><th>问题类型</th><th>地区</th><th>评分</th></tr></thead>
-<tbody>{top_html or '<tr><td colspan="5" class="empty">暂无数据</td></tr>'}</tbody></table></div>
 
 <div class="section" id="sec-dissect"><h2>自动解剖卡（全部 {len(cards)} 张，可筛选）</h2>
 <div class="dissect-grid">{dissect_html}</div></div>
@@ -827,16 +758,15 @@ function scrollToDc(e, a){{
 }}
 function showFilter(text){{ var b=document.getElementById("filterbar"); document.getElementById("filtertxt").textContent=text; b.classList.add("show"); }}
 function applyFilter(opt){{
-  var pt=opt.pt||null, minScore=opt.minScore||0, todayOnly=opt.todayOnly||false, favOnly=opt.favOnly||false, shown=0;
+  var pt=opt.pt||null, todayOnly=opt.todayOnly||false, favOnly=opt.favOnly||false, shown=0;
   var del=getDel(), fav=getFav();
   document.querySelectorAll(".dcard").forEach(function(c){{
     var cid=c.id.slice(3);
     var okPt=!pt||c.dataset.pt===pt;
-    var okScore=parseFloat(c.dataset.score)>=minScore;
     var okToday=!todayOnly||c.dataset.date===TODAY;
     var okFav=!favOnly||fav.indexOf(cid)>=0;
     var okDel=del.indexOf(cid)<0;
-    var ok=okPt&&okScore&&okToday&&okFav&&okDel;
+    var ok=okPt&&okToday&&okFav&&okDel;
     c.style.display=ok?"":"none"; if(ok) shown++;
   }});
   return shown;
@@ -845,7 +775,6 @@ function goDissect(kind){{
   scrollToId("sec-dissect");
   if(kind==="all"){{ applyFilter({{}}); document.getElementById("filterbar").classList.remove("show"); }}
   else if(kind==="today"){{ var n=applyFilter({{todayOnly:true}}); showFilter("筛选：今日新增（"+n+" 张）"); }}
-  else if(kind==="high"){{ var n=applyFilter({{minScore:80}}); showFilter("筛选：高分素材 ≥80（"+n+" 张）"); }}
 }}
 function goTypes(){{ scrollToId("sec-types"); }}
 function clearFilter(){{ applyFilter({{}}); document.getElementById("filterbar").classList.remove("show"); }}
@@ -919,9 +848,9 @@ def render_daily_report(intel_dir, today_cards, today):
             by_pt.setdefault(c.get("problem_type", "其他"), []).append(c)
         for pt, items in by_pt.items():
             lines.append(f"\n## {pt}（{len(items)}）\n")
-            for c in sorted(items, key=lambda x: x.get("score", 0), reverse=True):
-                lines.append(f"### {c.get('title','')} ★{c.get('score',0)}\n"
-                             f"- 地区：{c.get('region','')} · 来源：{c.get('source','')}\n"
+            for c in sorted(items, key=lambda x: x.get("date", ""), reverse=True):
+                lines.append(f"### {c.get('title','')}\n"
+                             f"- 地区：{c.get('region','')} · 来源：{c.get('source','')} · 日期：{c.get('date','')}\n"
                              f"- 背景：{c.get('summary','')}\n"
                              f"- 企业问题：{'；'.join(c.get('problems',[])) or '（未标注）'}\n"
                              f"- 解剖视角：{'; '.join(a['视角'] for a in c.get('angles',[]))}\n"
