@@ -79,7 +79,8 @@ def get_sha(path):
 
 
 def union_db_safety(fname):
-    """推送 intel_db.jsonl 前，先与远端做 card_id 并集，避免本地旧数据覆盖云端新增。"""
+    """推送 intel_db.jsonl 前，先与远端做 card_id 并集，避免本地旧数据覆盖云端新增。
+    同时过滤已下线的问题类型，防止云端旧数据把本地已删除类型恢复回来。"""
     if fname != "intel_db.jsonl":
         return
     lp = os.path.join(HERE, fname)
@@ -92,6 +93,9 @@ def union_db_safety(fname):
         remote = base64.b64decode("".join(r.stdout.split())).decode("utf-8")
     except Exception:
         return
+    # 已下线问题类型（与 intel_processor.py 保持一致）
+    skip_types = {"质量事故", "欠款劳资"}
+    skip_labels = {"质量事故 / 召回", "欠款 / 劳资纠纷"}
     seen, merged = set(), []
     for line in (remote + "\n" + open(lp, encoding="utf-8").read()).splitlines():
         line = line.strip()
@@ -104,12 +108,16 @@ def union_db_safety(fname):
         cid = obj.get("card_id")
         if cid in seen:
             continue
+        pk = obj.get("problem_type_key") or ""
+        pl = obj.get("problem_type") or ""
+        if pk in skip_types or pl in skip_types or pl in skip_labels:
+            continue
         seen.add(cid)
         merged.append(obj)
     with open(lp, "w", encoding="utf-8") as f:
         for obj in merged:
             f.write(json.dumps(obj, ensure_ascii=False) + "\n")
-    print(f"[union] {fname}: 推送前并集 {len(merged)} 条（防覆盖云端新增）")
+    print(f"[union] {fname}: 推送前并集 {len(merged)} 条（防覆盖云端新增，已过滤下线类型）")
 
 
 def push_file(fname):
