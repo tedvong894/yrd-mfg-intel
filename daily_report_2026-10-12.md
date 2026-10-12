@@ -1,6 +1,6 @@
 # 长三角制造业问题解剖日报（2026-10-12）
 
-今日新增 **10** 张解剖卡。
+今日新增 **12** 张解剖卡。
 
 
 ## 质量事故 / 召回（3）
@@ -86,6 +86,23 @@
 - 企业问题：存货积压5.13亿元减值风险大；应收账款5.43亿元回款延迟；连续三年主业亏损；依赖借款推高财务费用
 - 解剖视角：财务视角; 产品视角; 运营视角; 市场视角
 - 链接：https://www.sohu.com/a/958475064_313745
+
+
+## 倒闭 / 关停（2）
+
+### 浙江外贸工厂破产，负债1.2亿，无力偿还 ★80.0
+- 地区：浙江 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">电商派</font>
+- 企业问题：浙江外贸工厂破产，负债1.2亿，无力偿还
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 链接：https://news.google.com/rss/articles/CBMiYEFVX3lxTE5OX3REcjBnb3NrYWtYN2JmejJIZjlpR3V5dnpYSG1pMkhNNDJQTmpRT2VEcTBiMzZMLURwRTEtdmhRaE5oaWxNaERVVUFpUWJmbWplVzEtekhiY2lzX3RSRA?oc=5
+
+### 最大豪车经销商跑路？背后老板是神秘富豪，实控210家公司 ★80.0
+- 地区：长三角 · 来源：news.google.com
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">汽车之家</font>
+- 企业问题：最大豪车经销商跑路
+- 解剖视角：战略视角; 财务视角; 运营视角; 心智视角
+- 链接：https://news.google.com/rss/articles/CBMiW0FVX3lxTE1WTVY5TEY2dW03UjVBU3l0VXhtUWQzaWtjUlk2c0lieDZmY1U3clNUWm5DbFBid1QyUjVXVTE2UEliQWtOUThQdmh4QW1USnZvTy1ENUhLeU1uTTQ?oc=5
 
 
 ---
