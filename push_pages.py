@@ -38,15 +38,16 @@ FILES = [
     "raw_20260929.json",
     "intel_db.jsonl",
     "manifest.json",
-    "daily_report_2026-09-29.md",
     "README.md",
     ".gitignore",
 ]
 
 
 def all_targets():
-    """FILES + workshop 目录下的底稿（xlsx / index.json）。"""
+    """FILES + 日报 + workshop 目录下的底稿（xlsx / index.json）。"""
     todos = list(FILES)
+    for p in sorted(glob.glob(os.path.join(HERE, "daily_report_*.md"))):
+        todos.append(os.path.basename(p))
     for p in sorted(glob.glob(os.path.join(HERE, "workshop", "*"))):
         if os.path.isfile(p):
             todos.append("workshop/" + os.path.basename(p))
