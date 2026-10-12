@@ -22,6 +22,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 # 需要发布的文件（相对 intel 目录）
 FILES = [
     "index.html",
+    "dashboard.html",
     "apple-touch-icon.png",
     "icon-192.png",
     "icon-512.png",
