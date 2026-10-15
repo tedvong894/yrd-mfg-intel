@@ -217,6 +217,7 @@ def build_item(row, q):
         "url": row["url"],
         "snippet": row.get("desc", "")[:300],
         "summary": row.get("desc", "")[:220],
+        "content": text[:1500],   # 完整原文摘录（供案例综述按 6 角度归类，尽量多保留）
         "source": domain_of(row["url"]),
         "query": q,
         "date": to_iso(row.get("pub", "")),
