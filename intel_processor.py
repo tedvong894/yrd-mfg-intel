@@ -94,7 +94,6 @@ def build_card(item):
     text = item.get("title", "") + " " + item.get("snippet", "") + " " + item.get("summary", "")
     ptype = item.get("problem_type") or dissect.infer_type(text)
     region = detect_region(item)
-    angles = dissect.get_angles(ptype)
     script = dissect.build_script(item, ptype, region)
     return {
         "card_id": card_id(item),
@@ -106,8 +105,8 @@ def build_card(item):
         "problem_type_key": ptype,
         "tags": item.get("tags", []),
         "summary": item.get("summary", item.get("snippet", "")),
+        "content": item.get("content", ""),
         "problems": item.get("problems", []),
-        "angles": angles,
         "script": script,
         "query": item.get("query", ""),
         "date": item.get("date", datetime.date.today().isoformat()),
@@ -353,34 +352,75 @@ def render_workshop(intel_dir):
     return html, script_map, kw_map
 
 
+# 案例综述的 6 个整理方向（与搜集方向一致）+ 每个方向的原文命中关键词。
+# 仅用关键词把「原文句子」归入对应方向，保留原句、不做改写评价；无命中的句子丢弃（多为套话/导流语）。
+REVIEW_ANGLES = [
+    ("经营状况变化", ["营收", "营业收入", "销售额", "利润", "盈利", "亏损", "由盈转亏", "业绩", "毛利",
+                  "净利", "增收不增利", "下滑", "暴跌", "增长", "订单", "开工", "产能利用率", "停工", "半停"]),
+    ("扩产与设备投资", ["扩产", "扩建", "投产", "新建", "产线", "生产线", "设备", "投资", "技改", "产能",
+                   "智能化", "数字化", "自动化", "机器换人", "厂房", "用地", "重资产"]),
+    ("应收账款与资金压力", ["应收", "账款", "账期", "回款", "坏账", "资金", "现金流", "融资", "贷款", "借款",
+                    "负债", "债务", "垫资", "抵押", "资金链", "欠款", "拖欠", "断供", "发不出工资"]),
+    ("库存和成本管理", ["库存", "存货", "呆滞", "积压", "成本", "原料", "原材料", "采购", "损耗", "仓储",
+                   "涨价", "降价", "价格", "用工", "人工", "工资"]),
+    ("企业转型与经营决策", ["转型", "升级", "跨境", "电商", "内销", "转内", "多元化", "收缩", "剥离", "战略",
+                    "布局", "决策", "裁员", "关停", "搬迁", "出海", "并购", "外迁"]),
+    ("企业经营困难的原因", ["困难", "困境", "原因", "倒闭", "破产", "清算", "重整", "危机", "风险", "内卷",
+                    "竞争", "需求", "寒冬", "疲软", "压力", "夹击"]),
+]
+
+
+def _classify_sentence(s):
+    """句子 → 命中关键词最多的方向；无命中返回 None。"""
+    best, best_n = None, 0
+    for name, kws in REVIEW_ANGLES:
+        n = sum(1 for k in kws if k in s)
+        if n > best_n:
+            best, best_n = name, n
+    return best
+
+
+def _add_unique(bucket, s):
+    """按包含关系去重：新句是已有句的子串、或已有句是新句的子串，都不重复加。"""
+    for x in bucket:
+        if s in x or x in s:
+            return
+    bucket.append(s)
+
+
 def build_review(c):
-    """案例综述：对原素材做摘要 + 要点整理，保留原素材内容，不做固定化评价。"""
-    summary = (c.get("summary", "") or "").strip()
-    problems = c.get("problems", []) or []
-    angles = c.get("angles", []) or []
+    """案例综述：把原素材句子按 6 个搜集方向归类展示，只保留原文内容、不做归因评价。
+    素材池：content（采集层完整摘录，新卡才有）优先；旧卡退回 summary；problems 始终并入。"""
+    content = (c.get("content") or "").strip()
+    if content:
+        pool = [s.strip() for s in re.split(r"[。；;！!？?\n]", content) if len(s.strip()) >= 8]
+    else:
+        summary = (c.get("summary", "") or "").strip()
+        pool = [s.strip() for s in re.split(r"[。；;！!？?\n]", summary) if len(s.strip()) >= 8]
 
-    # 摘要优先用原素材 summary，否则 fallback 到标题
-    gist = summary if summary else (c.get("title", "") or "（暂无素材摘要）")
+    for p in c.get("problems", []) or []:
+        p = p.strip()
+        if p and p not in pool:
+            pool.append(p)
 
-    # 要点整理：原素材的问题点 + 解剖视角要点，逐条列出，不编织评价
-    points = []
-    for p in problems:
-        points.append(p)
-    for a in angles:
-        pt = a.get("要点", "").strip()
-        if pt and pt not in points:
-            points.append(pt)
-    if not points:
-        points.append("采集层未标注具体条目")
+    buckets = {name: [] for name, _ in REVIEW_ANGLES}
+    for s in pool:
+        if len(s) > 110:
+            s = s[:110] + "…"
+        name = _classify_sentence(s)
+        if name:
+            _add_unique(buckets[name], s)
 
-    points_html = "".join(f"<li>{p}</li>" for p in points[:6])
-    return f"""
-  <div class="blk review">
-    <div class="blkh">案例综述</div>
-    <div class="rev-gist"><b>摘要：</b>{gist}</div>
-    <div class="rev-sec"><b>要点整理：</b></div>
-    <ul class="rev-list">{points_html}</ul>
-  </div>"""
+    secs = []
+    for name, _ in REVIEW_ANGLES:
+        items = buckets[name][:8]
+        if not items:
+            continue
+        lis = "".join(f"<li>{x}</li>" for x in items)
+        secs.append(f'<div class="rev-sec"><b>{name}</b></div><ul class="rev-list">{lis}</ul>')
+    if not secs:
+        secs.append('<div class="rev-list">（原文未提取到可用要点，可点击标题查看原文）</div>')
+    return ('<div class="blk review"><div class="blkh">案例综述</div>' + "".join(secs) + "</div>")
 
 
 # 涉事公司背景字段顺序与中文标签（公开渠道检索填充，无则留空）
@@ -416,8 +456,7 @@ def render_company_bg(bg):
         if links:
             rows.append(f'<div class="bgrow"><span class="bgl">信息来源</span><span class="bgv">{links}</span></div>')
     if not rows:
-        return ('<div class="blk"><div class="blkh">涉事公司背景</div>'
-                '<div class="bgnone">暂未收录该公司背景（公开渠道未检索到，或非单一企业案例）</div></div>')
+        return ""   # 没有背景信息就不渲染该板块，避免占视线
     return '<div class="blk bgblk"><div class="blkh">涉事公司背景</div>' + "".join(rows) + '</div>'
 
 
@@ -457,7 +496,6 @@ def render_dashboard(intel_dir, cards, today_cards, today):
     def dissect_block(c):
         pcolor = PT_COLORS.get(c.get("problem_type"), "#6b7280")
         cid = c.get("card_id", "")
-        problems = "".join(f"<li>{p}</li>" for p in c.get("problems", [])) or "<li>（采集层未标注具体问题）</li>"
         bg = render_company_bg(c.get("company_bg"))
         return f"""
 <div class="dcard" id="dc-{cid}" data-pt="{c.get('problem_type','')}" data-date="{c.get('added', c.get('date',''))}">
@@ -471,7 +509,6 @@ def render_dashboard(intel_dir, cards, today_cards, today):
   <a class="dtitle" href="{c.get('url','#')}" target="_blank" rel="noopener">{c.get('title','')}</a>
   <div class="dmeta">{c.get('region','')} · {c.get('source','')} · {c.get('date','')}</div>
   <div class="dsum">{c.get('summary','')}</div>
-  <div class="blk"><div class="blkh">企业存在哪些问题</div><ul class="iss">{problems}</ul></div>
   {bg}
   {build_review(c)}
 </div>"""
@@ -652,7 +689,7 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
 <body><div class="wrap">
 <header>
   <h1>长三角制造业 · 问题解剖情报平台</h1>
-  <div class="sub">公开网络采集问题企业案例 → 自动解剖（问题清单+案例综述）· 更新于 {today}</div>
+  <div class="sub">公开网络采集问题企业案例 → 原文要点按 6 个经营角度整理 · 更新于 {today}</div>
   <div class="stats">
     <div class="stat" onclick="goDissect('all')"><div class="n">{len(cards)}</div><div class="l">累积解剖卡</div></div>
     <div class="stat" onclick="goDissect('today')"><div class="n">{len(today_cards)}</div><div class="l">今日新增</div></div>
