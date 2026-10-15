@@ -562,11 +562,6 @@ th{{color:#6b7280;font-weight:600;font-size:12px}}
 .favbar .fn{{font-weight:700;color:#e6a700}}
 .favbar .only{{color:#2f5597;cursor:pointer;font-weight:600;text-decoration:underline}}
 .favbar .clear{{margin-left:auto;color:#dc2626;cursor:pointer;font-weight:600;text-decoration:underline}}
-.delbar{{display:none;align-items:center;gap:12px;background:#fff7f7;border:1px solid #f3c9c9;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#9a3412}}
-.delbar.show{{display:flex}}
-.delbar .dn{{font-weight:700;color:#c0392b}}
-.delbar .clear{{margin-left:auto;color:#dc2626;cursor:pointer;font-weight:600;text-decoration:underline}}
-.delbar .export{{color:#2f5597;cursor:pointer;font-weight:600;text-decoration:underline}}
 .filterbar{{display:none;align-items:center;gap:10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px}}
 .filterbar.show{{display:flex}}
 .filterbar .ftxt{{color:#9a3412;font-weight:600}}
@@ -669,12 +664,6 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
   </div>
 </header>
 
-<div class="delbar" id="delbar">
-  <span>已删除 <b class="dn">0</b> 张（仅本浏览器隐藏，未真正删除数据）</span>
-  <span class="export" onclick="exportDel()">导出删除清单</span>
-  <span class="clear" onclick="restoreAll()">恢复全部</span>
-</div>
-
 <div class="favbar" id="favbar">
   <span>已收藏 <b class="fn">0</b> 张（仅本浏览器标记，未改源数据）</span>
   <span class="only" onclick="goFavOnly()">仅看收藏</span>
@@ -703,25 +692,9 @@ function saveDel(a){{ localStorage.setItem(DEL_KEY, JSON.stringify(a)); }}
 function delCard(cid){{
   var a = getDel(); if(a.indexOf(cid) < 0) a.push(cid); saveDel(a);
   var el = document.getElementById("dc-" + cid); if(el) el.style.display = "none";
-  updDelBar();
-}}
-function restoreAll(){{ localStorage.removeItem(DEL_KEY); location.reload(); }}
-function exportDel(){{
-  var a = getDel();
-  var blob = new Blob([JSON.stringify({{deleted:a, exported:new Date().toISOString()}}, null, 2)], {{type:"application/json"}});
-  var url = URL.createObjectURL(blob); var x = document.createElement("a");
-  x.href = url; x.download = "yrd_deleted_cards.json"; document.body.appendChild(x); x.click();
-  document.body.removeChild(x); URL.revokeObjectURL(url);
-}}
-function updDelBar(){{
-  var n = getDel().length, el = document.getElementById("delbar");
-  if(!el) return;
-  if(n > 0){{ el.classList.add("show"); el.querySelector(".dn").textContent = n; }}
-  else {{ el.classList.remove("show"); }}
 }}
 function applyDel(){{
   getDel().forEach(function(cid){{ var el = document.getElementById("dc-" + cid); if(el) el.style.display = "none"; }});
-  updDelBar();
 }}
 /* ── 卡片收藏（仅本浏览器 localStorage 标记，不改源数据）── */
 var FAV_KEY = "yrd_fav_cards";
