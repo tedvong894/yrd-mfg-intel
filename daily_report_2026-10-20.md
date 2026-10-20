@@ -1,9 +1,15 @@
 # 长三角制造业问题解剖日报（2026-10-20）
 
-今日新增 **26** 张解剖卡。
+今日新增 **27** 张解剖卡。
 
 
-## 倒闭 / 关停（10）
+## 倒闭 / 关停（11）
+
+### 人民日报：中小企业回款难，难在哪
+- 地区：长三角 · 来源：news.google.com · 日期：2026-10-18
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">新浪财经</font>
+- 企业问题：人民日报：中小企业回款难，难在哪
+- 链接：https://news.google.com/rss/articles/CBMi0AFBVV95cUxObjJnVlhuYk5Ka3g1bUs3S2h2VmFqQUNnSWsyOFhjd2pxRFRpekV2OC1YcF82LThCdDBfWWE2VHNHV3E0bUttdDBUQ1JmUTZHSXpzeTJ5Ymd0YXJwVy01bk42VnFLY2N2bkVyVFJBa3NlYzZWT2xxbkI4cF9PcnIyZXdJVUh0V2RxeWFhTWthSndQNkdSMVZxN2NMNXpDMGUtMjFVOWN5bDhxQmJYRUtkSEk2N0MtSDhKVk42dU4wcFhMVVRibWhOZFFVX3N4a205?oc=5
 
 ### 江苏光伏业如何化“危”为机?（常州比太科技）
 - 地区：江苏 · 来源：江苏经济报 · 日期：2026-10-12
