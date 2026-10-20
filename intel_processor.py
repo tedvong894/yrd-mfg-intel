@@ -538,6 +538,7 @@ header .sub{{color:#6b7280;font-size:13px;margin-top:6px}}
 .stats{{display:flex;gap:12px;margin-top:16px;flex-wrap:wrap}}
 .stat{{flex:1;min-width:120px;background:#f8fafc;border:1px solid #e5e7eb;border-radius:10px;padding:14px;cursor:pointer;transition:.15s}}
 .stat:hover{{border-color:#dc2626;box-shadow:0 2px 10px rgba(220,38,38,.08)}}
+.stat.favon{{border-color:#e3c25a;background:#fffdf4}}
 .stat .n{{font-size:24px;font-weight:700;color:#111827}}
 .stat .l{{font-size:12px;color:#6b7280;margin-top:4px}}
 .section{{background:#fff;border:1px solid #e5e7eb;border-radius:14px;padding:20px 24px;margin-bottom:18px;scroll-margin-top:16px}}
@@ -689,7 +690,7 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
     <div class="stat" onclick="goDissect('all')"><div class="n">{len(cards)}</div><div class="l">累积解剖卡</div></div>
     <div class="stat" onclick="goDissect('today')"><div class="n">{len(today_cards)}</div><div class="l">今日新增</div></div>
     <div class="stat" onclick="goTypes()"><div class="n">{len(pt_counter)}</div><div class="l">问题类型</div></div>
-    <div class="stat" onclick="goFavOnly()"><div class="n" id="favstatn">0</div><div class="l">我的收藏</div></div>
+    <div class="stat" id="favstat" onclick="goFavOnly()"><div class="n" id="favstatn">0</div><div class="l">我的收藏</div></div>
   </div>
   <div class="refbar">
     <button id="refbtn" class="refbtn" onclick="doRefresh()">刷新</button>
@@ -734,7 +735,15 @@ function favCard(cid){{
   else {{ a.splice(i,1); if(el) el.classList.remove("faved"); if(b){{ b.textContent = "☆"; b.classList.remove("on"); }} }}
   saveFav(a); updFavStat();
 }}
-function goFavOnly(){{ var n = applyFilter({{favOnly:true}}); showFilter("筛选：仅看收藏（" + n + " 张）"); }}
+var FAV_ONLY=false;
+function resetFavOnly(){{ FAV_ONLY=false; var s=document.getElementById("favstat"); if(s) s.classList.remove("favon"); }}
+function goFavOnly(){{
+  FAV_ONLY=!FAV_ONLY;
+  var s=document.getElementById("favstat");
+  if(s) s.classList.toggle("favon",FAV_ONLY);
+  var n=FAV_ONLY?applyFilter({{favOnly:true}}):applyFilter({{}});
+  if(FAV_ONLY) scrollToId("sec-dissect");
+}}
 function applyFav(){{
   getFav().forEach(function(cid){{
     var el = document.getElementById("dc-" + cid);
@@ -771,11 +780,12 @@ function applyFilter(opt){{
 }}
 function goDissect(kind){{
   scrollToId("sec-dissect");
+  resetFavOnly();
   if(kind==="all"){{ applyFilter({{}}); document.getElementById("filterbar").classList.remove("show"); }}
   else if(kind==="today"){{ var n=applyFilter({{todayOnly:true}}); showFilter("筛选：今日新增（"+n+" 张）"); }}
 }}
 function goTypes(){{ scrollToId("sec-types"); }}
-function clearFilter(){{ applyFilter({{}}); document.getElementById("filterbar").classList.remove("show"); }}
+function clearFilter(){{ resetFavOnly(); applyFilter({{}}); document.getElementById("filterbar").classList.remove("show"); }}
 var REF_BUSY=false;
 function setRef(msg,cls){{var s=document.getElementById("refstatus");s.textContent=msg;s.className="refstatus"+(cls?(" "+cls):"");}}
 function doRefresh(){{
