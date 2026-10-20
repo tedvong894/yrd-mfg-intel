@@ -594,11 +594,6 @@ th{{color:#6b7280;font-weight:600;font-size:12px}}
 .ddel{{border:1px solid #f0c9c9;background:#fff5f5;color:#c0392b;width:26px;height:26px;border-radius:6px;font-size:14px;line-height:1;cursor:pointer;font-family:inherit;transition:.15s;flex-shrink:0}}
 .ddel:hover{{background:#fdeaea;border-color:#e3a3a3}}
 .ddel:active{{transform:translateY(1px)}}
-.favbar{{display:none;align-items:center;gap:12px;background:#fffbeb;border:1px solid #f3e3a8;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px;color:#92710a}}
-.favbar.show{{display:flex}}
-.favbar .fn{{font-weight:700;color:#e6a700}}
-.favbar .only{{color:#2f5597;cursor:pointer;font-weight:600;text-decoration:underline}}
-.favbar .clear{{margin-left:auto;color:#dc2626;cursor:pointer;font-weight:600;text-decoration:underline}}
 .filterbar{{display:none;align-items:center;gap:10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px}}
 .filterbar.show{{display:flex}}
 .filterbar .ftxt{{color:#9a3412;font-weight:600}}
@@ -694,18 +689,13 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
     <div class="stat" onclick="goDissect('all')"><div class="n">{len(cards)}</div><div class="l">累积解剖卡</div></div>
     <div class="stat" onclick="goDissect('today')"><div class="n">{len(today_cards)}</div><div class="l">今日新增</div></div>
     <div class="stat" onclick="goTypes()"><div class="n">{len(pt_counter)}</div><div class="l">问题类型</div></div>
+    <div class="stat" onclick="goFavOnly()"><div class="n" id="favstatn">0</div><div class="l">我的收藏</div></div>
   </div>
   <div class="refbar">
     <button id="refbtn" class="refbtn" onclick="doRefresh()">刷新</button>
     <span id="refstatus" class="refstatus">每日 08:10 云端自动采集；也可点左侧按钮随时增量搜索（只加新案例）</span>
   </div>
 </header>
-
-<div class="favbar" id="favbar">
-  <span>已收藏 <b class="fn">0</b> 张（仅本浏览器标记，未改源数据）</span>
-  <span class="only" onclick="goFavOnly()">仅看收藏</span>
-  <span class="clear" onclick="clearFilter()">退出</span>
-</div>
 
 <div class="filterbar" id="filterbar">
   <span class="ftxt" id="filtertxt"></span>
@@ -742,7 +732,7 @@ function favCard(cid){{
   var el = document.getElementById("dc-" + cid), b = el ? el.querySelector(".dfav") : null;
   if(i < 0){{ a.push(cid); if(el) el.classList.add("faved"); if(b){{ b.textContent = "★"; b.classList.add("on"); }} }}
   else {{ a.splice(i,1); if(el) el.classList.remove("faved"); if(b){{ b.textContent = "☆"; b.classList.remove("on"); }} }}
-  saveFav(a); updFavBar();
+  saveFav(a); updFavStat();
 }}
 function goFavOnly(){{ var n = applyFilter({{favOnly:true}}); showFilter("筛选：仅看收藏（" + n + " 张）"); }}
 function applyFav(){{
@@ -750,13 +740,11 @@ function applyFav(){{
     var el = document.getElementById("dc-" + cid);
     if(el){{ el.classList.add("faved"); var b = el.querySelector(".dfav"); if(b){{ b.textContent = "★"; b.classList.add("on"); }} }}
   }});
-  updFavBar();
+  updFavStat();
 }}
-function updFavBar(){{
-  var n = getFav().length, el = document.getElementById("favbar");
-  if(!el) return;
-  if(n > 0){{ el.classList.add("show"); el.querySelector(".fn").textContent = n; }}
-  else {{ el.classList.remove("show"); }}
+function updFavStat(){{
+  var n = getFav().length, el = document.getElementById("favstatn");
+  if(el) el.textContent = n;
 }}
 function scrollToId(id){{ var el=document.getElementById(id); if(el) el.scrollIntoView({{behavior:"smooth",block:"start"}}); }}
 function scrollToDc(e, a){{
