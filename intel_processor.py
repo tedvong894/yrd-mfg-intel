@@ -148,6 +148,15 @@ def process(intel_dir):
     manifest = load_manifest(manifest_path)
     processed = set(manifest.get("processed", []))
     existing_keys = load_db_keys(db_path)
+    # 主动剔除的表面/简单案例黑名单（与 push_pages/sync_cloud 共用），保证渲染与入库都排除。
+    del_path = os.path.join(intel_dir, "deleted_ids.json")
+    deleted_keys = set()
+    if os.path.exists(del_path):
+        try:
+            deleted_keys = set(json.load(open(del_path, encoding="utf-8")))
+        except Exception:
+            deleted_keys = set()
+    existing_keys |= deleted_keys
 
     raw_files = sorted(glob.glob(os.path.join(intel_dir, "raw_*.json")))
     new_items = []
@@ -201,7 +210,8 @@ def process(intel_dir):
 
     # 仅保留 2026 年案例（按文章发布日期 date 过滤；无日期或非 2026 一律剔除）
     all_cards = [c for c in all_cards
-                 if str(c.get("date", "")).startswith("2026")]
+                 if str(c.get("date", "")).startswith("2026")
+                 and c.get("card_id") not in deleted_keys]
 
     today = datetime.date.today().isoformat()
     # "今日新增"按入库日期统计（增量采集会把旧文章也新增进来）
