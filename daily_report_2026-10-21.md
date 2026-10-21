@@ -1,9 +1,9 @@
 # 长三角制造业问题解剖日报（2026-10-21）
 
-今日新增 **33** 张解剖卡。
+今日新增 **34** 张解剖卡。
 
 
-## 倒闭 / 关停（9）
+## 倒闭 / 关停（10）
 
 ### 人民日报：中小企业回款难，难在哪
 - 地区：长三角 · 来源：news.google.com · 日期：2026-10-18
@@ -34,6 +34,12 @@
 - 背景：蚌埠一运营十余年的区域性文旅地标,因投资方未能持续投入、自2021年起项目全面停滞,债务风险累积,2025年实质合并破产清算、2026年6月由国资平台网络拍卖接盘盘活,反映重资产文旅项目资金链断裂风险。
 - 企业问题：投资中断项目停滞；债务风险累积；实质合并破产清算；重资产资金链断裂
 - 链接：http://www.fzahw.com/news/2026/07/23/c_143767.htm
+
+### 环保企业应收账款问题仍未解
+- 地区：长三角 · 来源：news.google.com · 日期：2026-04-04
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">ThePaper.cn</font>
+- 企业问题：环保企业应收账款问题仍未解
+- 链接：https://news.google.com/rss/articles/CBMiYEFVX3lxTE1rUlZIZkhCS2pXcWlUQ2RmelVpZVRzZTFkbHNkRUNiZTJ0U0l4VHF5cjVhNG5lZTNWbndILWxreV9UdldlcVBGYmNURWZmdEhDdmI2VENDTzVHYndkbWlFZQ?oc=5
 
 ### 新一新能源（衢州）规划65亿光伏项目未量产先停产
 - 地区：浙江 · 来源：同花顺 · 日期：2026-02-25
