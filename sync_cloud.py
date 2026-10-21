@@ -38,11 +38,22 @@ def fetch_text(path):
         return None
 
 
+def load_deleted_ids():
+    p = os.path.join(HERE, "deleted_ids.json")
+    if not os.path.exists(p):
+        return set()
+    try:
+        return set(json.load(open(p, encoding="utf-8")))
+    except Exception:
+        return set()
+
+
 def union_jsonl(fname):
     remote = fetch_text(fname)
     if remote is None:
         print(f"[skip] 云端无 {fname}，保留本地")
         return
+    deleted = load_deleted_ids()
     seen, merged = set(), []
     for line in (remote + "\n" + (open(os.path.join(HERE, fname), encoding="utf-8").read()
                                   if os.path.exists(os.path.join(HERE, fname)) else "")).splitlines():
@@ -54,14 +65,14 @@ def union_jsonl(fname):
         except Exception:
             continue
         cid = obj.get("card_id")
-        if cid in seen:
+        if cid in seen or cid in deleted:
             continue
         seen.add(cid)
         merged.append(obj)
     with open(os.path.join(HERE, fname), "w", encoding="utf-8") as f:
         for obj in merged:
             f.write(json.dumps(obj, ensure_ascii=False) + "\n")
-    print(f"[sync] {fname}: 并集 {len(merged)} 条")
+    print(f"[sync] {fname}: 并集 {len(merged)} 条（已排除 {len(deleted)} 张剔除卡）")
 
 
 def union_manifest():
