@@ -38,6 +38,7 @@ FILES = [
     ".github/workflows/refresh.yml",
     "raw_20260929.json",
     "intel_db.jsonl",
+    "deleted_ids.json",
     "manifest.json",
     "README.md",
     ".gitignore",
