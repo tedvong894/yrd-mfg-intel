@@ -79,9 +79,21 @@ def get_sha(path):
     return None
 
 
+def load_deleted_ids():
+    """读取 deleted_ids.json（用户主动剔除的表面/简单案例黑名单）。"""
+    p = os.path.join(HERE, "deleted_ids.json")
+    if not os.path.exists(p):
+        return set()
+    try:
+        return set(json.load(open(p, encoding="utf-8")))
+    except Exception:
+        return set()
+
+
 def union_db_safety(fname):
     """推送 intel_db.jsonl 前，先与远端做 card_id 并集，避免本地旧数据覆盖云端新增。
-    同时过滤已下线的问题类型，防止云端旧数据把本地已删除类型恢复回来。"""
+    同时过滤已下线的问题类型，防止云端旧数据把本地已删除类型恢复回来；
+    并排除 deleted_ids.json 中的主动剔除卡，保证用户剔除永久生效。"""
     if fname != "intel_db.jsonl":
         return
     lp = os.path.join(HERE, fname)
@@ -97,6 +109,7 @@ def union_db_safety(fname):
     # 已下线问题类型（与 intel_processor.py 保持一致）
     skip_types = {"质量事故", "欠款劳资"}
     skip_labels = {"质量事故 / 召回", "欠款 / 劳资纠纷"}
+    deleted = load_deleted_ids()
     seen, merged = set(), []
     for line in (remote + "\n" + open(lp, encoding="utf-8").read()).splitlines():
         line = line.strip()
@@ -107,7 +120,7 @@ def union_db_safety(fname):
         except Exception:
             continue
         cid = obj.get("card_id")
-        if cid in seen:
+        if cid in seen or cid in deleted:
             continue
         pk = obj.get("problem_type_key") or ""
         pl = obj.get("problem_type") or ""
@@ -118,7 +131,7 @@ def union_db_safety(fname):
     with open(lp, "w", encoding="utf-8") as f:
         for obj in merged:
             f.write(json.dumps(obj, ensure_ascii=False) + "\n")
-    print(f"[union] {fname}: 推送前并集 {len(merged)} 条（防覆盖云端新增，已过滤下线类型）")
+    print(f"[union] {fname}: 推送前并集 {len(merged)} 条（防覆盖云端新增，已过滤下线类型与 {len(deleted)} 张剔除卡）")
 
 
 def push_file(fname):
