@@ -70,6 +70,24 @@ BIZ_WORDS = ["制造", "工厂", "企业", "公司", "集团", "厂", "加工", 
 BLOCK_DOMAINS = {"baike.baidu.com", "zhidao.baidu.com", "wikipedia.org", "dict.youdao.com",
                  "wiki.mbalib.com", "book.douban.com", "zhihu.com", "so.com"}
 
+# 明显是"卖系统/卖软件"的广告与营销内容（强 CTA + 系统销售话术），采集时直接丢弃。
+# 注意：只收无歧义的销售/联系话术；"招商/代理/方案/咨询" 等在产业新闻里常见，不放进来避免误伤。
+AD_CTA = {
+    "免费试用", "立即咨询", "获取报价", "在线询价", "厂家直销", "限时优惠", "优惠活动",
+    "预约演示", "申请试用", "领取资料", "白皮书", "点击购买", "立即购买", "促销",
+    "抢购", "扫码", "添加微信", "商务合作", "联系我们购买", "免费领取",
+    "在线演示", "点击咨询", "电话咨询", "留资", "下载试用", "获取白皮书",
+    "解决方案提供商", "获取方案", "定制方案",
+}
+# 系统/软件词：单独出现不算广告（案例也可能提到"上了MES"），但与销售词同现即为卖系统的广告。
+AD_SYSTEM = {
+    "mes系统", "erp系统", "mes软件", "erp软件", "工业软件", "wms系统", "aps排产",
+    "数字化解决方案", "智能工厂方案", "低代码", "saas平台", "生产管理软件",
+    "mes厂商", "erp厂商", "mes供应商", "erp供应商", "mes报价", "erp报价",
+}
+AD_SELL = {"报价", "价格", "购买", "咨询", "试用", "方案", "厂商", "销售", "定制",
+           "多少钱", "费用", "报价单", "优惠", "促销", "代理", "加盟", "招商"}
+
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
 _OPENER = urllib.request.build_opener(urllib.request.ProxyHandler({}))
@@ -208,10 +226,25 @@ def extract_problems(text, limit=3):
     return hits
 
 
+def is_ad(it):
+    """明显是"卖系统/卖软件"的广告营销内容 → True（采集时丢弃）。"""
+    text = (it["title"] + " " + it.get("snippet", "") + " " + it.get("desc", "")).lower()
+    dom = domain_of(it["url"])
+    # 强营销 CTA 直接判广告
+    if any(w in text for w in AD_CTA):
+        return True
+    # 系统/软件词与销售词同时出现 → 卖系统的广告
+    if any(s in text for s in AD_SYSTEM) and any(w in text for w in AD_SELL):
+        return True
+    return False
+
+
 def relevant(it):
     text = (it["title"] + " " + it.get("snippet", "")).lower()
     dom = domain_of(it["url"])
     if any(b in dom for b in BLOCK_DOMAINS):
+        return False
+    if is_ad(it):
         return False
     if not any(w in text for w in PROBLEM_WORDS):
         return False
