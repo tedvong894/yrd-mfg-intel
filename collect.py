@@ -82,54 +82,9 @@ BIZ_WORDS = ["制造", "工厂", "企业", "公司", "集团", "厂", "加工", 
 BLOCK_DOMAINS = {"baike.baidu.com", "zhidao.baidu.com", "wikipedia.org", "dict.youdao.com",
                  "wiki.mbalib.com", "book.douban.com", "zhihu.com", "so.com"}
 
-# 明显是"卖系统/卖软件"的广告与营销内容（强 CTA + 系统销售话术），采集时直接丢弃。
-# 注意：只收无歧义的销售/联系话术；"招商/代理/方案/咨询" 等在产业新闻里常见，不放进来避免误伤。
-AD_CTA = {
-    "免费试用", "立即咨询", "获取报价", "在线询价", "厂家直销", "限时优惠", "优惠活动",
-    "预约演示", "申请试用", "领取资料", "白皮书", "点击购买", "立即购买", "促销",
-    "抢购", "扫码", "添加微信", "商务合作", "联系我们购买", "免费领取",
-    "在线演示", "点击咨询", "电话咨询", "留资", "下载试用", "获取白皮书",
-    "解决方案提供商", "获取方案", "定制方案",
-}
-# 系统/软件词：单独出现不算广告（案例也可能提到"上了MES"），但与销售词同现即为卖系统的广告。
-AD_SYSTEM = {
-    "mes系统", "erp系统", "mes软件", "erp软件", "工业软件", "wms系统", "aps排产",
-    "数字化解决方案", "智能工厂方案", "低代码", "saas平台", "生产管理软件",
-    "mes厂商", "erp厂商", "mes供应商", "erp供应商", "mes报价", "erp报价",
-}
-AD_SELL = {"报价", "价格", "购买", "咨询", "试用", "方案", "厂商", "销售", "定制",
-           "多少钱", "费用", "报价单", "优惠", "促销", "代理", "加盟", "招商"}
-
-# 上市公司/资本市场类内容（财报体、数字播报为主）→ 压减，聚焦中小制造业经营问题。
-LISTED_MARK = {
-    "上市公司", "a股", "主板", "创业板", "科创板", "北交所", "上交所", "深交所", "港股上市",
-    "招股书", "招股说明书", "业绩预告", "业绩快报", "业绩说明会", "股东大会", "独立董事",
-    "董秘", "投资者关系", "定增", "非公开发行", "可转债", "募集资金", "募投", "总市值",
-    "股票代码", "证券代码", "公告编号", "上市以来", "上市首亏", "涨停", "跌停", "回购股份",
-    "配股", "送转", "ipo",
-}
-# 财报类弱信号：需与财务口径词同现才算上市公司内容（避免误伤普通企业提"上半年营收"）
-LISTED_WEAK = {"年报", "半年报", "季报", "财报", "预亏", "预减"}
-LISTED_FIN = {"归母净利", "扣非", "每股收益", "每股净资产", "总资产", "净资产收益率", "毛利率为"}
-# 民企口吻保护词：正文出现这些说明讲的是中小/民营/老字号，不是资本市场
-LISTED_GUARD = {
-    "中小企业", "中小制造", "民营", "专精特新", "小巨人", "中小厂", "老字号", "国货",
-    "品牌", "工厂", "车间", "老板", "班组", "工友", "手艺", "作坊", "门店", "夫妻店",
-}
-
-
-def is_listed(it):
-    """上市公司/资本市场类内容 → True（压减，聚焦中小制造业）。
-    两级判定：①强信号出现在标题 → 直接判；②正文有强信号但通篇是民企口吻 → 保留。"""
-    title = (it["title"] or "").lower()
-    text = (it["title"] + " " + it.get("snippet", "") + " " + it.get("desc", "")).lower()
-    if any(m in title for m in LISTED_MARK):
-        return True
-    if any(w in title for w in LISTED_WEAK) and any(f in text for f in LISTED_FIN):
-        return True
-    if any(m in text for m in LISTED_MARK) and not any(g in text for g in LISTED_GUARD):
-        return True
-    return False
+# 质量筛查规则统一放在 intel_processor（采集端与入库端共用同一份，避免规则漂移）：
+#   ipro.is_ad_card / ipro.is_listed_card / ipro.is_surface_card
+# AD_CTA / AD_SYSTEM / AD_SELL / LISTED_* 词表见 intel_processor.py。
 
 UA = ("Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 "
       "(KHTML, like Gecko) Chrome/124.0 Safari/537.36")
@@ -269,33 +224,25 @@ def extract_problems(text, limit=3):
     return hits
 
 
-def is_ad(it):
-    """明显是"卖系统/卖软件"的广告营销内容 → True（采集时丢弃）。"""
-    text = (it["title"] + " " + it.get("snippet", "") + " " + it.get("desc", "")).lower()
-    dom = domain_of(it["url"])
-    # 强营销 CTA 直接判广告
-    if any(w in text for w in AD_CTA):
-        return True
-    # 系统/软件词与销售词同时出现 → 卖系统的广告
-    if any(s in text for s in AD_SYSTEM) and any(w in text for w in AD_SELL):
-        return True
-    return False
-
-
 def relevant(it):
+    """相关性 + 质量筛查（广告 / 上市公司财报体 / 表面事件卡 一律丢弃）。"""
     text = (it["title"] + " " + it.get("snippet", "")).lower()
     dom = domain_of(it["url"])
     if any(b in dom for b in BLOCK_DOMAINS):
         return False
-    if is_ad(it):
+    if ipro.is_ad_card(it):
         return False
-    if is_listed(it):
+    if ipro.is_listed_card(it):
         return False
     if not any(w in text for w in PROBLEM_WORDS):
         return False
     if not any(w in text for w in BIZ_WORDS):
         return False
-    return len(it["title"]) >= 8
+    if len(it["title"]) < 8:
+        return False
+    if ipro.is_surface_card(it):
+        return False
+    return True
 
 
 def build_item(row, q):
