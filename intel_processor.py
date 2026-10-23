@@ -284,9 +284,33 @@ def process(intel_dir):
         except Exception:
             deleted_keys = set()
     existing_keys |= deleted_keys
+    # 标题级黑名单：拦住"同一篇文章的不同转载版"（不同 URL → 不同 card_id）
+    del_t_path = os.path.join(intel_dir, "deleted_titles.json")
+    deleted_titles = set()
+    if os.path.exists(del_t_path):
+        try:
+            deleted_titles = set(json.load(open(del_t_path, encoding="utf-8")))
+        except Exception:
+            deleted_titles = set()
+    # 库内已有卡片的标题键（用于同题去重）
+    existing_titles = set()
+    if os.path.exists(db_path):
+        with open(db_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                try:
+                    tk = norm_title(json.loads(line).get("title", ""))
+                    if tk:
+                        existing_titles.add(tk)
+                except Exception:
+                    continue
 
     raw_files = sorted(glob.glob(os.path.join(intel_dir, "raw_*.json")))
     new_items = []
+    purged_files = 0
+    purged_items = 0
     for rf in raw_files:
         base = os.path.basename(rf)
         # 注意：按「条目 card_id」去重，而不是按文件名跳过——
@@ -301,11 +325,23 @@ def process(intel_dir):
         added = 0
         skipped = 0
         screened = 0
+        dup = 0
+        keep = []
         for it in items:
+            cid = card_id(it)
+            tkey = norm_title(it.get("title", ""))
+            # ── 永久删除：黑名单内的条目从 raw 里物理移除（不是隐藏）──
+            if cid in deleted_keys or (tkey and tkey in deleted_titles):
+                continue
             if is_skipped_type(it):
                 skipped += 1
+                keep.append(it)
                 continue
-            cid = card_id(it)
+            # 同题冗余：库里已有同题卡（另一站点转载版）→ 物理移除，避免"删一条又冒一条"
+            if tkey and tkey in existing_titles and cid not in existing_keys:
+                dup += 1
+                continue
+            keep.append(it)
             if cid in existing_keys:
                 continue
             card = build_card(it)
@@ -317,10 +353,23 @@ def process(intel_dir):
                 continue
             new_items.append(card)
             existing_keys.add(cid)
+            existing_titles.add(tkey)
             added += 1
+        # ── 物理清除：把已删/重复条目从 raw 里真正删掉（不是隐藏）──
+        if len(keep) != len(items):
+            purged_items += len(items) - len(keep)
+            purged_files += 1
+            try:
+                if isinstance(data, list):
+                    json.dump(keep, open(rf, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+                else:
+                    data["items"] = keep
+                    json.dump(data, open(rf, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+            except Exception as e:
+                print(f"[warn] 清除 {base} 失败：{e}")
         processed.add(base)
         print(f"[ok] {base}: 解析 {len(items)} 条，新增 {added} 条，"
-              f"跳过已下线类型 {skipped} 条，质量筛除 {screened} 条")
+              f"跳过已下线类型 {skipped} 条，质量筛除 {screened} 条，同题重复 {dup} 条")
 
     if new_items:
         with open(db_path, "a", encoding="utf-8") as f:
@@ -347,7 +396,8 @@ def process(intel_dir):
     # 仅保留 2026 年案例（按文章发布日期 date 过滤；无日期或非 2026 一律剔除）
     all_cards = [c for c in all_cards
                  if str(c.get("date", "")).startswith("2026")
-                 and c.get("card_id") not in deleted_keys]
+                 and c.get("card_id") not in deleted_keys
+                 and norm_title(c.get("title", "")) not in deleted_titles]
 
     today = datetime.date.today().isoformat()
     # "今日新增"按入库日期统计（增量采集会把旧文章也新增进来）
@@ -649,7 +699,6 @@ def render_dashboard(intel_dir, cards, today_cards, today):
     <span class="pt" style="background:{pcolor}">{c.get('problem_type','')}</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('{cid}')" title="收藏此案例（仅本浏览器标记）">☆</button>
-      <button class="ddel" type="button" onclick="delCard('{cid}')" title="删除此案例（仅本浏览器隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="{c.get('url','#')}" target="_blank" rel="noopener">{c.get('title','')}</a>
@@ -730,17 +779,13 @@ th{{color:#6b7280;font-weight:600;font-size:12px}}
 .bgnone{{font-size:12px;color:#9ca3af;line-height:1.6}}
 .bgsrc{{color:#2f5597;text-decoration:none;font-weight:600;margin-right:8px}}
 .bgsrc:hover{{text-decoration:underline}}
-/* ── 卡片收藏 / 删除复合键 ── */
+/* ── 卡片收藏按钮 ── */
 .dctrls{{display:flex;align-items:center;gap:6px;flex-shrink:0}}
 .dfav{{border:1px solid #d9e2ef;background:#f4f8fd;color:#2f5597;width:26px;height:26px;border-radius:6px;font-size:14px;line-height:1;cursor:pointer;font-family:inherit;transition:.15s;flex-shrink:0}}
 .dfav:hover{{background:#e7f0fa;border-color:#c2d4ea}}
 .dfav:active{{transform:translateY(1px)}}
 .dfav.on{{color:#e6a700;border-color:#f0d68a;background:#fff9ec}}
 .dcard.faved{{border-color:#f0d68a;box-shadow:0 0 0 2px rgba(230,167,0,.10)}}
-/* ── 卡片删除按钮 ── */
-.ddel{{border:1px solid #f0c9c9;background:#fff5f5;color:#c0392b;width:26px;height:26px;border-radius:6px;font-size:14px;line-height:1;cursor:pointer;font-family:inherit;transition:.15s;flex-shrink:0}}
-.ddel:hover{{background:#fdeaea;border-color:#e3a3a3}}
-.ddel:active{{transform:translateY(1px)}}
 .filterbar{{display:none;align-items:center;gap:10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px}}
 .filterbar.show{{display:flex}}
 .filterbar .ftxt{{color:#9a3412;font-weight:600}}
@@ -859,17 +904,6 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
 </div>
 <script>
 var TODAY = "{today}";
-/* ── 卡片删除（仅本浏览器 localStorage 隐藏，不改源数据）── */
-var DEL_KEY = "yrd_deleted_cards";
-function getDel(){{ try{{ return JSON.parse(localStorage.getItem(DEL_KEY) || "[]"); }}catch(e){{ return []; }} }}
-function saveDel(a){{ localStorage.setItem(DEL_KEY, JSON.stringify(a)); }}
-function delCard(cid){{
-  var a = getDel(); if(a.indexOf(cid) < 0) a.push(cid); saveDel(a);
-  var el = document.getElementById("dc-" + cid); if(el) el.style.display = "none";
-}}
-function applyDel(){{
-  getDel().forEach(function(cid){{ var el = document.getElementById("dc-" + cid); if(el) el.style.display = "none"; }});
-}}
 /* ── 卡片收藏（仅本浏览器 localStorage 标记，不改源数据）── */
 var FAV_KEY = "yrd_fav_cards";
 function getFav(){{ try{{ return JSON.parse(localStorage.getItem(FAV_KEY) || "[]"); }}catch(e){{ return []; }} }}
@@ -912,14 +946,13 @@ function scrollToDc(e, a){{
 function showFilter(text){{ var b=document.getElementById("filterbar"); document.getElementById("filtertxt").textContent=text; b.classList.add("show"); }}
 function applyFilter(opt){{
   var pt=opt.pt||null, todayOnly=opt.todayOnly||false, favOnly=opt.favOnly||false, shown=0;
-  var del=getDel(), fav=getFav();
+  var fav=getFav();
   document.querySelectorAll(".dcard").forEach(function(c){{
     var cid=c.id.slice(3);
     var okPt=!pt||c.dataset.pt===pt;
     var okToday=!todayOnly||c.dataset.date===TODAY;
     var okFav=!favOnly||fav.indexOf(cid)>=0;
-    var okDel=del.indexOf(cid)<0;
-    var ok=okPt&&okToday&&okFav&&okDel;
+    var ok=okPt&&okToday&&okFav;
     c.style.display=ok?"":"none"; if(ok) shown++;
   }});
   return shown;
@@ -959,7 +992,6 @@ document.querySelectorAll(".row.clickable").forEach(function(r){{
     var n=applyFilter({{pt:pt}}); showFilter("筛选：问题类型 = "+pt+"（"+n+" 张）");
   }});
 }});
-applyDel();
 applyFav();
 </script>
 </body></html>"""
