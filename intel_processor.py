@@ -82,6 +82,128 @@ def card_id(item):
     return hashlib.md5(dedup_key(item).encode("utf-8")).hexdigest()[:10]
 
 
+# ── 质量筛查（采集端与入库端共用这一份规则）─────────────────────
+# 目标：只留"能进入深入分析、对中小制造老板有参考价值"的案例。
+#   ① 商业广告 / 卖系统软文      ② 上市公司·资本市场财报体
+#   ③ 表面事件卡（几句话讲完、无多因素拆解、无生产管理落点）
+PM_DEEP_WORDS = [
+    "产能利用率", "稼动率", "oee", "良率", "合格率", "返工", "报废", "不良率", "排产", "插单",
+    "交期", "在制品", "半成品", "库存周转", "呆滞", "积压", "工艺", "技改", "爬坡", "成本结构",
+    "供应链", "人机料法环", "质量成本", "沉没成本", "重资产", "毛利率", "净利率", "单位成本",
+    "固定成本", "变动成本", "停产待料", "缺料", "断供", "台班", "人均产出", "隐性产能",
+    "设备空转", "产能闲置", "产能空转", "盲目扩张", "激进扩张", "新厂投产", "产线投产",
+    "降本", "提效", "精益", "诊断", "改善",
+]
+ANALYTIC_WORDS = [
+    "成本", "库存", "采购", "供应链", "毛利", "良率", "产能利用率", "工艺", "排产", "账期",
+    "应收", "商业模式", "盈利", "定价", "稼动", "质量成本", "单位成本", "固定成本", "变动成本",
+    "呆滞", "积压", "在制品", "交期", "生产管理", "重资产", "沉没成本", "成本结构", "成本倒挂",
+    "现金流", "资金链", "回款", "坏账", "存货", "周转天数",
+]
+AD_CTA = [
+    "免费试用", "立即咨询", "获取报价", "在线询价", "厂家直销", "限时优惠", "优惠活动",
+    "预约演示", "申请试用", "领取资料", "白皮书", "点击购买", "立即购买", "促销", "抢购",
+    "扫码", "添加微信", "商务合作", "联系我们购买", "免费领取", "在线演示", "点击咨询",
+    "电话咨询", "留资", "下载试用", "获取白皮书", "解决方案提供商", "获取方案", "定制方案",
+]
+AD_SYSTEM = [
+    "mes系统", "erp系统", "mes软件", "erp软件", "工业软件", "wms系统", "aps排产",
+    "数字化解决方案", "智能工厂方案", "低代码", "saas平台", "生产管理软件", "mes厂商",
+    "erp厂商", "mes供应商", "erp供应商", "mes报价", "erp报价", "成本核算系统", "用友", "金蝶",
+]
+AD_SELL = [
+    "报价", "价格", "购买", "咨询", "试用", "方案", "厂商", "销售", "定制", "多少钱", "费用",
+    "报价单", "优惠", "促销", "代理", "加盟", "招商",
+]
+LISTED_MARK = [
+    "上市公司", "a股", "主板", "创业板", "科创板", "北交所", "上交所", "深交所", "港股上市",
+    "招股书", "招股说明书", "业绩预告", "业绩快报", "业绩说明会", "股东大会", "独立董事",
+    "董秘", "投资者关系", "定增", "非公开发行", "可转债", "募集资金", "募投", "总市值",
+    "股票代码", "证券代码", "公告编号", "上市以来", "上市首亏", "涨停", "跌停", "回购股份",
+    "配股", "送转", "ipo",
+]
+LISTED_WEAK = ["年报", "半年报", "季报", "财报", "预亏", "预减"]
+LISTED_FIN = ["归母净利", "扣非", "每股收益", "每股净资产", "总资产", "净资产收益率", "毛利率为"]
+# 民企口吻保护词：正文出现这些说明讲的是中小/民营/老字号，不是资本市场
+LISTED_GUARD = [
+    "中小企业", "中小制造", "中小厂", "民营", "民企", "专精特新", "小巨人", "老字号", "国货",
+    "品牌", "工厂", "车间", "老板", "班组", "工友", "手艺", "作坊", "门店", "夫妻店",
+]
+# 大型企业/巨头（与"聚焦中小制造业"方向相悖）；命中需无民企口吻才剔除
+BIG_MARK = [
+    "千亿", "百亿", "万亿", "世界500强", "民企500强", "行业龙头", "中国首", "全球首",
+    "跻身", "头部企业", "巨头", "独角兽",
+]
+SURFACE_TYPES = {"倒闭 / 关停", "订单流失 / 外贸下滑"}
+MACRO_TAGS = {"宏观", "微利", "内卷", "行业"}
+
+
+def card_text(c):
+    return " ".join([c.get("title", "") or "", c.get("summary", "") or "",
+                     c.get("snippet", "") or "", c.get("content", "") or ""] +
+                    (c.get("problems") or []))
+
+
+def is_ad_card(c):
+    """明显是卖系统/卖软件的广告软文。"""
+    t = card_text(c).lower()
+    if any(w in t for w in AD_CTA):
+        return True
+    return any(s in t for s in AD_SYSTEM) and any(w in t for w in AD_SELL)
+
+
+def is_listed_card(c):
+    """上市公司 / 资本市场财报体（两级判定，正文提上市公司但通篇民企口吻的保留）。"""
+    title = (c.get("title") or "").lower()
+    t = card_text(c).lower()
+    if any(m in title for m in LISTED_MARK):
+        return True
+    if any(w in title for w in LISTED_WEAK) and any(f in t for f in LISTED_FIN):
+        return True
+    return any(m in t for m in LISTED_MARK) and not any(g in t for g in LISTED_GUARD)
+
+
+def is_big_card(c):
+    """大型企业/巨头案例（与"聚焦中小制造业"方向相悖）。"""
+    title = (c.get("title") or "").lower()
+    t = card_text(c).lower()
+    if not any(m in title for m in BIG_MARK):
+        return False
+    return not any(g in t for g in LISTED_GUARD)
+
+
+def is_surface_card(c):
+    """表面事件卡：篇幅单薄、无多因素拆解、无生产管理/经营分析落点。"""
+    t = card_text(c).lower()
+    problems = c.get("problems") or []
+    summary = (c.get("summary") or "").strip()
+    pm = sum(1 for k in PM_DEEP_WORDS if k in t)
+    has_pct = bool(re.search(r"[0-9]+(\.[0-9]+)?\s?%", t))
+    if pm == 0 and any(k in t for k in ANALYTIC_WORDS):
+        return False          # 有经营分析落点 → 保留
+    ptype = c.get("problem_type") or ""
+    if ptype in SURFACE_TYPES and pm == 0 and len(problems) <= 2 and not has_pct:
+        return True
+    if (set(c.get("tags") or []) & MACRO_TAGS) and pm == 0 and len(problems) <= 1:
+        return True
+    if len(summary) < 35 and pm == 0 and not has_pct:
+        return True
+    return False
+
+
+def screen_reason(c):
+    """返回剔除原因；空字符串表示通过。"""
+    if is_ad_card(c):
+        return "AD"
+    if is_listed_card(c):
+        return "LISTED"
+    if is_big_card(c):
+        return "BIG"
+    if is_surface_card(c):
+        return "SURFACE"
+    return ""
+
+
 def detect_region(item):
     text = item.get("title", "") + " " + item.get("snippet", "") + " " + item.get("summary", "")
     for r in ["浙江", "江苏", "上海", "安徽"]:
@@ -173,6 +295,7 @@ def process(intel_dir):
         items = data if isinstance(data, list) else data.get("items", [])
         added = 0
         skipped = 0
+        screened = 0
         for it in items:
             if is_skipped_type(it):
                 skipped += 1
@@ -180,11 +303,19 @@ def process(intel_dir):
             cid = card_id(it)
             if cid in existing_keys:
                 continue
-            new_items.append(build_card(it))
+            card = build_card(it)
+            # 质量闸门：广告 / 上市公司财报体 / 表面事件卡 一律不入库
+            reason = screen_reason(card)
+            if reason:
+                screened += 1
+                existing_keys.add(cid)
+                continue
+            new_items.append(card)
             existing_keys.add(cid)
             added += 1
         processed.add(base)
-        print(f"[ok] {base}: 解析 {len(items)} 条，新增 {added} 条，跳过已下线类型 {skipped} 条")
+        print(f"[ok] {base}: 解析 {len(items)} 条，新增 {added} 条，"
+              f"跳过已下线类型 {skipped} 条，质量筛除 {screened} 条")
 
     if new_items:
         with open(db_path, "a", encoding="utf-8") as f:
