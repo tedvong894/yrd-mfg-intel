@@ -399,6 +399,28 @@ def process(intel_dir):
                  and c.get("card_id") not in deleted_keys
                  and norm_title(c.get("title", "")) not in deleted_titles]
 
+    # ── 永久删除：把被删/过时的卡从 DB 文件里物理移除（不是渲染时隐藏）──
+    try:
+        with open(db_path, "r", encoding="utf-8") as f:
+            db_lines = [l for l in f.read().splitlines() if l.strip()]
+        db_cards = []
+        for line in db_lines:
+            try:
+                db_cards.append(json.loads(line))
+            except Exception:
+                continue
+        survivors = [c for c in db_cards
+                     if c.get("card_id") not in deleted_keys
+                     and norm_title(c.get("title", "")) not in deleted_titles
+                     and str(c.get("date", "")) >= "2026-06-01"]
+        if len(survivors) != len(db_cards):
+            with open(db_path, "w", encoding="utf-8") as f:
+                for c in survivors:
+                    f.write(json.dumps(c, ensure_ascii=False) + "\n")
+            print(f"[purge] DB 物理清除 {len(db_cards) - len(survivors)} 张（被删/过时），保留 {len(survivors)} 张")
+    except Exception as e:
+        print(f"[warn] DB 物理清除失败：{e}")
+
     today = datetime.date.today().isoformat()
     # "今日新增"按入库日期统计（增量采集会把旧文章也新增进来）
     today_cards = [c for c in all_cards if c.get("added", c.get("date")) == today]
@@ -699,6 +721,7 @@ def render_dashboard(intel_dir, cards, today_cards, today):
     <span class="pt" style="background:{pcolor}">{c.get('problem_type','')}</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('{cid}')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('{cid}')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="{c.get('url','#')}" target="_blank" rel="noopener">{c.get('title','')}</a>
@@ -785,6 +808,10 @@ th{{color:#6b7280;font-weight:600;font-size:12px}}
 .dfav:hover{{background:#e7f0fa;border-color:#c2d4ea}}
 .dfav:active{{transform:translateY(1px)}}
 .dfav.on{{color:#e6a700;border-color:#f0d68a;background:#fff9ec}}
+.ddel{{border:1px solid #f0c9c9;background:#fff5f5;color:#c0392b;width:26px;height:26px;border-radius:6px;font-size:14px;line-height:1;cursor:pointer;font-family:inherit;transition:.15s;flex-shrink:0}}
+.ddel:hover{{background:#fdeaea;border-color:#e3a3a3}}
+.ddel:active{{transform:translateY(1px)}}
+.dcard.deleting{{opacity:.45;border-style:dashed}}
 .dcard.faved{{border-color:#f0d68a;box-shadow:0 0 0 2px rgba(230,167,0,.10)}}
 .filterbar{{display:none;align-items:center;gap:10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px}}
 .filterbar.show{{display:flex}}
@@ -904,6 +931,41 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
 </div>
 <script>
 var TODAY = "{today}";
+/* ── 永久删除（不是隐藏）：App 内直接写回仓库删除名单 → 云端物理清除 ── */
+function yrdToast(txt){{
+  var d=document.getElementById("yrdToast");
+  if(!d){{ d=document.createElement("div"); d.id="yrdToast"; document.body.appendChild(d); }}
+  d.textContent=txt; d.style.cssText="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);"
+    +"background:#1f2937;color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;z-index:9999;"
+    +"box-shadow:0 6px 24px rgba(0,0,0,.22);max-width:80vw;line-height:1.5";
+  d.style.opacity="1"; clearTimeout(window.__yrdToastT);
+  window.__yrdToastT=setTimeout(function(){{ d.style.opacity="0"; }}, 6000);
+}}
+function delCard(cid){{
+  var el=document.getElementById("dc-"+cid);
+  if(el) el.classList.add("deleting");
+  // ① 桌面 App：原生通道 → 写回仓库删除名单 → 云端物理删除（库 + 原始池）
+  if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.yrdDelete){{
+    window.webkit.messageHandlers.yrdDelete.postMessage(cid);
+    yrdToast("已提交永久删除：正在从数据源彻底移除，完成后本页自动刷新…");
+    setTimeout(function(){{ location.reload(); }}, 8000);
+    return;
+  }}
+  // ② 浏览器：唤起桌面 App 执行（若已安装）
+  if(window.__YRD_NATIVE__){{
+    location.href="yrdintel://delete/"+cid;
+    yrdToast("已唤起桌面 App 执行永久删除…");
+    return;
+  }}
+  // ③ 纯浏览器：复制删除指令（浏览器无法直连仓库）
+  var cmd="请永久删除案例 "+cid+"（长三角制造业情报平台，永久删除不是隐藏）";
+  if(navigator.clipboard && navigator.clipboard.writeText){{
+    navigator.clipboard.writeText(cmd).then(function(){{ yrdToast("已复制删除指令，粘贴给助手即可永久删除"); }});
+  }} else {{ yrdToast("永久删除请在桌面 App 内操作（浏览器无法直连仓库）"); }}
+}}
+window.__yrdDeleteStatus=function(t){{ yrdToast(t); }};
+window.__yrdDeleteDone=function(t){{ yrdToast(t||"永久删除完成"); setTimeout(function(){{ location.reload(); }}, 1500); }};
+window.__yrdDeleteFail=function(t){{ yrdToast(t||"永久删除失败"); }};
 /* ── 卡片收藏（仅本浏览器 localStorage 标记，不改源数据）── */
 var FAV_KEY = "yrd_fav_cards";
 function getFav(){{ try{{ return JSON.parse(localStorage.getItem(FAV_KEY) || "[]"); }}catch(e){{ return []; }} }}
