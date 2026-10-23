@@ -1,6 +1,6 @@
 # 长三角制造业问题解剖日报（2026-10-23）
 
-今日新增 **37** 张解剖卡。
+今日新增 **40** 张解剖卡。
 
 
 ## 亏损 / 增收不增利（10）
@@ -66,7 +66,7 @@
 - 链接：https://www.toutiao.com/a7684207571892224512
 
 
-## 倒闭 / 关停（5）
+## 倒闭 / 关停（8）
 
 ### 嘉兴加弹行业残酷出清：卖房入局、血亏倒闭，开机就亏钱
 - 地区：浙江 · 来源：163.com · 日期：2026-10-23
@@ -80,17 +80,35 @@
 - 企业问题：两大基地规划产能超40万、利用率仅约20%；2019-2021年净亏损174亿；融资中断、资金链断裂工厂停工；2023年底破产重整、负债203.67亿
 - 链接：https://h5.ifeng.com/c/vivo/v002xgx11l1ZYH94PDArp2--D94Qt5FUOMWEGx0TU0temV5s__?isNews=1&showComments=0
 
+### 中小企业发展迎来“施工图”
+- 地区：长三角 · 来源：news.google.com · 日期：2026-09-17
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">中国经济网</font>
+- 企业问题：中小企业发展迎来“施工图”
+- 链接：https://news.google.com/rss/articles/CBMibEFVX3lxTE4wM1lqd3R4S2M1WWJldXpzVGxvQnJyTlpQMHJNTTl6ay1BSy1jbUluMnRhNmlRM25MQ3EyVkRKMnZyUmM4U0pCY05WUHlpMnJnanVrTzdOdXVmbTZHVjhiVnZjMHJWakVwbkJnbg?oc=5
+
 ### 智能马桶界“富士康”喜尔康倒下：扩产太猛重资产压身，账期拖垮现金流
 - 地区：浙江 · 来源：toutiao.com · 日期：2026-09-16
 - 背景：浙江衢州喜尔康曾长期给知名卫浴、家装、酒店品牌做OEM/ODM，被称为“智能马桶界富士康”，巅峰年产量160万套。公司盲目扩建黑灯工厂、喊出西南300万套产能，叠加地产退潮、代工利润被品牌方挤压、大客户账期拉长，最终资金链断裂，2026年9月被法院受理破产清算。
 - 企业问题：盲目扩建重资产工厂产能闲置；代工利润被品牌方持续压价；大客户账期长回款一断即崩；缺乏自有品牌与终端渠道抗风险弱
 - 链接：https://www.toutiao.com/article/7685974257079271936
 
+### 从文艺少女到专精特新“小巨人”掌舵者——南通新生代民营企业家的传承创新路_中国大陆_新闻
+- 地区：长三角 · 来源：news.google.com · 日期：2026-08-27
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">华人头条</font>
+- 企业问题：从文艺少女到专精特新“小巨人”掌舵者——南通新生代民营企业家的传承创新路_中国大陆_新闻
+- 链接：https://news.google.com/rss/articles/CBMiXkFVX3lxTE5rTXRCaVBsbXdubUdrSnFtemtiTlI4U2hiTXJJREs3ODF3NDBzaWIwbWV0T0lJcXhQR1BjVmp6SGkteldNWU5pSGFkY3l4ZVF0Z0lPaU5qb3N5a3Y3ZFE?oc=5
+
 ### 从"国民记忆"到资不抵债：上海雪花膏（美兰）最后一课
 - 地区：上海 · 来源：sina.com.cn · 日期：2026-08-04
 - 背景：承载几代人记忆的"上海雪花膏"生产商美兰化妆品，因被深大通收购后遭后者财务造假退市牵连、资金链断裂，自身又产品迭代缓慢、过度依赖文旅线下渠道、错失电商直播，最终资产9.58万、负债1941万破产清算。
 - 企业问题：母公司退市、资金链被切断；产品老化、数十年配方未升级；渠道老化、错失电商直播；依赖文旅一次性消费、无复购
 - 链接：https://finance.sina.com.cn/jjxw/2026-08-04/doc-inimcxxc4033223.shtml
+
+### 专精特新企业补链强链为大连绿色石化注入科创内核- 中国日报网
+- 地区：长三角 · 来源：news.google.com · 日期：2026-06-16
+- 背景：&nbsp;&nbsp;<font color="#6f6f6f">China Daily</font>
+- 企业问题：专精特新企业补链强链为大连绿色石化注入科创内核- 中国日报网
+- 链接：https://news.google.com/rss/articles/CBMifEFVX3lxTFByc0JLSlA1elc0czhZOW1za0lIWTBVZEhvcnlWdDhYTWJ5SHJFLTJvMFFXLWF2c1BTUW1iZWtkR0U2VHpKZ3hnQU1WblF4SUpHbGpvc1pVZGg3Vm5JYzJ0TklZM1lUYjlkNDM2REZLRFJ5Uk5WV0paQnlybGQ?oc=5
 
 ### 苏州布诺机电设备有限公司破产清算：28名职工153万债权
 - 地区：江苏 · 来源：pccz.court.gov.cn · 日期：2026-03-03
