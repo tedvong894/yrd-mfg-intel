@@ -266,6 +266,17 @@ def build_item(row, q):
     }
 
 
+def load_deleted_titles(intel_dir):
+    """读取标题级黑名单（永久删除的案例标题）——转载版标题相同，一并拦住。"""
+    p = os.path.join(intel_dir, "deleted_titles.json")
+    if not os.path.exists(p):
+        return set()
+    try:
+        return set(json.load(open(p, encoding="utf-8")))
+    except Exception:
+        return set()
+
+
 def load_known(intel_dir, today):
     known = set()
     db = os.path.join(intel_dir, "intel_db.jsonl")
@@ -317,6 +328,7 @@ def main():
         queries = queries[:args.limit]
 
     known, existing, raw_path = load_known(intel_dir, today)
+    del_titles = load_deleted_titles(intel_dir)
     scanned, kept, new_items, source_hits, old_dropped = 0, 0, [], {}, 0
 
     with ThreadPoolExecutor(max_workers=args.workers) as ex:
@@ -325,6 +337,9 @@ def main():
             source_hits[src] = source_hits.get(src, 0) + 1
             for row in rows:
                 it = build_item(row, row.get("query", q))
+                # 永久删除的案例（含同题转载版）→ 采集阶段就不再收
+                if ipro.norm_title(it.get("title", "")) in del_titles:
+                    continue
                 if not relevant(it):
                     continue
                 if not recent_enough(it, cutoff):
