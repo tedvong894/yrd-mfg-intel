@@ -71,6 +71,10 @@ th{color:#6b7280;font-weight:600;font-size:12px}
 .dfav:hover{background:#e7f0fa;border-color:#c2d4ea}
 .dfav:active{transform:translateY(1px)}
 .dfav.on{color:#e6a700;border-color:#f0d68a;background:#fff9ec}
+.ddel{border:1px solid #f0c9c9;background:#fff5f5;color:#c0392b;width:26px;height:26px;border-radius:6px;font-size:14px;line-height:1;cursor:pointer;font-family:inherit;transition:.15s;flex-shrink:0}
+.ddel:hover{background:#fdeaea;border-color:#e3a3a3}
+.ddel:active{transform:translateY(1px)}
+.dcard.deleting{opacity:.45;border-style:dashed}
 .dcard.faved{border-color:#f0d68a;box-shadow:0 0 0 2px rgba(230,167,0,.10)}
 .filterbar{display:none;align-items:center;gap:10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px}
 .filterbar.show{display:flex}
@@ -190,6 +194,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('17facf21b3')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('17facf21b3')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://roll.sohu.com/a/1069976614_407695" target="_blank" rel="noopener">武进不锈营收连降三年、半年亏4914万</a>
@@ -203,6 +208,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('41173289ef')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('41173289ef')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.163.com/dy/article/L836VR7905564S43_pdya11y.html" target="_blank" rel="noopener">嘉兴加弹行业残酷出清：卖房入局、血亏倒闭，开机就亏钱</a>
@@ -216,6 +222,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('69e3d3876e')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('69e3d3876e')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://h5.ifeng.com/c/vivo/v002xgx11l1ZYH94PDArp2--D94Qt5FUOMWEGx0TU0temV5s__?isNews=1&showComments=0" target="_blank" rel="noopener">威马汽车重资产扩产、产能利用率仅20%，破产重整</a>
@@ -229,6 +236,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('a8b6bdbbc2')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('a8b6bdbbc2')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7690473668131963434?use_new_style=1" target="_blank" rel="noopener">东阳红木老厂：20年利润全被库存吃光，名贵木材变死钱</a>
@@ -242,6 +250,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('b314b3e61c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('b314b3e61c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.niuqiclub.com/article/44059.html" target="_blank" rel="noopener">江苏注塑件厂：账期从60天变120天，一年利润被吃三分之一</a>
@@ -255,6 +264,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('93c36d188b')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('93c36d188b')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.yes-lean.com/know/thought/8400.html" target="_blank" rel="noopener">上海洗衣柜厂：冷门规格堆放超3个月，库存金额超月产值55%</a>
@@ -268,6 +278,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('414f5251ad')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('414f5251ad')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.zbintel.com/erpclub/suliaozhipin/article-468470.shtml" target="_blank" rel="noopener">上海注塑厂ERP水土不服：仓库月盘亏率仍超1.8%</a>
@@ -281,6 +292,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('7b8712b744')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('7b8712b744')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://news.ifeng.com/c/8sVYcc4sE9U" target="_blank" rel="noopener">安徽启明星体育：羽毛球订单骤降30%-50%，库存积压20多万桶</a>
@@ -294,6 +306,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('d707a89ab4')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('d707a89ab4')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://cj.sina.cn/articles/view/7935425109/1d8fcfa5502001iy1u" target="_blank" rel="noopener">浙江天际：存货三年累增47%，跌价准备暴增61%</a>
@@ -307,6 +320,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('5c5b06322f')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('5c5b06322f')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.sohu.com/coo/zmtq/1076903512_122483031" target="_blank" rel="noopener">江浙零部件厂：3000万研发打水漂，车企中改直接弃用</a>
@@ -320,6 +334,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('53b6ab8d8d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('53b6ab8d8d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.thepaper.cn/newsDetail_forward_33739071" target="_blank" rel="noopener">杉杉股份：转型锂电偏光片后债务爆雷，控制权易主安徽国资</a>
@@ -333,6 +348,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('3c7cb5fa90')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('3c7cb5fa90')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.topnews.cn/news/145FD3EC40BA4A78" target="_blank" rel="noopener">江苏三房巷：高溢价收购背巨债，资金链濒临断裂</a>
@@ -346,6 +362,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('94449698f7')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('94449698f7')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.niuqiclub.com/article/15647.html" target="_blank" rel="noopener">宁波'宏达'小家电配件厂为5%降价致库存翻倍，一年多花67万</a>
@@ -359,6 +376,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('43e7e941d7')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('43e7e941d7')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7662688510897373739" target="_blank" rel="noopener">浙江某冲压件工厂账面420万库存，140万竟是呆滞与报废</a>
@@ -372,6 +390,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f1e6965050')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f1e6965050')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://www.changsharx.com/business/20338.html" target="_blank" rel="noopener">常州某精密机械库存周转60天，呆滞料积压致缺料停线月损超10万</a>
@@ -385,6 +404,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('869a8f8e4b')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('869a8f8e4b')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.szbring.com/IndustryConsulting/info_itemid_4564.html" target="_blank" rel="noopener">苏州某汽车零部件企业库存超3000万，'沉睡成本'近2000万</a>
@@ -398,6 +418,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('22c5698d57')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('22c5698d57')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://www.hfsjw.gov.cn/dfzf/18958939.html" target="_blank" rel="noopener">合肥百大集团纪委查'双金'：退货商品长期滞留仓库占用资金</a>
@@ -411,6 +432,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('94b6a9ae4b')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('94b6a9ae4b')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.chinatimes.net.cn/article/153507.html" target="_blank" rel="noopener">台州名媛名妆破产：商标2000元起拍，创始人被强制执行超2300万</a>
@@ -424,6 +446,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('fa485a6d0f')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('fa485a6d0f')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.chinafeedm.com/h-nd-32554.html" target="_blank" rel="noopener">杭州恒泽生态农业科技递交破产申请，成水产转型失败又一例</a>
@@ -437,6 +460,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('13068ba87c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('13068ba87c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://i.ifeng.com/c/8vK1FxozhjX" target="_blank" rel="noopener">上海雪花膏破产：文旅转型'贞格格'失败，账上仅9.5万负债1941万</a>
@@ -450,6 +474,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('d2b7a172e2')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('d2b7a172e2')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.jhnews.com.cn/xw/1855108" target="_blank" rel="noopener">兰溪坯布企业库存堆积 开机率不足五成</a>
@@ -463,6 +488,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('ef6e3cf740')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('ef6e3cf740')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://cj.sina.cn/articles/view/3815062128/e3653a7002701mmj2" target="_blank" rel="noopener">南侨食品年净利跌近八成 成本失控</a>
@@ -476,6 +502,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('67c57d8e37')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('67c57d8e37')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.sina.com.cn/roll/2026-10-22/doc-iniwavxm5862669.shtml" target="_blank" rel="noopener">被投企业和辉光电持续大额亏损，拖累上海联和投资利润</a>
@@ -489,6 +516,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('abb7db5d16')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('abb7db5d16')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://stock.stockstar.com/RB2026102200022789.shtml" target="_blank" rel="noopener">上海机电中报归母净利降19.39%</a>
@@ -502,6 +530,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('85d1e8d13b')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('85d1e8d13b')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://new.qq.com/rain/a/20261022A090RS00" target="_blank" rel="noopener">上海沿浦三季度营收降7.23%、净利微降</a>
@@ -515,6 +544,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('09eb507c62')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('09eb507c62')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7693898617458786871" target="_blank" rel="noopener">江苏如东老周建材厂：扩到4个厂关掉3个，三年亏370万</a>
@@ -528,6 +558,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('41862db4eb')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('41862db4eb')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.niuqiclub.com/article/41267.html" target="_blank" rel="noopener">消除浪费从哪开始?先看仓库里堆了多久再动手也不晚</a>
@@ -541,6 +572,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('db55b76a4d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('db55b76a4d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.zbintel.com/erpclub/yitihua/article-316897.shtml#zhejiang-fangzhi" target="_blank" rel="noopener">库存成本优化指南:企业如何破解高库存、低周转、账实不符三大困局?</a>
@@ -554,6 +586,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('9a57956b5f')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('9a57956b5f')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://hangzhou.11467.com/info/38484170.htm" target="_blank" rel="noopener">不要让库存成本吞噬利润!</a>
@@ -567,6 +600,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('83225022a5')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('83225022a5')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.qiyiwork.com/?faq/320.html" target="_blank" rel="noopener">备件买多了压资金,买少了停产线</a>
@@ -580,6 +614,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('ea8699f32c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('ea8699f32c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.niuqiclub.com/article/15419.html" target="_blank" rel="noopener">库存指数高了怎么办?50-200人制造企业别只会降价</a>
@@ -593,6 +628,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('5269e67f70')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('5269e67f70')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.cztv.com/newsDetail/902359#yiainfu" target="_blank" rel="noopener">奋战三季度 决胜下半年丨不一样的服装厂</a>
@@ -606,6 +642,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('8f3780e7a6')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('8f3780e7a6')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://mwei.ltd.com/zixun/24485" target="_blank" rel="noopener">苏宁易购:困于产业生命周期的认知断层</a>
@@ -619,6 +656,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('69273ee4d7')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('69273ee4d7')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/a7677492483881730600" target="_blank" rel="noopener">天下第一村跌落神坛,人均600万到欠400亿</a>
@@ -632,6 +670,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('a3ced81d74')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('a3ced81d74')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.zbintel.com/erpclub/yitihua/article-434095.shtml" target="_blank" rel="noopener">库存成本怎么算才准?企业库存成本管理常见误区与落地方案</a>
@@ -645,6 +684,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('575d74d5e0')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('575d74d5e0')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.zbintel.com/erpclub/yitihua/article-434142.shtml" target="_blank" rel="noopener">库存成本怎么算才准?企业库存成本管理常见误区与优化路径</a>
@@ -658,6 +698,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('32f323b6b9')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('32f323b6b9')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://guba.eastmoney.com/news,400224,1784668437.html" target="_blank" rel="noopener">苏阳光5困局：12.3亿关联应收计提、每年近3亿罚息绞索</a>
@@ -671,6 +712,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f05e80571e')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f05e80571e')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://gelonghui.com/p/2148099" target="_blank" rel="noopener">盛剑科技36%产能闲置与资本支出或虚高如何冲击5亿募资</a>
@@ -684,6 +726,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('73882a9a58')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('73882a9a58')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://www.zjrmfy.suzhou.gov.cn/fypage/toContentPage/ryml/82a07a4869231983016b8c4486700266" target="_blank" rel="noopener">【江苏经济报】这些破产企业,"各有各的不幸"</a>
@@ -697,6 +740,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('21848660fd')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('21848660fd')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.zbintel.com/erpclub/yitihua/article-326354.shtml" target="_blank" rel="noopener">呆滞库存清理优化管理工具:企业如何破解积压库存难盘活、成本高、周转慢的困局?</a>
@@ -710,6 +754,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f7251bd175')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f7251bd175')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.zbintel.com/erpclub/yitihua/article-432183.shtml" target="_blank" rel="noopener">呆滞料管理怎么做?企业呆滞料管理落地难的三大症结</a>
@@ -723,6 +768,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f7b938be3a')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f7b938be3a')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7698170648979341859/" target="_blank" rel="noopener">三季度亏了521万,“浙江早餐大王”关闭132家店</a>
@@ -736,6 +782,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('739ac15aef')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('739ac15aef')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.jntimes.cn/jrbd/202610/t20261019_s6ad5d087e4b04a84cc53a8df.shtml" target="_blank" rel="noopener">悦达纺织立'非必要不采购'铁规，专项清查长期滞库呆滞料</a>
@@ -749,6 +796,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('e5b67c10cf')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('e5b67c10cf')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.163.com/dy/article/L9M407900524K8JC.html" target="_blank" rel="noopener">人民日报点名长三角精密零件小老板：生意做成钱却卡在半道</a>
@@ -762,6 +810,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('a408662766')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('a408662766')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7686052122466533938" target="_blank" rel="noopener">金融活水精准滴灌 衢州制造有了“出海”底气（浙江南派家居账期难题）</a>
@@ -775,6 +824,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('2cfc1c85e9')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('2cfc1c85e9')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.zgswcn.com/news.html?aid=362794" target="_blank" rel="noopener">金融不掉“链” 恒丰银行太仓支行打通专精特新企业供应链“血脉”（江苏艾锐博）</a>
@@ -788,6 +838,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('c778274119')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('c778274119')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.sohu.com/a/1050925608_122690106" target="_blank" rel="noopener">积压三成、停工十次——金蝶AI星空让盐城工厂库存'活'了</a>
@@ -801,6 +852,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('b6c653504e')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('b6c653504e')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.sina.com.cn/jjxw/2026-10-18/doc-inivrrfr6613735.shtml" target="_blank" rel="noopener">营收超700亿元､扣非后净利润仅1.1亿元,AI热潮后上海钢联股价三年跌超55%</a>
@@ -814,6 +866,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('4617ac9d3d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('4617ac9d3d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.163.com/dy/article/KTPL0NBP05149HUU.html" target="_blank" rel="noopener">三阶工作打开“讨薪锁” 多元共治解开“欠薪结”</a>
@@ -827,6 +880,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('555957fc86')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('555957fc86')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://baike.baidu.com/item/%E5%AE%89%E5%BE%BD%E7%9C%81%E7%B2%BE%E6%AD%A3%E7%94%B5%E5%99%A8%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/21331135" target="_blank" rel="noopener">安徽省精正电器有限公司</a>
@@ -840,6 +894,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('7d702e3072')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('7d702e3072')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.waimaoinfo.com/2026/09/22/43063.html" target="_blank" rel="noopener">美国服装巨头退出，浙江千人工厂宣布关闭</a>
@@ -853,6 +908,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('3daf9a00fa')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('3daf9a00fa')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7656622900543341071" target="_blank" rel="noopener">没有利润的增长，全都是自杀式的增长</a>
@@ -866,6 +922,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('e0971b280a')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('e0971b280a')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://news.cnstock.com/news/sns_jr/201405/3028659.htm" target="_blank" rel="noopener">产能过剩和担保链双重夹击下的浙企样本——赐富集团的安与危</a>
@@ -879,6 +936,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('efada4c0e7')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('efada4c0e7')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.huxiu.com/article/4852978.html" target="_blank" rel="noopener">号称投资122亿元的光伏基地,如今几乎停摆,95后“企二代”被立案调查</a>
@@ -892,6 +950,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('b5a83e6f9d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('b5a83e6f9d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.taocixinxi.cn/news-4-38035-0.html" target="_blank" rel="noopener">一陶砖厂刚建好就停产甩卖设备!陶瓷行业扩产要谨慎</a>
@@ -905,6 +964,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('b5c5fc7d4e')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('b5c5fc7d4e')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://xueqiu.com/3842627650/399279586" target="_blank" rel="noopener">曾经和雨虹、科顺同台!如今资不抵债,亚士创能正式申请庭外重组</a>
@@ -918,6 +978,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('c3fe5961a6')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('c3fe5961a6')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://search.laborinfocn.com/articles/109919" target="_blank" rel="noopener">江苏一盐化工厂倒闭 近千员工面临失业</a>
@@ -931,6 +992,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('727ffc717b')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('727ffc717b')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://pccz.court.gov.cn/filedownloads/pcglr/202602/58d53b4513f5413995db32ce1f676cd3/dc14d1d74bd144f7ae5d4c4dd2cd5d80/e8eb1bd52026c35711cd84f6428d37bd?fn=%E3%80%90%E5%85%B0%E5%BA%86%E3%80%91%E8%B4%A2%E4%BA%A7%E7%AE%A1%E7%90%86%E3%80%81%E5%8F%98%E4%BB%B7%E6%96%B9%E6%A1%88%E5%AE%9E%E6%96%BD%E7%BB%86%E5%88%99-%E5%91%8A08.pdf" target="_blank" rel="noopener">上海兰庆新材料技术股份有限公司破产清算案 财产管理、变价方案实施细则</a>
@@ -944,6 +1006,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('084a4a276c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('084a4a276c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.csjcs.com/news/show/82ea68c0bbea73d0.html" target="_blank" rel="noopener">安徽民企交上“史上最好”半年报,为何老板们笑不出来?</a>
@@ -957,6 +1020,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('b34a6bf56a')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('b34a6bf56a')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.hstong.com/news/detail/26052223484615172" target="_blank" rel="noopener">与19家客户打官司,踩雷合众汽车,泓毅股份坏账损失一度超5000万元</a>
@@ -970,6 +1034,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('270c37d69b')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('270c37d69b')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://bzzy.ahcourt.gov.cn/article/detail/2024/11/id/8180968.shtml" target="_blank" rel="noopener">亳州法院妥善处理的涉亳州某饮片厂破产系列执行案件被最高法推介</a>
@@ -983,6 +1048,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('3bee7c05cd')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('3bee7c05cd')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://pccz.court.gov.cn/filedownloads/pcglr/202412/13229FDF4B2D4BCB9B60381419AEDD8A/1CA49957D1106589E622C812653AD0C0/5459ec5c8c0b72cae3ed2f7070393103?fn=%E6%83%8A%E5%A4%A9%E6%99%BA%E8%83%BD%E8%A3%85%E5%A4%87%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8%E7%AD%89%E4%BA%94%E5%85%AC%E5%8F%B8%E5%90%88%E5%B9%B6%E7%A0%B4%E4%BA%A7%E9%87%8D%E6%95%B4%E6%A1%88%E3%80%8A%E9%87%8D%E6%95%B4%E8%AE%A1%E5%88%92%E3%80%8B%E5%80%BA%E6%9D%83%E6%B8%85%E5%81%BF%E5%AE%9E%E6%96%BD%E5%8A%9E%E6%B3%95.pdf" target="_blank" rel="noopener">惊天智能装备股份有限公司等五公司合并重整案《重整计划》债权清偿实施办法</a>
@@ -996,6 +1062,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('13f49586de')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('13f49586de')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7679744587451122186" target="_blank" rel="noopener">全面停止生产!昆山10年模具制造工厂,进入破产清算程序</a>
@@ -1009,6 +1076,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('80eb2992d3')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('80eb2992d3')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.stcn.com/article/detail/3562331.html" target="_blank" rel="noopener">“义乌最牛老板娘”的2025：风大浪大，烂牌硬打，甘苦交织</a>
@@ -1022,6 +1090,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f5304dad90')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f5304dad90')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.jiemian.com/article/13681744.html" target="_blank" rel="noopener">财说丨连续三年亏损、有息负债激增40%，宁波方正陷盈利与资金双重困局</a>
@@ -1035,6 +1104,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('18a737b89d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('18a737b89d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://cj.sina.cn/articles/view/6726108332/190e844ac00101etzi" target="_blank" rel="noopener">金种子酒连亏五年，谢金明履新救场，国资掌舵能否破局？</a>
@@ -1048,6 +1118,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('b8498ca87c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('b8498ca87c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://business.sohu.com/a/1080291698_121332532" target="_blank" rel="noopener">羽毛球疯涨后掉头下跌！从一球难求到库存积压，有人年入千万，有人亏损上亿</a>
@@ -1061,6 +1132,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('4627c32196')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('4627c32196')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7685974257079271936" target="_blank" rel="noopener">代工厂的警示？曾经的“智能马桶界的富士康”，喜尔康倒下！</a>
@@ -1074,6 +1146,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('867ac86316')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('867ac86316')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://www.zjrmfy.suzhou.gov.cn/fypage/toContentPage/pfxc/82a07a4869231983016b8c4387f80265" target="_blank" rel="noopener">【新华日报】这些破产企业，“各有各的不幸”</a>
@@ -1087,6 +1160,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('71094f12ae')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('71094f12ae')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://i.ifeng.com/c/8sBSMZREPZr" target="_blank" rel="noopener">江淮汽车扣非净利九连亏，乘用车产能闲置过半，靠尊界增收难解亏损困局</a>
@@ -1100,6 +1174,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('8a2203d155')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('8a2203d155')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7546420761766937151" target="_blank" rel="noopener">十五载箱包厂落幕：老板关厂避新规，一人公司谋新生</a>
@@ -1113,6 +1188,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('b8b18bf608')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('b8b18bf608')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://www.chinacourt.cn/article/detail/2026/01/id/9139361.shtml" target="_blank" rel="noopener">千年古镇，再度飘酒香</a>
@@ -1126,6 +1202,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('d2ec4a29ac')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('d2ec4a29ac')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://baike.baidu.com/item/%E9%87%91%E5%AF%A8%E5%8E%BF%E5%B9%BF%E6%BA%90%E5%B7%A5%E5%85%B7%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8" target="_blank" rel="noopener">金寨县广源工具有限公司进入破产清算</a>
@@ -1139,6 +1216,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('fe7cd1c947')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('fe7cd1c947')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.court.gov.cn/zixun/xiangqing/484371.html" target="_blank" rel="noopener">国祯美洁（安徽）生物质热电资金链断裂 破产重整</a>
@@ -1152,6 +1230,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('fb404276c3')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('fb404276c3')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.cnenergynews.cn/article/4S0F2jINr8L" target="_blank" rel="noopener">聚酯龙头三房巷为何濒临退市？治理与债务双重困局待解</a>
@@ -1165,6 +1244,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('46e6b5b539')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('46e6b5b539')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://www.paperinsight.net/ljz/40206.html" target="_blank" rel="noopener">全面停止生产！苏州8年纸业大厂宣告破产，理由是资不抵债</a>
@@ -1178,6 +1258,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('a07942b83c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('a07942b83c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.f-cn.cn/news/show-36094.html" target="_blank" rel="noopener">84亿元打水漂？又一新能源车企被申请破产！</a>
@@ -1191,6 +1272,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('b67aff2036')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('b67aff2036')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7538705475622388239/" target="_blank" rel="noopener">经营11年的浙江老牌服装印花厂遭破产清算，员工被解散！</a>
@@ -1204,6 +1286,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('cefe3045a2')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('cefe3045a2')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://caifuhao.eastmoney.com/news/1590657549" target="_blank" rel="noopener">浙江金点子纺织创始人毕光钧坠楼 8000万绿色改造打水漂</a>
@@ -1217,6 +1300,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('0fdbbcfa58')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('0fdbbcfa58')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.thepaper.cn/wap/resource/jsp/newsDetail_forward_1375226" target="_blank" rel="noopener">吴晓波：庄吉之死，是产业转型的缩影</a>
@@ -1230,6 +1314,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('28a2688a13')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('28a2688a13')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://it.sohu.com/a/922665720_122471301" target="_blank" rel="noopener">第二个富士康？宣布全线搬迁、近10万工人丢掉饭碗</a>
@@ -1243,6 +1328,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('e32a70da2b')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('e32a70da2b')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/a1877363137571840" target="_blank" rel="noopener">智能马桶代工巨头浙江喜尔康破产清算 盲目重资产扩产酿苦果</a>
@@ -1256,6 +1342,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('c149fd32f0')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('c149fd32f0')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://cj.sina.cn/articles/view/1863057363/6f0bffd301901u69y" target="_blank" rel="noopener">宁波慈溪金格科技盲目扩产跨界 资金链断裂基业付诸东流</a>
@@ -1269,6 +1356,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('b21b6105aa')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('b21b6105aa')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://nz.tigermarketb.com/hant/news/2655886415" target="_blank" rel="noopener">明星火锅上上谦逆势扩张 2026年6月全国门店清零</a>
@@ -1282,6 +1370,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f17fed25fd')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f17fed25fd')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.shangyexinzhi.com/article/34353476.html" target="_blank" rel="noopener">金种子酒连续五年亏损超8亿 低端依赖高端失败</a>
@@ -1295,6 +1384,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('c2d63d6634')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('c2d63d6634')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://hxny.com/nd-134298-0-19.html" target="_blank" rel="noopener">宇晶股份旗下江苏双晶欠租3756万 亿元设备被查封</a>
@@ -1308,6 +1398,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('13855cba6d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('13855cba6d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.ww.gov.cn/openness/public/6603471/28926021.html" target="_blank" rel="noopener">关于解决无为电缆企业联保互保问题及风险化解的提案答复</a>
@@ -1321,6 +1412,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('692785ffd1')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('692785ffd1')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://ah.ifeng.com/c/8sYMyN0yOI4" target="_blank" rel="noopener">泉为科技安徽、山东光伏生产基地如今几乎停摆！95后"企二代"被立案调查</a>
@@ -1334,6 +1426,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('a4c3216c53')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('a4c3216c53')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.creb.com.cn/gs/217899.jhtml" target="_blank" rel="noopener">高管落马、现金流承压！安徽最大建筑龙头怎么了？</a>
@@ -1347,6 +1440,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('e01d289c44')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('e01d289c44')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://egs.stcn.com/news/detail/1274495.html" target="_blank" rel="noopener">信贷"加油"上海制造</a>
@@ -1360,6 +1454,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('dfbd934ffe')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('dfbd934ffe')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.chongmingzhaoshang.cn/zhishi/chuangye/2205.html" target="_blank" rel="noopener">应收账款账龄风险监控（崇明园区H公司案例）</a>
@@ -1373,6 +1468,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('c85e2ce643')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('c85e2ce643')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://h5detail.yiyouliao.com/rivers/newsfeed/1536235174142947329/ID3FQT2GM1RQKIM.html" target="_blank" rel="noopener">"仓库乱点没关系"害惨多少工厂?库存积压的钱,够你再开一个厂!</a>
@@ -1386,6 +1482,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('827d3afc4a')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('827d3afc4a')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7623043245559366144" target="_blank" rel="noopener">安徽破产白酒公司拍卖内幕:6次无人问津,最后3.9元一斤成交</a>
@@ -1399,6 +1496,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('408f1fa2e2')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('408f1fa2e2')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://user.guancha.cn/wap/content?id=1427784" target="_blank" rel="noopener">固定资产折旧压垮利润表：上海艾录的光伏输在“重资产死穴”</a>
@@ -1412,6 +1510,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('56adf9d1ef')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('56adf9d1ef')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://news.ifeng.com/c/7oFDN0ma2zM" target="_blank" rel="noopener">5年前称营收600多亿去年不足50亿 这家国企究竟怎么了？</a>
@@ -1425,6 +1524,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('91bdfcc9b7')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('91bdfcc9b7')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.topnews.cn/news/1451D4EC43BF4570" target="_blank" rel="noopener">一家成立了24年的老厂正式宣告破产！（浙江恒诺家具）</a>
@@ -1438,6 +1538,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('1aa664861a')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('1aa664861a')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.chinatimes.net.cn/article/152648.html" target="_blank" rel="noopener">砸下10.68亿元转型，高管突然被留置：百年老字号的生死劫（浙江震元）</a>
@@ -1451,6 +1552,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('e81a614060')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('e81a614060')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.sohu.com/a/961137866_122014422" target="_blank" rel="noopener">小米、飞利浦代工厂德尔玛苏州团队裁撤，官方回应：应对行业寒冬</a>
@@ -1464,6 +1566,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('e073d1ee36')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('e073d1ee36')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://news.qq.com/rain/a/20261016A0774W00" target="_blank" rel="noopener">蚌埠市近二十年因经营不善倒闭的十家大型企业</a>
@@ -1477,6 +1580,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('c862673b1b')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('c862673b1b')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://www.cnnbsa.com/index.php?a=show&catid=8&id=3296" target="_blank" rel="noopener">代工企业频遭外贸弃单，商务部摸底调研出口订单风险</a>
@@ -1490,6 +1594,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('c247fd58c3')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('c247fd58c3')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.niuqiclub.com/article/13675.html" target="_blank" rel="noopener">江苏电子组装厂:年产值6000万,在制品400万拖垮资金链</a>
@@ -1503,6 +1608,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('a6934551c6')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('a6934551c6')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.chinanews.com/wap/detail/cht/zw/9895455.shtml" target="_blank" rel="noopener">合肥合锻智能:数字化升级5年未盈利,重资产持续烧钱</a>
@@ -1516,6 +1622,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('b55639763b')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('b55639763b')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://tsight.io/articles/7816200?lang=zh" target="_blank" rel="noopener">长三角汽车零部件企业:斥巨资全自动化产线产能不升反降</a>
@@ -1529,6 +1636,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('31e0c958be')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('31e0c958be')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E7%BF%94%E8%8A%AF%E9%9B%86%E6%88%90%E7%94%B5%E8%B7%AF%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20575305" target="_blank" rel="noopener">上海翔芯集成电路有限公司(破产清算)</a>
@@ -1542,6 +1650,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('55f906fb55')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('55f906fb55')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7696706547463897640/" target="_blank" rel="noopener">元新闻特稿|换新董事长能否"救火"?安徽上市酒企金种子酒上半年高端酒只卖517万元</a>
@@ -1555,6 +1664,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('9683c8e213')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('9683c8e213')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.sohu.com/a/1088191733_122369250" target="_blank" rel="noopener">一鸣食品Q3由盈转亏 鲜奶吧模式阶段性承压</a>
@@ -1568,6 +1678,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('2566ec87d7')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('2566ec87d7')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://news.qq.com/rain/a/20261014A058DA00" target="_blank" rel="noopener">订单一跌再跌！又一24年老牌大厂跌落神坛，负债1.21亿，无力偿还</a>
@@ -1581,6 +1692,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('524ec53c0e')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('524ec53c0e')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.chwang.com/article/210050723134" target="_blank" rel="noopener">美国巨头全面撤离,浙江千人大厂一夜关停</a>
@@ -1594,6 +1706,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('cff177025d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('cff177025d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://xhbks.com/chuhai/2681.html" target="_blank" rel="noopener">代工时代落幕:被逼着做跨境电商的中国外贸工厂,正在绝地翻盘</a>
@@ -1607,6 +1720,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('a15bcf299f')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('a15bcf299f')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7644757178087981631" target="_blank" rel="noopener">锦囊妙计曾老师:花20万买AI当摆设?无数工厂踩过的愚蠢大坑</a>
@@ -1620,6 +1734,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('dde6e930cc')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('dde6e930cc')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7455302297380389387" target="_blank" rel="noopener">智能化转型“搁浅”,“大厂”间的商事纠纷该如何化解?</a>
@@ -1633,6 +1748,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('4f075bf97d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('4f075bf97d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://new.qq.com/rain/a/20261013A059HZ00" target="_blank" rel="noopener">资产6058万、债务1.21亿：做了24年的家具出口厂，为什么订单一跌就撑不住？</a>
@@ -1646,6 +1762,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('bb29652978')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('bb29652978')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.cifnews.com/article/189421" target="_blank" rel="noopener">知名外贸老厂倒闭!一批大卖也扛不住了</a>
@@ -1659,6 +1776,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('7f5fd1ee52')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('7f5fd1ee52')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://gdd.changzhou.gov.cn/html/tjjdcd/2026/JECOENJO_1013/7151.html" target="_blank" rel="noopener">常州中小型出口企业经营稳中承压 结构性矛盾与转型挑战仍需关注</a>
@@ -1672,6 +1790,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('323cbb9504')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('323cbb9504')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.chinatimes.net.cn/article/156341.html" target="_blank" rel="noopener">2.85亿元汇兑损失扰动利润,浙江鼎力多措施对冲汇率风险</a>
@@ -1685,6 +1804,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('2a204793f3')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('2a204793f3')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://news.china.com/socialgd/10000169/20261013/49790976_all.html" target="_blank" rel="noopener">安徽吊装商张成东回款仅60%：被欠账吓怕宁愿躺平</a>
@@ -1698,6 +1818,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('d8a007c99c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('d8a007c99c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://tsight.io/articles/17959632" target="_blank" rel="noopener">数据孤岛的挽歌：工业互联网报告与车间现实的错位（台州模具厂）</a>
@@ -1711,6 +1832,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f36a0a4212')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f36a0a4212')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7642942620070609458" target="_blank" rel="noopener">工厂疯狂上机器人、疯狂扩产能，却忽略致命问题（江浙纺织服装）</a>
@@ -1724,6 +1846,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('51124e480c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('51124e480c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.ykit.net/nd?itemId=596969" target="_blank" rel="noopener">长三角制造业数字化转型踩坑报告：83%企业忽视的5个关键点（温州鞋服企业）</a>
@@ -1737,6 +1860,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('590acd97d3')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('590acd97d3')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.sina.cn/news/detail/5317017189744795.html" target="_blank" rel="noopener">【小工厂:料进来、货出去、钱在中间卡住了】上海机械设备厂库存案例</a>
@@ -1750,6 +1874,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('29256f0888')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('29256f0888')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.thepaper.cn/newsDetail_forward_34237643?commTag=true" target="_blank" rel="noopener">安徽省马鞍山市中级人民法院公开选任破产管理人公告</a>
@@ -1763,6 +1888,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('886130073b')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('886130073b')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://jsjjb.xhby.net/pad/con/202610/12/content_1596286.html" target="_blank" rel="noopener">苏州中来光伏三年巨亏 深陷光伏过剩寒冬</a>
@@ -1776,6 +1902,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('4e02b57413')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('4e02b57413')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://jsjjb.xhby.net/pc/con/202610/12/content_1596286.html" target="_blank" rel="noopener">江苏光伏业如何化“危”为机?（常州比太科技）</a>
@@ -1789,6 +1916,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('c426614d59')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('c426614d59')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://stock.10jqka.com.cn/20261012/c680562490.shtml" target="_blank" rel="noopener">江苏光伏业如何化“危”为机?（苏州中来光伏）</a>
@@ -1802,6 +1930,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('aac88b2894')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('aac88b2894')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.inewsweek.cn/observe/2026-10-10/32471.shtml" target="_blank" rel="noopener">无锡盛力达科技2025年产值骤降72.57%的「深蹲」</a>
@@ -1815,6 +1944,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('fbbb480e4e')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('fbbb480e4e')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://d3b4tr6pftdrkw.cloudfront.net/gb/mkt_ipad/2026/10/10/a104140854.html" target="_blank" rel="noopener">江淮尊界项目产能利用率不足10%：百亿投入陷“烧钱换规模”困局</a>
@@ -1828,6 +1958,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('9f3d09b116')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('9f3d09b116')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.eastmoney.com/a/202610093890212073.html" target="_blank" rel="noopener">浙江鸿粤半导体之困：成立两年多即进入破产审查程序 曾规划年产8000万米键合丝线</a>
@@ -1841,6 +1972,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('a800cba017')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('a800cba017')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.xyw6s.com/news/glzs/1066.html" target="_blank" rel="noopener">2026安徽中小厂利润缩水，定制改善策略守住盈利空间</a>
@@ -1854,6 +1986,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('6684f71553')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('6684f71553')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://zjiii.org/col/col1229850123/art/2026/art_592e90e6c8b049fcb479f45d487ff8bc.html" target="_blank" rel="noopener">热点锐评｜中东局势升级下全球供应链加速重构：我省制造业如何破局突围</a>
@@ -1867,6 +2000,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('c657209e2d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('c657209e2d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.king-v.com/news/16155.html" target="_blank" rel="noopener">2026工业数字化新拐点：上海制造企业如何同步落地AI升级与信创合规</a>
@@ -1880,6 +2014,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('7a81846754')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('7a81846754')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://scceb.com/%e6%99%ba%e6%85%a7%e5%b7%a5%e5%8e%82%e5%bb%ba%e8%ae%be%ef%bc%8c%e4%bc%81%e4%b8%9a%e6%9c%80%e5%ae%b9%e6%98%93%e8%b8%a9%e7%9a%845%e4%b8%aa%e5%9d%91/" target="_blank" rel="noopener">智慧工厂建设，企业最容易踩的5个坑</a>
@@ -1893,6 +2028,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('4c5ccb7a52')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('4c5ccb7a52')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.xyw6s.com/news/glzs/1517.html" target="_blank" rel="noopener">2026安徽工厂智能升级：精益+数字化双驱动提质增收方案</a>
@@ -1906,6 +2042,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('5dce79be47')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('5dce79be47')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.xuancheng.gov.cn/OpennessContent/show/3586781.html" target="_blank" rel="noopener">宣州区1-7月规上工业经济效益分析——高技术产业引领增长,传统行业承压明显</a>
@@ -1919,6 +2056,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('3b6edba538')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('3b6edba538')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.top168.com/news/show-635207.html" target="_blank" rel="noopener">产业带“订单慌”终结者</a>
@@ -1932,6 +2070,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('33bca722e3')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('33bca722e3')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://zjzd.stats.gov.cn/gjtjjtzdcd/dcfx/fx/art/2024/art_3b463f5d10a449c1850084932f29c320.html" target="_blank" rel="noopener">台州小微企业生存发展策略研究</a>
@@ -1945,6 +2084,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('94c4f3b495')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('94c4f3b495')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7680866850292417059" target="_blank" rel="noopener">全面停止生产!常州一五金配件加工厂,宣告破产</a>
@@ -1958,6 +2098,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('36ad2bee36')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('36ad2bee36')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.21jingji.com/article/20261009/herald/4d56f843a08e6e833e04a5f270ab8aeb.html" target="_blank" rel="noopener">智橙动力（苏州）破产重整：年销近亿的泳池机器人公司为何没钱</a>
@@ -1971,6 +2112,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f9266968fa')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f9266968fa')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.gqqdc.com/product/27.html" target="_blank" rel="noopener">订单越多越赔钱 浙江外贸工厂的困局与国内贸易代理的挑战</a>
@@ -1984,6 +2126,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('987fd357d2')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('987fd357d2')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://www.jzx7788.com/html/zhishiku241/278249.html" target="_blank" rel="noopener">基于突围三力的企业财务管理深度复盘与决策优化</a>
@@ -1997,6 +2140,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('8b038c713d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('8b038c713d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://wap.cztv.com/articles/index.html?pubId=2940623" target="_blank" rel="noopener">整车产量“冲上”全国第一，企业缘何“咬牙过冬”——浙江新能源车产业链“冷热温差”深度调查</a>
@@ -2010,6 +2154,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('0714e93771')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('0714e93771')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://fgw.huzhou.gov.cn/col/col1229210758/art/2026/art_9133640b71504a69b6006720f59da196.html" target="_blank" rel="noopener">2025年四季度湖州市工业企业问卷调查分析报告</a>
@@ -2023,6 +2168,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('3dad6c8d7e')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('3dad6c8d7e')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://zlzx.zjamr.zj.gov.cn/news/3301008/1377.html" target="_blank" rel="noopener">浙江省：打造数字经济强省和数字变革高地（转型阵痛访谈）</a>
@@ -2036,6 +2182,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('274cf5784a')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('274cf5784a')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://tidenews.com.cn/tmh_news.html?id=6a2a1a9fc077dd0001b88036" target="_blank" rel="noopener">中小浙商数智化转型困局破解——破除不会转、不敢转、没钱转难题</a>
@@ -2049,6 +2196,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('341cfb37e3')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('341cfb37e3')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/is/p-aClW0Jyxo/" target="_blank" rel="noopener">凌晨2点催债堵门：订单爆满，长三角工厂咋赚没了？</a>
@@ -2062,6 +2210,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('9f3215b148')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('9f3215b148')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://rd.changzhou.gov.cn/index.php?c=phone&a=show&id=35146&catid=10665" target="_blank" rel="noopener">关于全市外贸高质量发展情况的报告</a>
@@ -2075,6 +2224,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('783ac1bcca')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('783ac1bcca')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.yewangtrade.com/product/255.html" target="_blank" rel="noopener">订单流失近40%致多地工厂重创,人民日报发文警示上海贸易风险</a>
@@ -2088,6 +2238,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('efc6da9b7f')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('efc6da9b7f')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.chaoneo.com/archives/3984.html" target="_blank" rel="noopener">上海传统制造业企业AI转型为什么比互联网公司更难</a>
@@ -2101,6 +2252,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('b087179890')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('b087179890')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7685934549134377472" target="_blank" rel="noopener">"有订单就有利润"害惨多少工厂?90%的工厂都死在现金流上!</a>
@@ -2114,6 +2266,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('830c14b937')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('830c14b937')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://laborinfozh.com/articles/173" target="_blank" rel="noopener">中小微企业生死线:守住资金链才能熬到复工</a>
@@ -2127,6 +2280,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('8742878d56')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('8742878d56')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.peopleapp.com/rmharticle/30027723055" target="_blank" rel="noopener">一家上海小微企业的漫漫求生路:在倒闭与裁员间扛过5月</a>
@@ -2140,6 +2294,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('12b9a926d8')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('12b9a926d8')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.biggo.com.tw/news/c4238a8e-20f6-4d16-a5ce-b7f0f89bd1a6" target="_blank" rel="noopener">上海美蘭破產清算終結:昔日國民雪花膏為何資不抵債?</a>
@@ -2153,6 +2308,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f3f57e3b49')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f3f57e3b49')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.bzqc.gov.cn/Jcsd/show/2935933.html" target="_blank" rel="noopener">【经济运行】1-12月全市工业经济运行情况分析</a>
@@ -2166,6 +2322,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('60c642c1f2')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('60c642c1f2')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.xuancheng.gov.cn/OpennessContent/show/3663103.html" target="_blank" rel="noopener">宣州区2025年1-12月规上工业经济效益分析——结构优化与质效提升并进,部分领域风险仍需关注</a>
@@ -2179,6 +2336,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('ccc18b05ca')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('ccc18b05ca')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://tj.bozhou.gov.cn/News/show/716276.html" target="_blank" rel="noopener">1-3月全市工业经济发展分析</a>
@@ -2192,6 +2350,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('2277180072')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('2277180072')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://gxj.luan.gov.cn/zwzx/jxyw/5459792.html" target="_blank" rel="noopener">六安市助力企业危中寻机 破局转型</a>
@@ -2205,6 +2364,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('5dc072ee0c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('5dc072ee0c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://swj.luan.gov.cn/swgz/xqsw/5436333.html" target="_blank" rel="noopener">金开区:聚焦外贸企业困境 共商破局发展良策</a>
@@ -2218,6 +2378,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('21ad062494')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('21ad062494')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/a7680613007415853603" target="_blank" rel="noopener">安徽工业利润增63.5%,为何赚钱能力仍有硬伤?</a>
@@ -2231,6 +2392,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('a1762b1927')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('a1762b1927')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.thepaper.cn/newsDetail_forward_32980661" target="_blank" rel="noopener">负债5650万余元的企业在春天“重生” — 无为某服饰公司破产和解</a>
@@ -2244,6 +2406,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('b2305b6553')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('b2305b6553')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/a7673471974508806658" target="_blank" rel="noopener">订单看着红火,年底算账亏损!深度拆解制造业低价内卷困局</a>
@@ -2257,6 +2420,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f161ee7735')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f161ee7735')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7582889493385888307" target="_blank" rel="noopener">产业带 “订单慌” 终结者 — 义乌厂二代百万库存与长三角五金厂现金流断裂</a>
@@ -2270,6 +2434,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('ecb893e91b')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('ecb893e91b')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://tsight.io/articles/13102330" target="_blank" rel="noopener">断裂的毛细血管:一份延期六个月的五金订单背后的“信用冰层”</a>
@@ -2283,6 +2448,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('0490491c50')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('0490491c50')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.sohu.com/a/1070506925_122985065" target="_blank" rel="noopener">制造工厂被高额库存拖垮?电子企业半年库存暴涨700万改善实录</a>
@@ -2296,6 +2462,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('0191a8bc8a')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('0191a8bc8a')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://tsight.io/articles/14431066?lang=zh" target="_blank" rel="noopener">五金价格的“隐形崩塌”:一场关于现金流与库存周转的生存游戏</a>
@@ -2309,6 +2476,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('44c2aef438')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('44c2aef438')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://so.html5.qq.com/page/real/search_news?docid=70000021_5486ac4965c92452" target="_blank" rel="noopener">破立并举助企重生 浙江破产重整激活市场新动能</a>
@@ -2322,6 +2490,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('0d74c6a25b')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('0d74c6a25b')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://dy.163.com/article/L8FO2FVR05568DJG.html" target="_blank" rel="noopener">死磕降价那2个点，不如盘活仓库那3000万</a>
@@ -2335,6 +2504,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('0f8f33556a')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('0f8f33556a')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.cnr.cn/tech/techph/20261005/t20261005_527834628.shtml" target="_blank" rel="noopener">金融活水润泽"热带雨林"--杭州银行助力浙江民营经济高质量发展</a>
@@ -2348,6 +2518,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('e8543136a8')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('e8543136a8')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.163.com/dy/article/L87QUBOF05568E38.html" target="_blank" rel="noopener">苏州环佑精密机械破产：账户仅剩6万元，成立不到5年退出市场</a>
@@ -2361,6 +2532,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('1fc9d64326')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('1fc9d64326')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.sina.com.cn/roll/2026-09-29/doc-initnsef2908614.shtml" target="_blank" rel="noopener">浙江恒诺家具破产：24年杭州老厂资不抵债超6062万</a>
@@ -2374,6 +2546,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('d13b8dc455')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('d13b8dc455')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://jingji.cntv.cn/20111213/108956.shtml" target="_blank" rel="noopener">嘉兴德尔电器非典型倒下：拆迁断供致资金链断裂</a>
@@ -2387,6 +2560,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('82cb62a1c1')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('82cb62a1c1')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://baike.baidu.com/view/5854767.htm" target="_blank" rel="noopener">珠光集团浙江钢结构破产：4.7亿债务压垮，董事长溺亡</a>
@@ -2400,6 +2574,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('333305ef48')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('333305ef48')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.163.com/dy/article/L7B5EJ7K05568W0A.html" target="_blank" rel="noopener">戴国芳“钢铁劫”：铁本强制注销、德龙重整、16.3亿债务追索</a>
@@ -2413,6 +2588,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('04c421529f')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('04c421529f')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://jsfzb.xhby.net/pc/con/202504/08/content_1437067.html" target="_blank" rel="noopener">常州小微化纤厂破产清算：实控人拒配合接管获刑</a>
@@ -2426,6 +2602,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('880ae64660')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('880ae64660')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.21jingji.com/article/20150829/6113329ad813688a39b318d5dfc6a99a.html" target="_blank" rel="noopener">南通明德重工破产清算：造船过剩潮中从白名单到清算</a>
@@ -2439,6 +2616,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('ac3898db99')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('ac3898db99')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://pccz.court.gov.cn/pcajxxw/pcws/wsxq?id=bdbb09a3759b461495279bad6248b7f7" target="_blank" rel="noopener">江苏迅隆科技实质合并破产：1984万资产对1.21亿负债</a>
@@ -2452,6 +2630,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('3e2917d26b')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('3e2917d26b')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://baike.baidu.com/item/%E6%B1%9F%E8%8B%8F%E7%9C%81%E6%A0%BC%E6%9E%97%E8%89%BE%E6%99%AE%E5%8C%96%E5%B7%A5%E8%82%A1%E4%BB%BD%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/20085686" target="_blank" rel="noopener">格林艾普化工破产：搬迁腐败+资金链断裂</a>
@@ -2465,6 +2644,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('2c33efb781')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('2c33efb781')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.sina.com.cn/roll/2026-08-04/doc-inimeeez4048867.shtml" target="_blank" rel="noopener">“上海雪花膏”生产商美兰化妆品破产：资产9.58万对负债1941万</a>
@@ -2478,6 +2658,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('97f88687e0')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('97f88687e0')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://baike.baidu.com/item/%E4%B8%8A%E6%B5%B7%E6%B1%87%E7%90%B4%E5%AE%9E%E4%B8%9A%E6%9C%89%E9%99%90%E5%85%AC%E5%8F%B8/19994921" target="_blank" rel="noopener">上海汇琴实业破产重整：确认债权17.29亿元</a>
@@ -2491,6 +2672,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('a528d097b6')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('a528d097b6')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.shtong.gov.cn/difangzhi-front/book/detailNew?bookId=218976&nodeId=360791&parentNodeId=219075&type=-1" target="_blank" rel="noopener">上海无线电三厂破产：国有中型企业负债率149%</a>
@@ -2504,6 +2686,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('98701a4b6c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('98701a4b6c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://czmgfy.ahcourt.gov.cn/article/detail/2022/06/id/6720702.shtml" target="_blank" rel="noopener">安徽高盛科技材料成僵尸企业：法定代表人失联，2016万拍卖</a>
@@ -2517,6 +2700,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('86b5af7be0')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('86b5af7be0')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://lahsfy.ahcourt.gov.cn/article/detail/2021/12/id/8737067.shtml" target="_blank" rel="noopener">霍山龙鑫金属科技破产重整：负债1.8亿，5500万整体收购重生</a>
@@ -2530,6 +2714,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('281008fa14')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('281008fa14')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://czqyfy.ahcourt.gov.cn/article/detail/2025/01/id/8662835.shtml" target="_blank" rel="noopener">安徽九华金润铜业破产清算：2021年全面停产，土地厂房被查封</a>
@@ -2543,6 +2728,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('0dedd3444f')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('0dedd3444f')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7633792859686175286/" target="_blank" rel="noopener">江苏百川股份增收不增利：营收增3.78%却由盈转亏1.08亿</a>
@@ -2556,6 +2742,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('111963a0c0')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('111963a0c0')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.nanjing.gov.cn/xxgkn/jytabljggk/2023njytabl/shizxta/202311/t20231127_4107426.html" target="_blank" rel="noopener">南京劳动密集型出口订单流失：苏豪/舜天/苏美达纺织将订单转东南亚，降幅普遍20%</a>
@@ -2569,6 +2756,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('7635ef8c68')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('7635ef8c68')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7663381509922882048" target="_blank" rel="noopener">浙江某阀门企业砸180万做数字孪生，半年只跑起一块3D大屏</a>
@@ -2582,6 +2770,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('1634cd5331')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('1634cd5331')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.china.com.cn/roll/20160331/3654938.shtml" target="_blank" rel="noopener">上海第二纺织机械厂信息化「不慎坠落」：耗尽所有积累</a>
@@ -2595,6 +2784,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('14a8448a1c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('14a8448a1c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.chinanews.com/cj/2022/11-16/9895455.shtml" target="_blank" rel="noopener">合肥合锻智能制造「烧钱」五年难盈利：重资产转型进退两难</a>
@@ -2608,6 +2798,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f749cf4e92')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f749cf4e92')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7576810155984142854/" target="_blank" rel="noopener">宁波方正连续三年亏损、有息负债激增40%：存货+应收账款超10亿压垮现金流</a>
@@ -2621,6 +2812,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('7daaadb716')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('7daaadb716')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.sina.com.cn/wm/2026-08-10/doc-inimvxci4843138.shtml" target="_blank" rel="noopener">江苏阳光上亿银行股权折价抵债：毛纺大佬资产缩水、现金流枯竭</a>
@@ -2634,6 +2826,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('69734ba0bc')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('69734ba0bc')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.cbimc.cn/news/295647" target="_blank" rel="noopener">安徽金冠玻璃货币资金两年从147万骤降至17万，库存积压拖累现金流</a>
@@ -2647,6 +2840,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('100d85c020')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('100d85c020')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7667018273589903898" target="_blank" rel="noopener">南京建材加工厂借短贷接300万大单遭拖欠 停工退租</a>
@@ -2660,6 +2854,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('1ca948666e')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('1ca948666e')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://xueqiu.com/9951454875/407243767" target="_blank" rel="noopener">无锡泰达新能源破产 账面仅余728.91元债务高达4.6亿</a>
@@ -2673,6 +2868,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('e97756e856')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('e97756e856')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.westca.com/pda/news/op=view/sid=1113041/lang=tchinese.html" target="_blank" rel="noopener">杭州家具厂关停三月无订单 美国出口订单几近归零</a>
@@ -2686,6 +2882,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('fa3a37ee1f')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('fa3a37ee1f')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.cali-light.com/index/index/newsart/id/26722.html" target="_blank" rel="noopener">绍兴上虞大地照明破产清算 无财产可供分配确认债权756万</a>
@@ -2699,6 +2896,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('c8df53f421')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('c8df53f421')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7494593663821988386" target="_blank" rel="noopener">南通鸿泰破产清算 涉44案欠税242万标的逾8327万</a>
@@ -2712,6 +2910,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('b28432cd35')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('b28432cd35')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.sina.com.cn/jjxw/2025-10-30/doc-infvskcp9535272.shtml" target="_blank" rel="noopener">上海静安面包房母公司资金链断裂 进入破产清算</a>
@@ -2725,6 +2924,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('354ce9925c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('354ce9925c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://ah.people.com.cn/n2/2025/0710/c374164-41287338.html" target="_blank" rel="noopener">泾县某碳酸钙公司停产负债数千万 清算转重整</a>
@@ -2738,6 +2938,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('c607b3a4b0')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('c607b3a4b0')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7659961849240257051" target="_blank" rel="noopener">合肥34年烘焙老字号巴莉甜甜破产重整 104家门店关停</a>
@@ -2751,6 +2952,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('cad838f183')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('cad838f183')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://new.qq.com/rain/a/20260930A05MI700" target="_blank" rel="noopener">账户仅剩6万元!苏州环佑精密机械被裁定破产清算,精密制造也扛不住!</a>
@@ -2764,6 +2966,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('7a5a40cb9c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('7a5a40cb9c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7691997293385499146" target="_blank" rel="noopener">江苏悦彩印刷破产：账户余额仅2.82元，负债916.3万，资金链危机</a>
@@ -2777,6 +2980,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('50bc0028c9')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('50bc0028c9')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.topnews.cn/news/1451D5E141B14A70" target="_blank" rel="noopener">谁'杀死'了水产龙头?</a>
@@ -2790,6 +2994,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f1560887d1')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f1560887d1')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.topnews.cn/news/1451D5E141B14A70" target="_blank" rel="noopener">谁"杀死"了水产龙头？江苏中洋集团破产清算</a>
@@ -2803,6 +3008,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('d6772e9132')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('d6772e9132')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.sina.com.cn/jjxw/2026-03-24/doc-inhrzysx7340105.shtml" target="_blank" rel="noopener">浙江黎明2025年增收不增利：新兴事业部量产初期成本拖累，整体利润下滑</a>
@@ -2816,6 +3022,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('3677bb8d33')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('3677bb8d33')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://tidenews.com.cn/news.html?id=3539506" target="_blank" rel="noopener">浙江新能源车产业链冷热温差：整车产量全国第一，上游汽配厂利润腰斩、产能空转</a>
@@ -2829,6 +3036,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('af524992e6')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('af524992e6')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://zjrb.zjol.com.cn/html/2023-06/13/content_3656044.htm" target="_blank" rel="noopener">浙江日报调查：企业利润去哪儿了——抢单降价+刚性成本吃掉制造业薄利</a>
@@ -2842,6 +3050,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('648e45152a')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('648e45152a')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://wzs.org.cn/sjzs/news?id=22522" target="_blank" rel="noopener">浙江省贸促会调研：43%外贸企业新增订单同比下降，订单向越南印度转移</a>
@@ -2855,6 +3064,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('7ee2d51991')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('7ee2d51991')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://tz.zjol.com.cn/tzxw/202406/t20240615_26913180.shtml?mode=m2pc" target="_blank" rel="noopener">台州星星冷链海外订单流失：老客户转单土耳其，车间一半产能空余</a>
@@ -2868,6 +3078,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('294f654de9')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('294f654de9')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://news.qq.com/rain/a/20260320A05CGK00" target="_blank" rel="noopener">义乌外贸‘高波动’：转口订单面临退单风险，库存积压与现金流承压</a>
@@ -2881,6 +3092,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('cba711d873')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('cba711d873')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://tsight.io/articles/11541923" target="_blank" rel="noopener">断裂的数字孪生：江苏专精特新工厂转型陷阱——数据孤岛、成本错配、人才流失</a>
@@ -2894,6 +3106,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('9a0c698c21')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('9a0c698c21')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7649976977180361268" target="_blank" rel="noopener">江苏数字化工厂改造踩过的3个坑：软件堆砌、忽视人才、认证外包</a>
@@ -2907,6 +3120,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('2f2763ae4c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('2f2763ae4c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.szsk.cn/index.php/home/index/article?id=604" target="_blank" rel="noopener">常熟中小企业智能化改造四大痛点：认知偏差、单点改进、资金难、缺人才</a>
@@ -2920,6 +3134,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f65e017e6e')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f65e017e6e')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://news.fzahw.com/news/2023/06/21/c_98079.htm" target="_blank" rel="noopener">安徽凤阳玻璃公司产品积压资金链断裂，法院‘放水养鱼’助重生</a>
@@ -2933,6 +3148,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('4ad4041fa8')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('4ad4041fa8')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.sina.com.cn/stock/relnews/cn/2025-07-14/doc-inffkwqv6761519.shtml" target="_blank" rel="noopener">安徽金冠玻璃库存积压拖累现金流：货币资金从147万降至17万，存货周转下滑</a>
@@ -2946,6 +3162,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('6df93956f9')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('6df93956f9')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://ahhfzy.ahcourt.gov.cn/article/detail/2020/09/id/5457076.shtml" target="_blank" rel="noopener">安徽徽铝资金链断裂欠债6亿全面停产，破产重整凭商标重生</a>
@@ -2959,6 +3176,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('da88ad747a')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('da88ad747a')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7680866850292417059" target="_blank" rel="noopener">常州厚文五金配件加工厂破产：成立5年资不抵债退出市场</a>
@@ -2972,6 +3190,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('0c99288f60')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('0c99288f60')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.sabaan.com/hangyexinwen/1703.html" target="_blank" rel="noopener">泰州精展金属制品破产：447万资产对811万负债，重资产轻管理无品牌</a>
@@ -2985,6 +3204,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('daedfaefd7')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('daedfaefd7')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.cnfin.com/dz-lb//zixun/20220728/3671556_1.html" target="_blank" rel="noopener">江苏长乐纤维关停清算：中等规模化纤厂主动止损退出红海</a>
@@ -2998,6 +3218,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('37ded928e6')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('37ded928e6')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.chinacourt.org/article/detail/2020/01/id/4777011.shtml" target="_blank" rel="noopener">浙江金盾系破产重整：年产值13.8亿集团资金链断裂，84亿债务化解</a>
@@ -3011,6 +3232,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('aadd8b9bfa')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('aadd8b9bfa')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://baike.baidu.com/view/4012008.htm" target="_blank" rel="noopener">浙江赐富集团资金链危机：总负债超45亿，两年亏损13亿</a>
@@ -3024,6 +3246,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('b6a93fa953')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('b6a93fa953')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.chinacourt.org/article/detail/2024/08/id/8053555.shtml" target="_blank" rel="noopener">昆山金属制品资金链断裂：高新企业拖19家小微，执行转破产重生</a>
@@ -3037,6 +3260,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('b41a28ed60')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('b41a28ed60')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.sina.com.cn/jjxw/2026-08-06/doc-inimhxzv4930160.shtml" target="_blank" rel="noopener">一道新能流动性危机：光伏链主近10亿债务压顶，并购重整保产业链</a>
@@ -3050,6 +3274,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('7a28bcd497')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('7a28bcd497')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://jsjjb.xhby.net/pad/con/202609/29/content_1594152.html" target="_blank" rel="noopener">苏豪时尚（原江苏舜天）净利润连续三年下滑</a>
@@ -3063,6 +3288,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('22931fd2e8')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('22931fd2e8')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.zhgnj.com/szb/pc/content/202609/28/c67120.html" target="_blank" rel="noopener">把“账上债权”变成“手里资金”（海宁长安皮革应收账款质押融资）</a>
@@ -3076,6 +3302,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('e6fac51591')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('e6fac51591')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://dataclouds.cninfo.com.cn/shgonggao/hsomarket/2026/20260928/eb150dedce21436a8c37c0e834c963bc.PDF" target="_blank" rel="noopener">中证鹏元关于关注浙江镇洋发展股份有限公司部分装置临时停产的公告</a>
@@ -3089,6 +3316,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('ca7a264189')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('ca7a264189')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.thepaper.cn/newsDetail_forward_34223913" target="_blank" rel="noopener">五年亏损超8亿,二季度营收不足5000万:金种子酒换帅能换命吗?</a>
@@ -3102,6 +3330,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('2c091f0d49')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('2c091f0d49')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.cenr.com.cn/cyjj/yy/2026/09/28/234498.html" target="_blank" rel="noopener">血制品主业承压 上海莱士买厂为创新药业务"上保险"</a>
@@ -3115,6 +3344,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('94379af075')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('94379af075')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://news.qq.com/rain/a/20260925A03W2X00" target="_blank" rel="noopener">康龙纺织嘉兴厂2026年底停产,8亿元投资为何转向墨西哥?</a>
@@ -3128,6 +3358,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('ed11913f8f')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('ed11913f8f')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7688613102002143794" target="_blank" rel="noopener">智能制造转型痛点解析：传统制造升级，难点从来不是换设备</a>
@@ -3141,6 +3372,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('62e40dd363')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('62e40dd363')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7688611834987594266/" target="_blank" rel="noopener">嘉兴康龙纺织关停（外资牛仔布工厂战略外迁）</a>
@@ -3154,6 +3386,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('10a5aa8bb1')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('10a5aa8bb1')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.tkfff.com/170781.html" target="_blank" rel="noopener">金主突然撤资！又一老牌外贸大厂关停结业</a>
@@ -3167,6 +3400,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('477d20fee6')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('477d20fee6')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7687759637580268042" target="_blank" rel="noopener">铁本强制注销、德龙重整、16.3亿债务追索——戴国芳家族的“钢铁劫”</a>
@@ -3180,6 +3414,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('37e44fd4d6')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('37e44fd4d6')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://www.ggzc.zju.edu.cn/2026/0921/c54181a3206246/page.htm" target="_blank" rel="noopener">【智策】当前我省民营企业发展面临的若干问题和建议</a>
@@ -3193,6 +3428,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('c1d60ba683')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('c1d60ba683')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://glosellers.com/104799.html" target="_blank" rel="noopener">又一家做了二十多年的外贸工厂,倒了。浙江恒诺家具被申请破产清算</a>
@@ -3206,6 +3442,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('55a7cc8c55')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('55a7cc8c55')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.gdssmpa.com/web/diyizixun/xingyedongtai/2026-09-20/29369.html" target="_blank" rel="noopener">谢幕！'钢湖'再无江苏德龙创始人戴国芳的铁本钢铁！</a>
@@ -3219,6 +3456,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('d671b97bf8')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('d671b97bf8')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.sina.com.cn/roll/2026-09-20/doc-inisnnkt1449065.shtml" target="_blank" rel="noopener">国药系,一子公司破产</a>
@@ -3232,6 +3470,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('61f97252f2')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('61f97252f2')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.ctn1986.com/index.php?a=show&c=content&id=126847" target="_blank" rel="noopener">优化资源配置 梦百合关停控股子公司</a>
@@ -3245,6 +3484,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('23efadec7e')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('23efadec7e')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://news.qq.com/rain/a/20260918A0AIQQ00?id=20260918A0AIQQ00" target="_blank" rel="noopener">苏酒龙头洋河二季度利润跌超九成 大本营失守去库存阵痛</a>
@@ -3258,6 +3498,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('eb6854fd1d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('eb6854fd1d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://view.inews.qq.com/a/20260918A0AIQQ00" target="_blank" rel="noopener">洋河股份大本营失守，二季度利润环比跌超九成</a>
@@ -3271,6 +3512,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('67f003eb2d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('67f003eb2d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7686322688729678387" target="_blank" rel="noopener">智能制造转型真正缺的是什么？</a>
@@ -3284,6 +3526,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('e5a4e09b33')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('e5a4e09b33')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://rs.p5w.net/question/2b6b66a2f2224916a626553125e5479f" target="_blank" rel="noopener">上海巴兰仕2026年上半年增收不增利，净利同比降21.98%</a>
@@ -3297,6 +3540,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f2760ab926')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f2760ab926')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://pccz.court.gov.cn/pcgg/ggxq?id=19471012908888064" target="_blank" rel="noopener">江山市人民法院：(2026)浙0881破12号——浙江洁彩塑胶科技有限公司宣告破产公告</a>
@@ -3310,6 +3554,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('0309486b72')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('0309486b72')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.sina.com.cn/roll/2026-09-16/doc-inirzfsu6594254.shtml" target="_blank" rel="noopener">卫浴大佬喜尔康，轰然倒下</a>
@@ -3323,6 +3568,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('7c25b26220')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('7c25b26220')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://zjsfgkw.gov.cn/art/2026/9/17/art_677_52987.html" target="_blank" rel="noopener">江山市人民法院:(2026)浙0881破12号——浙江洁彩塑胶科技有限公司</a>
@@ -3336,6 +3582,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('4d661ac923')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('4d661ac923')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://shcm.gov.cn/ztzl/009005/009005001/009005001001/20260916/be792c50-97f2-4130-a0a2-38d42fa29f34.html" target="_blank" rel="noopener">推动中小企业回款难问题整体好转</a>
@@ -3349,6 +3596,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('2ddda5b1a8')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('2ddda5b1a8')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7685974257079271936" target="_blank" rel="noopener">智能马桶界“富士康”喜尔康倒下：扩产太猛重资产压身，账期拖垮现金流</a>
@@ -3362,6 +3610,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('14dc27edd2')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('14dc27edd2')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.sina.com.cn/wm/2026-09-15/doc-inirxhzu3648061.shtml" target="_blank" rel="noopener">曾年赚1个亿!这家老牌光伏企业扛不住了,7条产线被拍卖!</a>
@@ -3375,6 +3624,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('cda6df1af3')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('cda6df1af3')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7685535942702072363" target="_blank" rel="noopener">之江观察:治理回款难要动真碰硬</a>
@@ -3388,6 +3638,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('52e6baafe0')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('52e6baafe0')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://epaper.cnnb.com.cn/nbwb/pc/content/202609/15/content_299324.html" target="_blank" rel="noopener">哪吒汽车：累计净亏183亿，三地工厂停摆破产重整</a>
@@ -3401,6 +3652,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('45d3e0d009')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('45d3e0d009')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7682491227060601370" target="_blank" rel="noopener">全面停止生产!无锡一精密机械工厂,宣告破产</a>
@@ -3414,6 +3666,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('7cf202c5f6')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('7cf202c5f6')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://dianzibao.cb.com.cn/html/2026-09/07/content_341409.htm" target="_blank" rel="noopener">美邦服饰由盈转亏“步行街王者”半年关店超200家</a>
@@ -3427,6 +3680,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('5e5c88bb30')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('5e5c88bb30')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7682491227060601370" target="_blank" rel="noopener">无锡建威精密机械破产：无法清偿到期债务，偿债危机集中爆发</a>
@@ -3440,6 +3694,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('38d37b64a5')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('38d37b64a5')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://3g.china.com/act/news/10000169/20260903/49718220.html" target="_blank" rel="noopener">温州鞋厂陈老板:三万双库存清不动,转型艰难</a>
@@ -3453,6 +3708,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('0a861704dd')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('0a861704dd')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://www.ceolearn.com/information/202609/19166.html" target="_blank" rel="noopener">传统制造企业转型升级,运河私董会拆解转型实操路径</a>
@@ -3466,6 +3722,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('a763eab84f')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('a763eab84f')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://h5detail.yiyouliao.com/rivers/newsfeed/1536235174142947329/ID2BK2V0S9M6NMK.html" target="_blank" rel="noopener">深兰机器人破产清算 订单画饼产能先行欠薪2300万</a>
@@ -3479,6 +3736,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('5957014b1c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('5957014b1c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7685951426610921994/" target="_blank" rel="noopener">嘉兴康龙纺织关停：美国客户Cone Denim撤离中国，千人工厂结业</a>
@@ -3492,6 +3750,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('fcbe7a6274')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('fcbe7a6274')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://m.m-sly.com/article-31888-1.html" target="_blank" rel="noopener">嘉兴康龙纺织:外资牛仔布大厂有序关停,订单外流加关税双重挤压</a>
@@ -3505,6 +3764,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('9c4c9a79ec')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('9c4c9a79ec')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.chwang.com/article/211065649709" target="_blank" rel="noopener">负债1.2亿!24年老牌大厂轰然倒下</a>
@@ -3518,6 +3778,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('de1647cb1a')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('de1647cb1a')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.glacn.cn/news/show-19892.html" target="_blank" rel="noopener">十七年老牌光伏玻璃企业破产落幕:海控三鑫厂房､7条产线相继拍卖</a>
@@ -3531,6 +3792,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('890e008180')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('890e008180')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://www.ahhuabao.cn/amqwtnews/202609/article_320061.shtml" target="_blank" rel="noopener">上海贵酒跨界白酒梦碎 触发退市倒计时</a>
@@ -3544,6 +3806,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f10e913bd6')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f10e913bd6')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://news.qq.com/rain/a/20260831A05BHD00" target="_blank" rel="noopener">上海凤凰发布2026中报 增收不增利引关注</a>
@@ -3557,6 +3820,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('af95f6523d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('af95f6523d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://h5detail.yiyouliao.com/rivers/newsfeed/1536235174142947329/ID3FR0OX55H7XSW.html" target="_blank" rel="noopener">财产不到1万元,一家成立9年的激光企业倒下了</a>
@@ -3570,6 +3834,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('69f54d3eb2')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('69f54d3eb2')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://disc.static.szse.cn/download/disc/disk03/finalpage/2026-08-31/2b4c833b-985b-4d04-ac26-45c324f5c85b.PDF?n=%E5%BE%B7%E5%8A%9B%E8%82%A1%E4%BB%BD%EF%BC%9A2026%E5%B9%B4%E5%8D%8A%E5%B9%B4%E5%BA%A6%E6%8A%A5%E5%91%8A.PDF" target="_blank" rel="noopener">安徽德力股份：长库龄存货占比高，库存管控压力加大</a>
@@ -3583,6 +3848,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('58744e0397')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('58744e0397')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.xueqiu.com/6994091832/408329523" target="_blank" rel="noopener">阿科力增收四成还在亏</a>
@@ -3596,6 +3862,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('7339fb4cd5')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('7339fb4cd5')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.sina.cn/2026-08-27/detail-inipucsr9084880.d.html" target="_blank" rel="noopener">安徽佳力奇：营收大降70%，存货反升、跌价损失362万</a>
@@ -3609,6 +3876,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('a19b2b948f')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('a19b2b948f')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://xinsanban.eastmoney.com/Article/NoticeContent?id=AN202608261828494585" target="_blank" rel="noopener">金童股份：关于未弥补亏损超过实收股本总额三分之一的公告</a>
@@ -3622,6 +3890,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('ff7b037da8')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('ff7b037da8')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.gongshunews.com/content/2026-08/25/content_9923956.html" target="_blank" rel="noopener">浙江实日机电3亿扩产遇冷 订单腰斩产能闲置</a>
@@ -3635,6 +3904,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('1e305d666e')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('1e305d666e')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://jbxww.cnnb.com.cn/system/2026/08/25/012662162.shtml" target="_blank" rel="noopener">浙江实日机电：投3亿扩建后订单腰斩，开机率不足50%</a>
@@ -3648,6 +3918,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('3e685a18b7')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('3e685a18b7')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://c.m.163.com/news/a/L5T43RL70553A5BU.html" target="_blank" rel="noopener">上海汽配：2026年上半年营收10.89亿元 净利同比降24.45%</a>
@@ -3661,6 +3932,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('badb1b46da')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('badb1b46da')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.cnenergynews.cn/article/4SuRcjhSPrc" target="_blank" rel="noopener">主业毛利率下行 江苏国泰上半年净利降近14% 经营现金流持续“失血”</a>
@@ -3674,6 +3946,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('6043c3c124')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('6043c3c124')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://zjsfgkw.gov.cn/art/2026/8/20/art_677_51825.html" target="_blank" rel="noopener">瑞安市人民法院:(2025)浙0381破155号——瑞安市洭豪鞋厂</a>
@@ -3687,6 +3960,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('4092edf98e')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('4092edf98e')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.aigbk.com/article/shanghai_electric_2026_h1_revenue_up_net_profit_down" target="_blank" rel="noopener">财报快递｜上海机电2026年上半年增收不增利，净利降近两成，经营现金流大降56%</a>
@@ -3700,6 +3974,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('d122737919')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('d122737919')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://www.ahxq.cn/DocHtml/1/26/08/00000519.html" target="_blank" rel="noopener">六安市晖润新材料有限公司破产清算案 第一次债权人会议在金安区人民法院成功召开</a>
@@ -3713,6 +3988,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('134b48a66d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('134b48a66d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://file.finance.sina.com.cn/211.154.219.97:9494/MRGG/SBGG/2026/2026-8/2026-08-18/12501192.PDF" target="_blank" rel="noopener">无锡金田元丰科技股份有限公司关于未弥补亏损超过实收股本总额且净资产为负的公告</a>
@@ -3726,6 +4002,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('2dc1dbab81')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('2dc1dbab81')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.sina.com.cn/stock/relnews/cn/2026-08-17/doc-ininqtnt7091849.shtml" target="_blank" rel="noopener">集成灶第一股浙江美大业绩断崖式下滑 12.9亿卖壳求生</a>
@@ -3739,6 +4016,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('84ee6d6a8d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('84ee6d6a8d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.ceweekly.cn/cewsel/2026/0817/498833.html" target="_blank" rel="noopener">民企转型，该“踩刹车”就刹车（无缝服装企业跨界新能源资不抵债）</a>
@@ -3752,6 +4030,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f821d8617c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f821d8617c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://static.cninfo.com.cn/finalpage/2026-08-17/1225477720.PDF" target="_blank" rel="noopener">安徽蓝盾光电子股份有限公司 股票交易异常波动及风险提示公告</a>
@@ -3765,6 +4044,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('6b1107b7a0')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('6b1107b7a0')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://dy.163.com/article/L3N8TBDS055646MB.html" target="_blank" rel="noopener">鲸观｜一罐铁盒的消失，一个时代的句号——上海雪花膏，破产了</a>
@@ -3778,6 +4058,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('202f4a5c37')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('202f4a5c37')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.workercn.cn/papers/grrb/2026/08/12/2/news-11.html" target="_blank" rel="noopener">浙江省乐清市人民法院公告 (2026)浙0382破70号之一——乐清恒星紧固件有限公司</a>
@@ -3791,6 +4072,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('8b4f82e551')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('8b4f82e551')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://paper.cnstock.com/html/2026-08/06/content_2252333.htm" target="_blank" rel="noopener">上海华谊集团股份有限公司关于召开2026年第二次临时股东会的通知（吴泾基地永久关停）</a>
@@ -3804,6 +4086,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('66e36b3222')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('66e36b3222')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.zjgrrb.cn/html/2026-08/12/content_146743_19781399.htm" target="_blank" rel="noopener">宁波北仑腾明机械破产 资不抵债终结程序</a>
@@ -3817,6 +4100,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('cd4c6dc592')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('cd4c6dc592')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.pazjw.gov.cn/gongchuangpingan/202608/t20260806_31830703.shtml" target="_blank" rel="noopener">追光的人，重新站在了光里（一道新能源科技）</a>
@@ -3830,6 +4114,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('4c16499a98')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('4c16499a98')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.inewsweek.cn/finance/2026-08-06/31449.shtml" target="_blank" rel="noopener">老牌保健品龙头,翻车了</a>
@@ -3843,6 +4128,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('73735944cf')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('73735944cf')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/article/7670529954228060710/" target="_blank" rel="noopener">曾风靡全国，知名品牌破产！网友叹惜：外婆在用、妈妈在用，我也在用……</a>
@@ -3856,6 +4142,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('968c23e2cf')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('968c23e2cf')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://news.hubeidaily.net/pc/c_5833364.html" target="_blank" rel="noopener">知名品牌破产！曾风靡全国，网友：童年回忆啊</a>
@@ -3869,6 +4156,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('b165e22a24')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('b165e22a24')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://news.qq.com/rain/a/20260805A08Y3B00" target="_blank" rel="noopener">"雪花膏之王"黯然退场,那些老牌国货日子过得怎么样?</a>
@@ -3882,6 +4170,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('e1c57df2c9')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('e1c57df2c9')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.gmw.cn/2026-08/05/content_1304543580.htm" target="_blank" rel="noopener">上海雪花膏破产:美兰化妆品资不抵债 9.58万资产背1941万债</a>
@@ -3895,6 +4184,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('a4fb89af7d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('a4fb89af7d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://news.qq.com/rain/a/20260804A0BJS300" target="_blank" rel="noopener">超然财经|上海美兰化妆品公司破产,"上海雪花膏"成历史</a>
@@ -3908,6 +4198,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('7bcbed4081')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('7bcbed4081')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://news.qq.com/rain/a/20260804A0CXUH00" target="_blank" rel="noopener">上海钢管行业协会孙永喜:大口径热轧钢管投资潮的危与机</a>
@@ -3921,6 +4212,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('5fa1f584cc')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('5fa1f584cc')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.sina.com.cn/jjxw/2026-08-04/doc-inimcxxc4033223.shtml" target="_blank" rel="noopener">从"国民记忆"到资不抵债：上海雪花膏（美兰）最后一课</a>
@@ -3934,6 +4226,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('ea215b4bea')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('ea215b4bea')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://3g.china.com/act/news/10000169/20260803/49650655.html" target="_blank" rel="noopener">上海雪花膏破产了 老牌国货黯然退场</a>
@@ -3947,6 +4240,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('30f22c619f')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('30f22c619f')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://guangfu.bjx.com.cn/news/20260803/1506799.shtml" target="_blank" rel="noopener">光伏新一轮出清,谁下了"牌桌"?</a>
@@ -3960,6 +4254,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f9671b7df2')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f9671b7df2')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://cj.sina.cn/articles/view/2399616710/8f073ec600101lhxm" target="_blank" rel="noopener">营收连降三年还亏了4900万，武进不锈的至暗时刻</a>
@@ -3973,6 +4268,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('8e7f935c74')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('8e7f935c74')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://new.qq.com/rain/a/20260814A0DXP800" target="_blank" rel="noopener">义乌宣闻户外用品朱悦来：面料涨价20%后客户纷纷减少订单</a>
@@ -3986,6 +4282,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f21c13278e')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f21c13278e')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.jinantimes.com.cn/news-240-5319666.html" target="_blank" rel="noopener">苏酒大本营“失守”,二季度利润跌超九成,洋河何时走出“控量保价”阵痛期?</a>
@@ -3999,6 +4296,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('e95f54c51c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('e95f54c51c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://xinwen.bjd.com.cn/content/s6a77f01dd5de97bd7484bbd9.html" target="_blank" rel="noopener">昔日国民品牌黯然谢幕,这背后有啥深层启示?</a>
@@ -4012,6 +4310,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('50138224f2')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('50138224f2')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://tw.nufe.edu.cn/info/1045/12358.htm" target="_blank" rel="noopener">昆山大中型包装印刷企业调研：产能过剩、低价内卷"有量无利"</a>
@@ -4025,6 +4324,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('d8e43d3a3d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('d8e43d3a3d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://xh.xhby.net/pc/con/202607/29/content_1576554.html" target="_blank" rel="noopener">宿迁宿豫区某科技公司：资金链断裂濒临破产，重整后涅槃</a>
@@ -4038,6 +4338,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('ac94a32d4c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('ac94a32d4c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://news.qq.com/rain/a/20260729A000XJ00" target="_blank" rel="noopener">浙江宁波慈溪金格科技扩张跨界 资金链断裂败退</a>
@@ -4051,6 +4352,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('05eec4c6fc')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('05eec4c6fc')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.zgdlfzw.com/article/detail.html?article_id=5408" target="_blank" rel="noopener">开工率跌破52%,近半织机停摆!江浙织造业正在经历最痛淡季</a>
@@ -4064,6 +4366,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('268ea77e73')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('268ea77e73')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.ahcaijing.com/html/caijing/2026/0728/647837.html" target="_blank" rel="noopener">被古井碾压 被迎驾反超 口子窖的“徽酒老二”易主</a>
@@ -4077,6 +4380,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('d09a98a64c')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('d09a98a64c')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://longportapp.cn/zh-CN/topics/43025288" target="_blank" rel="noopener">昆山斯坦德机器人赴港 持续亏损与应收现金流压力</a>
@@ -4090,6 +4394,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('92ca39fcc7')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('92ca39fcc7')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://zjsfgkw.gov.cn/art/2026/7/22/art_677_50679.html" target="_blank" rel="noopener">诸暨市锦普五金厂破产清算（无资产可供分配）</a>
@@ -4103,6 +4408,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('137f8c0f90')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('137f8c0f90')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://finance.sina.com.cn/wm/2026-07-17/doc-iniiahrn1355664.shtml" target="_blank" rel="noopener">突发!浙江两大有机硅厂爆雷!负债近2亿</a>
@@ -4116,6 +4422,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('493358eda9')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('493358eda9')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7674815129481003572" target="_blank" rel="noopener">业绩滑坡 “集成灶第一股”出售控股权</a>
@@ -4129,6 +4436,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f400d569e2')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f400d569e2')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://shcm.gov.cn/govxxgk/bz/2026-07-15/c6d9f29f-47d6-4bfe-8101-4cfc213faa15.html" target="_blank" rel="noopener">关于2026年度上海崇明县堡镇电镀厂产业结构调整情况的报告</a>
@@ -4142,6 +4450,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('fe16a242fe')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('fe16a242fe')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://www.cqtresearch.com/kuaixun/2026/0714/262376.html" target="_blank" rel="noopener">徐家汇上半年预亏最高2800万元,关店裁员致人力成本激增</a>
@@ -4155,6 +4464,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('b18ba768e6')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('b18ba768e6')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://i.ifeng.com/c/8umT2DKERpi" target="_blank" rel="noopener">安徽志邦家居上市九年首现中报亏损 预计最高亏1.89亿</a>
@@ -4168,6 +4478,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f1d397df1f')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f1d397df1f')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.shzfgjj.cn/zfgghtml/778773260915261440.html" target="_blank" rel="noopener">关于上海奉贤齐贤絮棉加工厂强制清算涉住房公积金债权事宜的公告</a>
@@ -4181,6 +4492,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('80203e2b6d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('80203e2b6d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://cj.sina.cn/articles/view/6241116541/173ffe17d00101d8m2" target="_blank" rel="noopener">电解液一哥天赐材料终止南通26亿扩产 产能过剩现金流承压</a>
@@ -4194,6 +4506,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('d52d19bc43')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('d52d19bc43')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://h5detail.yiyouliao.com/rivers/newsfeed/1536235174142947329/ID2BA9EVY81HH2O.html" target="_blank" rel="noopener">昌硕科技上海厂区:全线搬迁近10万工人失业,大客户抽梯子</a>
@@ -4207,6 +4520,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('cdd3e4b647')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('cdd3e4b647')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.toutiao.com/a7670405189391630850" target="_blank" rel="noopener">账上只剩9万5,欠债1941万!40年老牌国货倒在了2026年的夏天</a>
@@ -4220,6 +4534,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('6a1f967620')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('6a1f967620')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.toutiao.com/article/7670366136944394762" target="_blank" rel="noopener">负债近两千万,资产仅剩9.58万,上海雪花膏退场(美兰化妆品)</a>
@@ -4233,6 +4548,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('9ee4cbf5cf')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('9ee4cbf5cf')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://zjsfgkw.gov.cn/art/2026/7/9/art_677_50151.html" target="_blank" rel="noopener">常山县人民法院：(2026)浙0822破25号——常山欣丰汽车零部件制造厂</a>
@@ -4246,6 +4562,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('95f0795d6a')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('95f0795d6a')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://zjsfgkw.gov.cn/art/2026/7/1/art_677_49776.html" target="_blank" rel="noopener">衢州市柯城区人民法院：(2025)浙0802破14号——衢州云田农业科技有限公司</a>
@@ -4259,6 +4576,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('2e5c42d5cc')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('2e5c42d5cc')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.kecheng.gov.cn/col/col1229769340/art/2026/art_ea1fcd5c8b29418889e2714d54f6e4d1.html" target="_blank" rel="noopener">衢州市柯城区经济和信息化局关于区十届人大五次会议第121号建议的答复函</a>
@@ -4272,6 +4590,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('e92ffbafc8')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('e92ffbafc8')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://c.m.163.com/news/a/KUHBE2300527EFG3.html" target="_blank" rel="noopener">37年老牌轮胎厂陷经营危机！</a>
@@ -4285,6 +4604,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('533b0fb4f0')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('533b0fb4f0')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://m.nbd.com.cn/articles/2026-06-23/4434306.html" target="_blank" rel="noopener">永久自行车行至转型路口, 高空风能项目商业化待考,ST中路将何去何从?</a>
@@ -4298,6 +4618,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('12d186b398')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('12d186b398')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://www.fzahw.com/news/2026/07/23/c_143767.htm" target="_blank" rel="noopener">府院联动提速破产处置 闲置文旅地标重获新生(蚌埠某文旅集团)</a>
@@ -4311,6 +4632,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">库存积压 / 资金占用</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('cdbd98c1bc')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('cdbd98c1bc')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="http://paper.lqnews.cn/html/2026-06/17/content_9147_19627951.htm" target="_blank" rel="noopener">浙江铃本机电路桥:上线ERP前库存积压、订单落空</a>
@@ -4324,6 +4646,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">亏损 / 增收不增利</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('f34652258d')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('f34652258d')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.cet.com.cn/dfpd/jzz/js/js/10417106.shtml" target="_blank" rel="noopener">醋酸龙头江苏索普连续三年财报失准 业绩大幅下滑</a>
@@ -4337,6 +4660,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('c81c386a18')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('c81c386a18')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.ce.cn/xwzx/gnsz/gdxw/202606/t20260610_3022688.shtml" target="_blank" rel="noopener">东阳红木产业资金链断裂:500万贷款不续贷,低价抛库存</a>
@@ -4350,6 +4674,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('25b8d79a5e')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('25b8d79a5e')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://hxny.com/nd-130075-0-50.html" target="_blank" rel="noopener">一个县域光伏投资是怎么烂尾的？</a>
@@ -4363,6 +4688,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('dbbc196d0e')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('dbbc196d0e')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://epaper.cs.com.cn/zgzqb/html/2026-06/09/nw.D110000zgzqb_20260609_1-B062.htm" target="_blank" rel="noopener">上海沿浦收监管问询：应收账款大增，主要客户回款周期5—6个月</a>
@@ -4376,6 +4702,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('5a58b446b8')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('5a58b446b8')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://pccz.court.gov.cn/filedownloads/pcglr/202606/86368732D183C9AF32FEFB78FA77D360/b02432ca09334a95b8a6b5879ce595d6/ac54da3c1e33e8fdac8e77ce261500d8.pdf?fn=%EF%BC%882025%EF%BC%89%E8%8B%8F0402%E7%A0%B422%E5%8F%B7%E4%B9%8B%E5%9B%9B%E5%85%AC%E5%91%8A.pdf" target="_blank" rel="noopener">江苏省常州市天宁区人民法院公告 (2025) 苏 0402 破 22 号之四</a>
@@ -4389,6 +4716,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('1b7e331780')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('1b7e331780')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://pccz.court.gov.cn/filedownloads/pcglr/202606/86368732D183C9AF32FEFB78FA77D360/b02432ca09334a95b8a6b5879ce595d6/ac54da3c1e33e8fdac8e77ce261500d8?fn=%EF%BC%882025%EF%BC%89%E8%8B%8F0402%E7%A0%B422%E5%8F%B7%E4%B9%8B%E5%9B%9B%E5%85%AC%E5%91%8A.pdf" target="_blank" rel="noopener">常州伯龙三维复合材料:负债1.19亿资不抵债被裁定破产</a>
@@ -4402,6 +4730,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('1e03e607d0')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('1e03e607d0')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.tirechina.net/832597.html" target="_blank" rel="noopener">曾规划30亿大型项目轮胎厂，走向破产清算</a>
@@ -4415,6 +4744,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">倒闭 / 关停</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('e1d8a8d71b')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('e1d8a8d71b')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://c.m.163.com/news/a/KV3H3O8L0514CRMA.html" target="_blank" rel="noopener">安徽德轮橡胶曾规划30亿项目 走向破产清算</a>
@@ -4428,6 +4758,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">现金流断裂 / 资金链</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('1ce57aacf8')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('1ce57aacf8')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.pazjw.gov.cn/gongchuangpingan/202606/t20260603_31703789.shtml" target="_blank" rel="noopener">家具公司老板突然离世，40余家供应商被"卡脖"</a>
@@ -4441,6 +4772,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">转型失败 / 智能化踩坑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('abb92bebfe')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('abb92bebfe')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://ima.qq.com/wiki/?shareId=ce56ba5afd73d63c9da7bdc0a5b32ac8868c1ce216e605c8a03bd71cda578ecc&mediaId=wechatarticle_2191ff83f6db90e12d18ea297b09cf8b_b9ee203bc3f91b61e21902047954a7dd7482485080342066&action=openDetailDrawer&webFrom=10000171" target="_blank" rel="noopener">大型工厂AI转型误区：重硬件、轻数据、无闭环的致命问题</a>
@@ -4454,6 +4786,7 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
     <span class="pt" style="background:#6b7280">订单流失 / 外贸下滑</span>
     <span class="dctrls">
       <button class="dfav" type="button" onclick="favCard('75710e4ecf')" title="收藏此案例（仅本浏览器标记）">☆</button>
+      <button class="ddel" type="button" onclick="delCard('75710e4ecf')" title="永久删除此案例（从数据源彻底移除，不是隐藏）">✕</button>
     </span>
   </div>
   <a class="dtitle" href="https://www.ennews.com/yarticle-5999-1.html" target="_blank" rel="noopener">唏噓！又一家外贸大厂将关停</a>
@@ -4467,6 +4800,41 @@ footer{text-align:center;color:#9ca3af;font-size:12px;padding:10px}
 </div>
 <script>
 var TODAY = "2026-10-23";
+/* ── 永久删除（不是隐藏）：App 内直接写回仓库删除名单 → 云端物理清除 ── */
+function yrdToast(txt){
+  var d=document.getElementById("yrdToast");
+  if(!d){ d=document.createElement("div"); d.id="yrdToast"; document.body.appendChild(d); }
+  d.textContent=txt; d.style.cssText="position:fixed;left:50%;bottom:28px;transform:translateX(-50%);"
+    +"background:#1f2937;color:#fff;padding:10px 16px;border-radius:10px;font-size:13px;z-index:9999;"
+    +"box-shadow:0 6px 24px rgba(0,0,0,.22);max-width:80vw;line-height:1.5";
+  d.style.opacity="1"; clearTimeout(window.__yrdToastT);
+  window.__yrdToastT=setTimeout(function(){ d.style.opacity="0"; }, 6000);
+}
+function delCard(cid){
+  var el=document.getElementById("dc-"+cid);
+  if(el) el.classList.add("deleting");
+  // ① 桌面 App：原生通道 → 写回仓库删除名单 → 云端物理删除（库 + 原始池）
+  if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.yrdDelete){
+    window.webkit.messageHandlers.yrdDelete.postMessage(cid);
+    yrdToast("已提交永久删除：正在从数据源彻底移除，完成后本页自动刷新…");
+    setTimeout(function(){ location.reload(); }, 8000);
+    return;
+  }
+  // ② 浏览器：唤起桌面 App 执行（若已安装）
+  if(window.__YRD_NATIVE__){
+    location.href="yrdintel://delete/"+cid;
+    yrdToast("已唤起桌面 App 执行永久删除…");
+    return;
+  }
+  // ③ 纯浏览器：复制删除指令（浏览器无法直连仓库）
+  var cmd="请永久删除案例 "+cid+"（长三角制造业情报平台，永久删除不是隐藏）";
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(cmd).then(function(){ yrdToast("已复制删除指令，粘贴给助手即可永久删除"); });
+  } else { yrdToast("永久删除请在桌面 App 内操作（浏览器无法直连仓库）"); }
+}
+window.__yrdDeleteStatus=function(t){ yrdToast(t); };
+window.__yrdDeleteDone=function(t){ yrdToast(t||"永久删除完成"); setTimeout(function(){ location.reload(); }, 1500); };
+window.__yrdDeleteFail=function(t){ yrdToast(t||"永久删除失败"); };
 /* ── 卡片收藏（仅本浏览器 localStorage 标记，不改源数据）── */
 var FAV_KEY = "yrd_fav_cards";
 function getFav(){ try{ return JSON.parse(localStorage.getItem(FAV_KEY) || "[]"); }catch(e){ return []; } }
