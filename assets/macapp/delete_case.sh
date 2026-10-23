@@ -1,6 +1,6 @@
 #!/bin/bash
-# 供原生 App 调用：把案例登记到仓库的「永久删除名单」，并触发云端流水线物理清除。
-#   用法：delete_case.sh <card_id>
+# 供原生 App 调用：把案例批量登记到仓库的「永久删除名单」，并触发云端流水线物理清除。
+#   用法：delete_case.sh <card_id>[,<card_id>...]   （逗号分隔，一次彻底删除一批）
 # 输出约定（App 逐行读取）：
 #   普通行 → 进度提示
 #   OK ...     → 成功
@@ -27,7 +27,7 @@ import base64, json, os, re, subprocess, sys, time
 REPO = os.environ.get("REPO_NAME", "tedvong894/yrd-mfg-intel")
 WF = os.environ.get("WF_NAME", "refresh.yml")
 GH = os.environ.get("GH_BIN", "gh")
-CID = os.environ.get("CID", "").strip()
+CIDS = [c.strip() for c in os.environ.get("CID", "").split(",") if c.strip()]
 
 
 def gh(args, input_text=None, raw=False):
@@ -54,9 +54,9 @@ def get_json(path):
     return obj, (s or None)
 
 
-def put_json(path, obj, sha):
+def put_json(path, obj, sha, msg):
     body = {
-        "message": f"del: 永久删除案例 {CID}",
+        "message": msg,
         "content": base64.b64encode(json.dumps(obj, ensure_ascii=False, indent=2).encode("utf-8")).decode("ascii"),
     }
     if sha:
@@ -69,16 +69,17 @@ def norm_title(t):
     return re.sub(r"[^\w一-鿿]", "", (t or "").lower())
 
 
-if not CID:
+if not CIDS:
     print("FAILED 缺少案例 ID")
     sys.exit(1)
 
-print(f"正在永久删除案例 {CID}…")
+print(f"正在批量永久删除 {len(CIDS)} 个案例…")
 
-# ① 取出该卡标题（用于连带清除同题转载版）
-title_raw = ""
+# ① 批量取出标题（用于连带清除同题转载版）
+titles = {}
 r = gh([f"repos/{REPO}/contents/intel_db.jsonl"], raw=True)
 if r.returncode == 0:
+    want = set(CIDS)
     for line in r.stdout.splitlines():
         line = line.strip()
         if not line:
@@ -87,45 +88,51 @@ if r.returncode == 0:
             o = json.loads(line)
         except Exception:
             continue
-        if o.get("card_id") == CID:
-            title_raw = o.get("title") or ""
-            break
-if not title_raw:
-    print("未在案例库中找到该 ID（可能已被删除）")
+        if o.get("card_id") in want:
+            titles[o["card_id"]] = o.get("title") or ""
+missing = [c for c in CIDS if c not in titles]
+if missing:
+    print(f"有 {len(missing)} 个 ID 不在案例库中（可能已被删除，仍一并登记名单）")
 
-# ② 写入删除名单（cid + 标题）
+# ② 一次性写入删除名单（全部 cid + 全部标题）
 ids, sha_ids = get_json("deleted_ids.json")
 if ids is None:
     ids = []
-if CID not in ids:
-    ids.append(CID)
-ok, err = put_json("deleted_ids.json", sorted(ids), sha_ids)
+new_ids = [c for c in CIDS if c not in ids]
+ids.extend(new_ids)
+ok, err = put_json("deleted_ids.json", sorted(ids), sha_ids,
+                   f"del: 批量永久删除 {len(CIDS)} 个案例")
 if not ok:
     print(f"FAILED 无法写入删除名单：{err[:120]}")
     sys.exit(1)
-print("已登记删除名单（card_id）")
+print(f"已登记删除名单（card_id，新增 {len(new_ids)} 个）")
 
 tids, sha_t = get_json("deleted_titles.json")
 if tids is None:
     tids = []
-tkey = norm_title(title_raw)
-if tkey and tkey not in tids:
-    tids.append(tkey)
-    ok, err = put_json("deleted_titles.json", sorted(tids), sha_t)
+new_titles = []
+for c in CIDS:
+    tkey = norm_title(titles.get(c, ""))
+    if tkey and tkey not in tids:
+        tids.append(tkey)
+        new_titles.append(tkey)
+if new_titles:
+    ok, err = put_json("deleted_titles.json", sorted(tids), sha_t,
+                       f"del: 批量登记标题黑名单 {len(new_titles)} 条")
     if not ok:
         print(f"FAILED 无法写入标题黑名单：{err[:120]}")
         sys.exit(1)
-    print("已登记标题黑名单（连带同题转载版）")
+    print(f"已登记标题黑名单（连带同题转载版，新增 {len(new_titles)} 条）")
 
-# ③ 触发云端流水线：物理清除（库 + 原始池）并重建站点
-print("正在触发云端永久清除…")
+# ③ 触发一次云端流水线：批量物理清除（库 + 原始池）并重建站点
+print("正在触发云端永久清除（一次批量完成）…")
 if subprocess.run([GH, "workflow", "run", WF, "--repo", REPO],
                   capture_output=True, text=True).returncode != 0:
     print("FAILED 无法触发云端任务（gh 未登录或无权限）")
     sys.exit(1)
 
 st = concl = ""
-for _ in range(70):
+for _ in range(90):
     info = subprocess.run([GH, "run", "list", "--repo", REPO, "--workflow", WF, "--limit", "1",
                            "--json", "status,conclusion", "--jq", '.[0] | "\(.status) \(.conclusion)"'],
                           capture_output=True, text=True).stdout.strip()
@@ -144,5 +151,5 @@ if concl != "success":
     print(f"FAILED 云端任务结束：{concl}")
     sys.exit(1)
 
-print("OK 已从数据源永久删除（库与原始池均已清除）")
+print(f"OK 已从数据源永久删除 {len(CIDS)} 个案例（库与原始池均已清除）")
 PY
