@@ -812,6 +812,19 @@ th{{color:#6b7280;font-weight:600;font-size:12px}}
 .ddel:hover{{background:#fdeaea;border-color:#e3a3a3}}
 .ddel:active{{transform:translateY(1px)}}
 .dcard.deleting{{opacity:.45;border-style:dashed}}
+/* ── 待删除区（归集后一次性彻底删除）── */
+.delq{{background:#fff;border:1px dashed #e3a3a3;border-radius:12px;padding:14px 18px;margin-bottom:18px}}
+.delq-h{{display:flex;align-items:center;gap:10px;flex-wrap:wrap}}
+.delq-t{{font-size:13px;font-weight:700;color:#c0392b}}
+.delq-n{{font-size:12px;color:#9ca3af}}
+.delq-purge{{margin-left:auto;height:30px;padding:0 14px;border:1px solid #b03a2e;border-radius:8px;background:#c0392b;color:#fff;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;transition:.15s}}
+.delq-purge:hover{{background:#a93226}}
+.delq-purge:disabled{{background:#d9a0a0;border-color:#e6c3c3;cursor:default}}
+.delq-list{{margin-top:10px;display:flex;flex-direction:column;gap:4px;max-height:180px;overflow-y:auto}}
+.delq-row{{display:flex;align-items:center;gap:8px;font-size:12.5px;color:#4b5563;padding:3px 2px;border-top:1px solid #faf0f0}}
+.delq-row:first-child{{border-top:none}}
+.delq-row .tt{{flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}}
+.delq-undo{{color:#2f5597;cursor:pointer;text-decoration:underline;font-size:12px;flex-shrink:0}}
 .dcard.faved{{border-color:#f0d68a;box-shadow:0 0 0 2px rgba(230,167,0,.10)}}
 .filterbar{{display:none;align-items:center;gap:10px;background:#fff7ed;border:1px solid #fed7aa;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:13px}}
 .filterbar.show{{display:flex}}
@@ -924,6 +937,15 @@ footer{{text-align:center;color:#9ca3af;font-size:12px;padding:10px}}
 <div class="section" id="sec-types"><h2>问题类型分布（点击柱状条可筛选下方解剖卡）</h2>{pt_html or '<div class="empty">暂无数据</div>'}</div>
 <div class="section" id="sec-months"><h2>按时间分类 · 月度（点击月份展开，共 {len(months_sorted)} 个月）</h2>{month_html or '<div class="empty">暂无数据</div>'}</div>
 
+<div class="delq" id="delq" style="display:none">
+  <div class="delq-h">
+    <span class="delq-t">待删除区</span>
+    <span class="delq-n" id="delqn">0 张</span>
+    <button id="delqpurge" class="delq-purge" onclick="purgeDelQ()">清空并彻底删除</button>
+  </div>
+  <div class="delq-list" id="delqlist"></div>
+</div>
+
 <div class="section" id="sec-dissect"><h2>自动解剖卡（全部 {len(cards)} 张，可筛选）</h2>
 <div class="dissect-grid">{dissect_html}</div></div>
 
@@ -941,31 +963,79 @@ function yrdToast(txt){{
   d.style.opacity="1"; clearTimeout(window.__yrdToastT);
   window.__yrdToastT=setTimeout(function(){{ d.style.opacity="0"; }}, 6000);
 }}
+/* ── 待删除区：点 ✕ 归集到文件夹，点「清空」一次性彻底删除 ── */
+var DELQ_KEY = "yrd_del_queue";
+function getDelQ(){{ try{{ return JSON.parse(localStorage.getItem(DELQ_KEY) || "[]"); }}catch(e){{ return []; }} }}
+function delQSet(){{ var s={{}}; getDelQ().forEach(function(x){{ s[x.cid]=1; }}); return s; }}
+function saveDelQ(a){{ localStorage.setItem(DELQ_KEY, JSON.stringify(a)); renderDelQ(); }}
+function renderDelQ(){{
+  var q=getDelQ(), sec=document.getElementById("delq");
+  if(!sec) return;
+  if(!q.length){{ sec.style.display="none"; return; }}
+  sec.style.display="block";
+  var n=document.getElementById("delqn"), ls=document.getElementById("delqlist");
+  if(n) n.textContent=q.length+" 张（清空后触发云端物理清除，约需几分钟）";
+  if(ls){{
+    ls.innerHTML="";
+    for(var i=0;i<q.length;i++){{
+      var r=document.createElement("div"); r.className="delq-row";
+      var t=document.createElement("span"); t.className="tt"; t.textContent=q[i].title||q[i].cid; t.title=t.textContent;
+      var u=document.createElement("span"); u.className="delq-undo"; u.textContent="撤销";
+      u.setAttribute("onclick","undoDelQ('"+q[i].cid+"')");
+      r.appendChild(t); r.appendChild(u); ls.appendChild(r);
+    }}
+  }}
+  for(var j=0;j<q.length;j++){{ var el=document.getElementById("dc-"+q[j].cid); if(el) el.style.display="none"; }}
+}}
+function undoDelQ(cid){{
+  var q=getDelQ().filter(function(x){{ return x.cid!==cid; }});
+  saveDelQ(q);
+  var el=document.getElementById("dc-"+cid); if(el) el.style.display="";
+}}
 function delCard(cid){{
   var el=document.getElementById("dc-"+cid);
-  if(el) el.classList.add("deleting");
-  // ① 桌面 App：原生通道 → 写回仓库删除名单 → 云端物理删除（库 + 原始池）
+  if(!el) return;
+  var q=getDelQ();
+  for(var i=0;i<q.length;i++){{ if(q[i].cid===cid) return; }}
+  var t=el.querySelector(".dtitle");
+  q.push({{cid:cid,title:t?t.textContent:""}});
+  saveDelQ(q);
+  el.style.display="none";
+  yrdToast("已移入待删除区，点「清空并彻底删除」一次性清除");
+}}
+function purgeDelQ(){{
+  var q=getDelQ(); if(!q.length) return;
+  var cids=q.map(function(x){{return x.cid;}}).join(",");
+  var btn=document.getElementById("delqpurge");
+  if(btn) btn.disabled=true;
+  // ① 桌面 App：原生通道批量真删（写回仓库删除名单 → 云端物理清除库与原始池）
   if(window.webkit && window.webkit.messageHandlers && window.webkit.messageHandlers.yrdDelete){{
-    window.webkit.messageHandlers.yrdDelete.postMessage(cid);
-    yrdToast("已提交永久删除：正在从数据源彻底移除，完成后本页自动刷新…");
-    setTimeout(function(){{ location.reload(); }}, 8000);
+    yrdToast("正在批量永久删除 "+q.length+" 张案例：云端物理清除中，约需几分钟，请勿关闭…");
+    window.webkit.messageHandlers.yrdDelete.postMessage(cids);
     return;
   }}
   // ② 浏览器：唤起桌面 App 执行（若已安装）
   if(window.__YRD_NATIVE__){{
-    location.href="yrdintel://delete/"+cid;
-    yrdToast("已唤起桌面 App 执行永久删除…");
+    location.href="yrdintel://delete/"+cids;
+    yrdToast("已唤起桌面 App 执行批量删除…");
     return;
   }}
-  // ③ 纯浏览器：复制删除指令（浏览器无法直连仓库）
-  var cmd="请永久删除案例 "+cid+"（长三角制造业情报平台，永久删除不是隐藏）";
+  // ③ 纯浏览器：复制批量删除指令（浏览器无法直连仓库）
+  var cmd="请永久删除以下案例："+cids;
   if(navigator.clipboard && navigator.clipboard.writeText){{
-    navigator.clipboard.writeText(cmd).then(function(){{ yrdToast("已复制删除指令，粘贴给助手即可永久删除"); }});
-  }} else {{ yrdToast("永久删除请在桌面 App 内操作（浏览器无法直连仓库）"); }}
+    navigator.clipboard.writeText(cmd).then(function(){{ yrdToast("已复制批量删除指令，粘贴给助手即可执行"); }});
+  }} else {{ yrdToast("批量删除请在桌面 App 内操作（浏览器无法直连仓库）"); }}
 }}
 window.__yrdDeleteStatus=function(t){{ yrdToast(t); }};
-window.__yrdDeleteDone=function(t){{ yrdToast(t||"永久删除完成"); setTimeout(function(){{ location.reload(); }}, 1500); }};
-window.__yrdDeleteFail=function(t){{ yrdToast(t||"永久删除失败"); }};
+window.__yrdDeleteDone=function(t){{
+  saveDelQ([]);
+  yrdToast(t||"永久删除完成，正在刷新…");
+  setTimeout(function(){{ location.reload(); }}, 1500);
+}};
+window.__yrdDeleteFail=function(t){{
+  yrdToast(t||"删除失败，案例仍在待删除区，可稍后再点清空");
+  var btn=document.getElementById("delqpurge"); if(btn) btn.disabled=false;
+}};
 /* ── 卡片收藏（仅本浏览器 localStorage 标记，不改源数据）── */
 var FAV_KEY = "yrd_fav_cards";
 function getFav(){{ try{{ return JSON.parse(localStorage.getItem(FAV_KEY) || "[]"); }}catch(e){{ return []; }} }}
@@ -1008,13 +1078,14 @@ function scrollToDc(e, a){{
 function showFilter(text){{ var b=document.getElementById("filterbar"); document.getElementById("filtertxt").textContent=text; b.classList.add("show"); }}
 function applyFilter(opt){{
   var pt=opt.pt||null, todayOnly=opt.todayOnly||false, favOnly=opt.favOnly||false, shown=0;
-  var fav=getFav();
+  var fav=getFav(), qset=delQSet();
   document.querySelectorAll(".dcard").forEach(function(c){{
     var cid=c.id.slice(3);
     var okPt=!pt||c.dataset.pt===pt;
     var okToday=!todayOnly||c.dataset.date===TODAY;
     var okFav=!favOnly||fav.indexOf(cid)>=0;
-    var ok=okPt&&okToday&&okFav;
+    var okQ=!qset[cid];
+    var ok=okPt&&okToday&&okFav&&okQ;
     c.style.display=ok?"":"none"; if(ok) shown++;
   }});
   return shown;
@@ -1055,6 +1126,7 @@ document.querySelectorAll(".row.clickable").forEach(function(r){{
   }});
 }});
 applyFav();
+renderDelQ();
 </script>
 </body></html>"""
 
