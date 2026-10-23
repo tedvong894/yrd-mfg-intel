@@ -45,6 +45,8 @@ REFRESH_TEMPLATES = [
     "{r} 咨询公司 制造业 客户案例 产线 精益 降本",
     "{r} 数字化转型 中小制造企业 车间 改造 案例 咨询",
     "{r} 工厂 成本管控 库存 呆滞 采购 改善 案例",
+    "{r} 制造企业 成本 库存 采购 专项改善 咨询 案例",
+    "{r} 中小制造企业 精益生产 现场改善 诊断 报告 案例",
 ]
 
 # 相关性过滤词：原有「问题词」+ 生产管理深挖角度的补充词，确保深挖类案例能进库、
@@ -76,7 +78,8 @@ CONSULT_WORDS = {
 PROBLEM_WORDS = sorted({w for kws in dissect.TYPE_KEYWORDS.values() for w in kws} |
                        {"停产", "裁员", "缩减", "爆雷", "失信", "降薪", "清退", "烂尾", "暴雷", "重整", "拍卖",
                         "降本", "提效", "增效", "亏损", "订单下滑", "经营困难"} |
-                       ANGLE_WORDS | SME_WORDS | CONSULT_WORDS)
+                       ANGLE_WORDS | SME_WORDS | CONSULT_WORDS |
+                       set(ipro.ANALYTIC_WORDS))   # 成本/库存/采购/应收 等分析类落点
 BIZ_WORDS = ["制造", "工厂", "企业", "公司", "集团", "厂", "加工", "生产", "产能", "车间",
              "民企", "中小", "实业", "供应链", "代工", "订单", "产线", "设备", "产业园"]
 BLOCK_DOMAINS = {"baike.baidu.com", "zhidao.baidu.com", "wikipedia.org", "dict.youdao.com",
