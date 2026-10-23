@@ -179,6 +179,9 @@ def is_surface_card(c):
     t = card_text(c).lower()
     problems = c.get("problems") or []
     summary = (c.get("summary") or "").strip()
+    # 脏数据：摘要/标题带 HTML 残渣或站点后缀（非案例正文）
+    if "<font" in t or "&nbsp;" in t or "&amp;" in t or "_新闻" in t or " - 中国" in t:
+        return True
     pm = sum(1 for k in PM_DEEP_WORDS if k in t)
     has_pct = bool(re.search(r"[0-9]+(\.[0-9]+)?\s?%", t))
     if pm == 0 and any(k in t for k in ANALYTIC_WORDS):
