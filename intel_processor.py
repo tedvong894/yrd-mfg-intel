@@ -333,6 +333,10 @@ def process(intel_dir):
             # ── 永久删除：黑名单内的条目从 raw 里物理移除（不是隐藏）──
             if cid in deleted_keys or (tkey and tkey in deleted_titles):
                 continue
+            # ── 过时条目（2026-06-01 前）同样物理移除：否则 DB 清除后下次 CI 会从 raw 重新入库，无限循环复活 ──
+            # 注意：无 date 的条目不清（build_card 会填当天日期，渲染层保留）
+            if (it.get("date") or "9999-12-31") < "2026-06-01":
+                continue
             if is_skipped_type(it):
                 skipped += 1
                 keep.append(it)
@@ -393,9 +397,9 @@ def process(intel_dir):
                 except Exception:
                     continue
 
-    # 仅保留 2026 年案例（按文章发布日期 date 过滤；无日期或非 2026 一律剔除）
+    # 仅保留 2026-06-01 之后的案例（与 DB 物理清除、raw 清除同一时效线，三处一致）
     all_cards = [c for c in all_cards
-                 if str(c.get("date", "")).startswith("2026")
+                 if str(c.get("date", "")) >= "2026-06-01"
                  and c.get("card_id") not in deleted_keys
                  and norm_title(c.get("title", "")) not in deleted_titles]
 
