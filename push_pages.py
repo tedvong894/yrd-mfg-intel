@@ -19,10 +19,10 @@ import time
 REPO = "tedvong894/yrd-mfg-intel"
 HERE = os.path.dirname(os.path.abspath(__file__))
 
-# 需要发布的文件（相对 intel 目录）
+# 需要发布的文件（相对 intel 目录）——**只发代码/黑名单/静态资源**
+# index.html/dashboard.html/intel_db.jsonl/raw_*/daily_report 一律不在此列：
+# 它们由 CI 工作流渲染并 git add -A 自动提交，本地推送曾用陈旧渲染结果覆盖线上（2026-10-24 事故）。
 FILES = [
-    "index.html",
-    "dashboard.html",
     "apple-touch-icon.png",
     "icon-192.png",
     "icon-512.png",
@@ -39,8 +39,7 @@ FILES = [
     "assets/macapp/main.swift",
     "assets/macapp/build.sh",
     "assets/macapp/delete_case.sh",
-    "raw_20260929.json",
-    "intel_db.jsonl",
+    # 数据文件（intel_db.jsonl / raw_*.json / daily_report）不在此列：由 CI 全权管理，防本地旧版覆盖
     "deleted_ids.json",
     "deleted_titles.json",
     "manifest.json",
@@ -50,16 +49,12 @@ FILES = [
 
 
 def all_targets():
-    """FILES + 日报 + raw 采集存档（已物理清除黑名单条目）+ workshop 目录下的底稿。"""
+    """FILES + 日报。**不含 intel_db.jsonl / raw_*.json**——数据文件由 CI 工作流全权管理
+    （CI 每次跑完 git add -A 自动提交），本地推送曾把残缺旧版覆盖到仓库导致事故
+    （2026-10-24：黑名单+DB+raw 被本地旧版覆盖，已删案例复活）。代码/黑名单/静态资源才走本通道。"""
     todos = list(FILES)
     for p in sorted(glob.glob(os.path.join(HERE, "daily_report_*.md"))):
         todos.append(os.path.basename(p))
-    # raw 采集存档同步：保证仓库里的原始池也是清理后的（永久删除，不是只在渲染层排除）
-    for p in sorted(glob.glob(os.path.join(HERE, "raw_*.json"))):
-        todos.append(os.path.basename(p))
-    for p in sorted(glob.glob(os.path.join(HERE, "workshop", "*"))):
-        if os.path.isfile(p):
-            todos.append("workshop/" + os.path.basename(p))
     return todos
 
 
@@ -142,8 +137,38 @@ def union_db_safety(fname):
     print(f"[union] {fname}: 推送前并集 {len(merged)} 条（防覆盖云端新增，已过滤下线类型与 {len(deleted)} 张剔除卡）")
 
 
+def union_blacklist(fname):
+    """推送删除黑名单前，先与远端取并集再推。
+    背景：App 内删除（delete_case.sh）直写仓库但不回写本地，若直接推本地旧版会把
+    仓库里更新的黑名单覆盖掉 → 已删案例复活（2026-10-24 事故：195 个被覆盖复活）。
+    并集保证：任何一端的新增都保留，永不因覆盖丢数据。"""
+    if fname not in ("deleted_ids.json", "deleted_titles.json"):
+        return
+    lp = os.path.join(HERE, fname)
+    if not os.path.exists(lp):
+        return
+    r = gh_api([f"repos/{REPO}/contents/{fname}", "--jq", ".content"])
+    if r.returncode != 0:
+        return
+    try:
+        remote = json.loads(base64.b64decode("".join(r.stdout.split())).decode("utf-8"))
+    except Exception:
+        return
+    try:
+        local = json.load(open(lp, encoding="utf-8"))
+    except Exception:
+        return
+    merged = sorted(set(remote) | set(local))
+    if len(merged) == len(local):
+        return  # 本地已含远端全部，无需改动
+    with open(lp, "w", encoding="utf-8") as f:
+        json.dump(merged, f, ensure_ascii=False, indent=2)
+    print(f"[union] {fname}: 推送前与远端并集 {len(local)} + {len(remote)} → {len(merged)} 条（防本地旧版覆盖仓库新删除）")
+
+
 def push_file(fname):
     union_db_safety(fname)
+    union_blacklist(fname)
     fpath = os.path.join(HERE, fname.lstrip("./"))
     if not os.path.exists(fpath):
         print(f"[skip] 缺失：{fname}")
