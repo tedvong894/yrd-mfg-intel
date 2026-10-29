@@ -39,13 +39,54 @@ def fetch_text(path):
 
 
 def load_deleted_ids():
+    """删除名单 = **远端（权威）∪ 本地**。
+
+    背景（2026-10-29 事故）：App 内删除只写仓库、不回写本地 → 本地名单陈旧
+    （829 条 vs 仓库 1001 条）→ 用陈旧名单做并集 → 已删卡被当成新卡并回线上 → 复活 170 张。
+    故本地名单永远不能单独作为过滤依据。
+    """
     p = os.path.join(HERE, "deleted_ids.json")
-    if not os.path.exists(p):
-        return set()
+    local = set()
+    if os.path.exists(p):
+        try:
+            local = set(json.load(open(p, encoding="utf-8")))
+        except Exception:
+            local = set()
+    remote = fetch_text("deleted_ids.json")
+    if remote:
+        try:
+            local |= set(json.loads(remote))
+        except Exception:
+            pass
+    return local
+
+
+def sync_blacklist(fname):
+    """把远端权威删除名单同步回本地（远端 ∪ 本地），让本地立即与仓库一致。
+
+    这是「App 删除只写仓库」造成本地名单陈旧的根治点：本地任何后续操作前，
+    名单都已是最新。
+    """
+    remote = fetch_text(fname)
+    if remote is None:
+        print(f"[skip] 云端无 {fname}")
+        return
     try:
-        return set(json.load(open(p, encoding="utf-8")))
+        rset = set(json.loads(remote))
     except Exception:
-        return set()
+        print(f"[warn] 云端 {fname} 解析失败")
+        return
+    lp = os.path.join(HERE, fname)
+    lset = set()
+    if os.path.exists(lp):
+        try:
+            lset = set(json.load(open(lp, encoding="utf-8")))
+        except Exception:
+            lset = set()
+    merged = sorted(rset | lset)
+    if merged != sorted(lset):
+        json.dump(merged, open(lp, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
+        print(f"[sync] {fname}: 本地 {len(lset)} → 权威并集 {len(merged)} 条已同步到本地")
 
 
 def union_jsonl(fname):
@@ -132,6 +173,9 @@ def pull_missing_raw():
 
 if __name__ == "__main__":
     print("[sync] 开始从云端同步权威数据…")
+    # ① 先同步删除名单（权威源）——后续所有并集/过滤都依赖它
+    sync_blacklist("deleted_ids.json")
+    sync_blacklist("deleted_titles.json")
     union_jsonl("intel_db.jsonl")
     union_manifest()
     pull_missing_raw()
