@@ -83,14 +83,36 @@ def get_sha(path):
 
 
 def load_deleted_ids():
-    """读取 deleted_ids.json（用户主动剔除的表面/简单案例黑名单）。"""
+    """删除黑名单 = **远端（权威）∪ 本地**，并把并集写回本地（自愈）。
+
+    背景（2026-10-29 事故）：App 内删除（delete_case.sh）只写仓库、不回写本地，
+    本地 deleted_ids.json 长期陈旧（829 条 vs 仓库 1001 条）；本地推送 intel_db.jsonl 时
+    union_db_safety 用陈旧名单过滤 → 被 App 删掉的卡不被识别 → 连同被污染的本地库
+    一起并回仓库 → 复活 170 张。故此处一律以远端为准。
+    """
     p = os.path.join(HERE, "deleted_ids.json")
-    if not os.path.exists(p):
-        return set()
-    try:
-        return set(json.load(open(p, encoding="utf-8")))
-    except Exception:
-        return set()
+    local = set()
+    if os.path.exists(p):
+        try:
+            local = set(json.load(open(p, encoding="utf-8")))
+        except Exception:
+            local = set()
+    remote = set()
+    r = gh_api([f"repos/{REPO}/contents/deleted_ids.json", "--jq", ".content"])
+    if r.returncode == 0:
+        try:
+            remote = set(json.loads(base64.b64decode("".join(r.stdout.split())).decode("utf-8")))
+        except Exception:
+            remote = set()
+    merged = remote | local
+    if merged and merged != local:
+        try:
+            with open(p, "w", encoding="utf-8") as f:
+                json.dump(sorted(merged), f, ensure_ascii=False, indent=2)
+            print(f"[heal] deleted_ids.json：本地 {len(local)} → 远端权威并集 {len(merged)} 条已写回本地")
+        except Exception as e:
+            print(f"[warn] 回写本地删除名单失败：{e}")
+    return merged
 
 
 def union_db_safety(fname):
@@ -167,13 +189,19 @@ def union_blacklist(fname):
 
 
 def push_file(fname):
+    api_path = fname.lstrip("./")
+    # 硬闸：数据文件只由 CI 工作流全权管理（CI 用仓库权威删除名单 purge 库与原始池）。
+    # 本地推送哪怕显式指定文件名也一律拒绝——否则本地陈旧数据会覆盖线上、把已删案例救回来
+    # （2026-10-29 事故：本地库 210 张含 170 张已删卡，被推上线复活）。
+    if api_path == "intel_db.jsonl" or api_path.startswith("raw_"):
+        print(f"[skip] 数据文件受保护（只由 CI 管理，勿本地推送）：{api_path}")
+        return
     union_db_safety(fname)
     union_blacklist(fname)
     fpath = os.path.join(HERE, fname.lstrip("./"))
     if not os.path.exists(fpath):
         print(f"[skip] 缺失：{fname}")
         return
-    api_path = fname.lstrip("./")
     data = open(fpath, "rb").read()
     b64 = base64.b64encode(data).decode("ascii")  # 无换行，符合 GitHub base64 要求
     for attempt in range(3):
