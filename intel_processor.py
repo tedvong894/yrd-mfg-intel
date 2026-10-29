@@ -20,6 +20,8 @@ import json
 import re
 import hashlib
 import glob
+import base64
+import subprocess
 import datetime
 from collections import Counter
 
@@ -27,6 +29,27 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 if HERE not in sys.path:
     sys.path.insert(0, HERE)
 import dissect  # 自动解剖引擎
+
+REPO = "tedvong894/yrd-mfg-intel"
+
+
+def remote_deleted(fname):
+    """拉取远端权威删除名单（deleted_ids.json / deleted_titles.json）。
+
+    背景（2026-10-29 事故）：App 内删除只写仓库、不回写本地 → 本地名单陈旧 →
+    用陈旧名单入库 → 已删案例被重新收进库里 → 复活。故入库前一律以远端为准。
+    远端不可达（CI 里 gh 未授权 / 无网络）时返回空集，安全回退到本地名单。
+    """
+    try:
+        r = subprocess.run(["gh", "api", f"repos/{REPO}/contents/{fname}", "--jq", ".content"],
+                           capture_output=True, text=True, timeout=30)
+        if r.returncode != 0:
+            return set()
+        txt = base64.b64decode("".join(r.stdout.split())).decode("utf-8")
+        obj = json.loads(txt)
+        return set(obj) if isinstance(obj, list) else set()
+    except Exception:
+        return set()
 
 REGIONS = ["浙江", "江苏", "上海", "安徽", "长三角"]
 
@@ -93,6 +116,8 @@ PM_DEEP_WORDS = [
     "固定成本", "变动成本", "停产待料", "缺料", "断供", "台班", "人均产出", "隐性产能",
     "设备空转", "产能闲置", "产能空转", "盲目扩张", "激进扩张", "新厂投产", "产线投产",
     "降本", "提效", "精益", "诊断", "改善",
+    # 2026-10-26 补：数字化/智能化改造与生产深挖细分词，避免误杀真生产案例
+    "数字化改造", "智能化改造", "技改投入", "齐套", "在制品积压", "库存周转天数", "报废率", "应付账款",
 ]
 ANALYTIC_WORDS = [
     "成本", "库存", "采购", "供应链", "毛利", "良率", "产能利用率", "工艺", "排产", "账期",
@@ -283,6 +308,8 @@ def process(intel_dir):
             deleted_keys = set(json.load(open(del_path, encoding="utf-8")))
         except Exception:
             deleted_keys = set()
+    # 以仓库（远端）为权威源补齐——本地名单可能陈旧（App 删除只写仓库不回写本地）
+    deleted_keys |= remote_deleted("deleted_ids.json")
     existing_keys |= deleted_keys
     # 标题级黑名单：拦住"同一篇文章的不同转载版"（不同 URL → 不同 card_id）
     del_t_path = os.path.join(intel_dir, "deleted_titles.json")
@@ -292,6 +319,7 @@ def process(intel_dir):
             deleted_titles = set(json.load(open(del_t_path, encoding="utf-8")))
         except Exception:
             deleted_titles = set()
+    deleted_titles |= remote_deleted("deleted_titles.json")
     # 库内已有卡片的标题键（用于同题去重）
     existing_titles = set()
     if os.path.exists(db_path):
