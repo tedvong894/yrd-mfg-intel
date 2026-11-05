@@ -164,6 +164,50 @@ BIG_MARK = [
 SURFACE_TYPES = {"倒闭 / 关停", "订单流失 / 外贸下滑"}
 MACRO_TAGS = {"宏观", "微利", "内卷", "行业"}
 
+# ── 司法公告 / 法院破产清算类（纯法律公告，不是商业故事）──────────────
+# 用户 2026-11-04 明确要求：绝对不要从司法公告提取"简单的破产信息"。
+JUDICIAL_MARK = [
+    "债权申报", "申报债权", "破产管理人", "指定管理人", "宣告破产", "受理破产申请",
+    "裁定受理", "破产清算公告", "破产重整公告", "清算公告", "破产公告", "债权人会议",
+    "重整计划草案", "管理人报酬", "未受偿债权",
+]
+JUDICIAL_BK = ["破产", "清算", "重整", "倒闭", "关停", "注销"]
+# 具名企业判定：标题带"某"字视为匿名（某企业/某公司/某工厂）；
+# 否则命中公司实体指示词即视为具名——用于放宽"表面事件卡"判定（具名商业故事应保留）。
+NAME_HINTS = ["有限公司", "集团", "股份", "科技", "实业", "电子", "机械", "化工",
+              "服饰", "食品", "制造", "公司", "工厂", "品牌", "企业", "老板"]
+
+
+def looks_named(c):
+    """是否像'具名企业'的商业故事（而非'某企业/某公司'式的匿名案例）。"""
+    title = (c.get("title") or "")
+    if "某" in title:
+        return False  # "某企业倒闭"等匿名表述
+    t = card_text(c).lower()
+    return any(h in t for h in NAME_HINTS)
+
+
+def is_judicial_notice_card(c):
+    """司法公告 / 法院破产清算类条目：纯法律公告，不是有故事的商业案例。
+    命中即剔除（媒体叙事复盘因具名+篇幅双保险不被误杀）。"""
+    dom = (c.get("source") or "").lower()
+    # 法院 / 全国企业破产重整案件信息网 等官方公告域名——直接判为司法公告
+    if "court.gov.cn" in dom or dom.endswith("pccz.court.gov.cn") or "pccz" in dom:
+        return True
+    t = card_text(c).lower()
+    jm = sum(1 for k in JUDICIAL_MARK if k in t)
+    if jm == 0:
+        return False
+    has_bk = any(k in t for k in JUDICIAL_BK)
+    # 强公告词（债权申报/宣告破产等）≥2 且涉及破产清算 → 基本可定
+    if jm >= 2 and has_bk:
+        return True
+    # 仅 1 个公告词时，必须是"单薄公告体"（无具名叙事）才剔除，避免误杀媒体复盘
+    thin = (len((c.get("summary") or "").strip()) < 60) or (len(c.get("problems") or []) <= 1)
+    if jm >= 1 and has_bk and thin and not looks_named(c):
+        return True
+    return False
+
 
 def card_text(c):
     return " ".join([c.get("title", "") or "", c.get("summary", "") or "",
@@ -213,11 +257,17 @@ def is_surface_card(c):
         return False          # 有经营分析落点 → 保留
     ptype = c.get("problem_type") or ""
     if ptype in SURFACE_TYPES and pm == 0 and len(problems) <= 2 and not has_pct:
+        # 2026-11-04 放宽：具名企业的真实破产/关停故事（有叙事篇幅）保留，不按表面卡剔除
+        if looks_named(c) and len(summary) >= 50:
+            return False
         return True
     if (set(c.get("tags") or []) & MACRO_TAGS) and pm == 0 and len(problems) <= 1:
         return True
     if len(summary) < 35 and pm == 0 and not has_pct:
         return True
+    # 2026-11-04 放宽：具名企业的真实商业故事（有叙事篇幅），即使没有生产深挖词也保留
+    if looks_named(c) and len(summary) >= 50:
+        return False
     return False
 
 
@@ -229,6 +279,8 @@ def screen_reason(c):
         return "LISTED"
     if is_big_card(c):
         return "BIG"
+    if is_judicial_notice_card(c):
+        return "JUDICIAL"
     if is_surface_card(c):
         return "SURFACE"
     return ""
