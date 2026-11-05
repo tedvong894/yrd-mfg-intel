@@ -174,8 +174,42 @@ JUDICIAL_MARK = [
 JUDICIAL_BK = ["破产", "清算", "重整", "倒闭", "关停", "注销"]
 # 具名企业判定：标题带"某"字视为匿名（某企业/某公司/某工厂）；
 # 否则命中公司实体指示词即视为具名——用于放宽"表面事件卡"判定（具名商业故事应保留）。
-NAME_HINTS = ["有限公司", "集团", "股份", "科技", "实业", "电子", "机械", "化工",
-              "服饰", "食品", "制造", "公司", "工厂", "品牌", "企业", "老板"]
+# 具名企业判定（强信号：公司后缀词；弱信号：老板/创始人 + 创业叙事词）。
+# 注意：绝不能把"企业/公司/工厂/设备/制造"等泛型词当具名信号——它们大量出现在垃圾页，
+# 会让"银行首页/洁净室设备"之类蒙混过关（2026-11-05 事故：3 条垃圾全因 looks_named 误判具名而入库）。
+# 非故事类垃圾页（门户首页 / 厂商落地页 / 问答 / 分公司页），不是商业故事，整体剔除。
+# 用户 2026-11-05 排查：线上库混入"中国江苏网/中共江苏省委新闻网/中国建设银行首页/ZOL问答/
+# WPS客户案例/信保分公司页"等，必须拦截（详见 is_junk_card）。
+JUNK_TITLE = ["首页", "新闻网", "官网", "频道首页", "网上商城", "官方商城",
+              "产品详情", "产品中心", "分公司"]
+JUNK_TEXT = ["问答", "知道", "问问", "贴吧", "企业数字化转型实践",
+             "数字化解决方案", "解决方案提供商", "在线商城"]
+_EVENT_V = ["破产", "倒闭", "停产", "困境", "亏损", "转型", "创业", "发家", "危机",
+            "重整", "清算", "跑路", "关厂", "爆雷", "至暗"]
+
+
+def is_junk_card(c):
+    """非故事类垃圾页：门户/官网首页、厂商落地页、问答社区、分公司页等，
+    这些不是'具名企业的真实商业故事'，整体剔除。"""
+    title = (c.get("title") or "")
+    t = card_text(c).lower()
+    if any(m in title for m in JUNK_TITLE):
+        return True
+    if any(m in t for m in JUNK_TEXT):
+        return True
+    # 纯站点名（如"中国江苏网""中共江苏省委新闻网"）：以"网"结尾且无事件动词；
+    # 或"XX分公司"（无事件动词）→ 站点/分支页，不是文章。
+    tl = title.lower()
+    if (tl.endswith("网") and len(tl) <= 12) or ("分公司" in tl):
+        if not any(v in tl for v in _EVENT_V):
+            return True
+    return False
+
+
+NAME_STRONG = ["有限公司", "有限责任公司", "集团", "股份", "科技", "实业", "电子",
+               "机械", "化工", "服饰", "食品", "制药", "材料", "能源", "建材",
+               "装备", "电气", "汽车", "传媒", "家居", "生物"]
+NAME_NARRATIVE = ["创业", "发家", "起家", "第一桶金", "创始人", "从零", "白手起家"]
 
 
 def looks_named(c):
@@ -184,7 +218,13 @@ def looks_named(c):
     if "某" in title:
         return False  # "某企业倒闭"等匿名表述
     t = card_text(c).lower()
-    return any(h in t for h in NAME_HINTS)
+    if any(h in t for h in NAME_STRONG):
+        return True
+    # 弱信号：老板/创始人 + 创业叙事词（避免"老板必看"类泛建议页误判具名）
+    has_boss = ("老板" in t) or ("创始人" in t)
+    if has_boss and any(w in t for w in NAME_NARRATIVE):
+        return True
+    return False
 
 
 def is_judicial_notice_card(c):
@@ -281,6 +321,8 @@ def screen_reason(c):
         return "BIG"
     if is_judicial_notice_card(c):
         return "JUDICIAL"
+    if is_junk_card(c):
+        return "JUNK"
     if is_surface_card(c):
         return "SURFACE"
     return ""
