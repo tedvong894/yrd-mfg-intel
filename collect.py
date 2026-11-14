@@ -138,7 +138,11 @@ def fetch(url, timeout=25, ua=UA):
 
 
 def strip_tags(s):
-    return html.unescape(re.sub(r"<[^>]+>", "", s or "")).strip()
+    # 顺序必须是「先 HTML 反转义，再去标签」：Google News RSS 的 <description> 是
+    # 转义后的 HTML 文本（&lt;a ...&gt;&lt;font ...&gt;），旧实现先去标签再反转义，
+    # 会让 <font> / &nbsp; 在结果里复活 → intel_processor 的脏数据检查把 90/135 条
+    # 账期、清欠类干货全部误判为 SURFACE（2026-11-14 CI 诊断实证）。
+    return re.sub(r"<[^>]+>", "", html.unescape(s or "")).strip()
 
 
 def domain_of(url):
@@ -190,7 +194,9 @@ def src_google_news(q):
             m = re.search(rf"<{tag}>(.*?)</{tag}>", blk, re.S)
             return strip_tags(m.group(1)) if m else ""
         title, link, pub = pick("title"), pick("link"), pick("pubDate")
-        desc = re.sub(r"<a[^>]*>.*?</a>", "", pick("description"), flags=re.S)
+        # RSS description 是双重转义的 HTML：strip_tags 第一次反转义后仍会残留 &nbsp;，
+        # 再反转义一次并压平空白，避免脏标记被带进 intel_processor 的质量闸。
+        desc = re.sub(r"\s+", " ", html.unescape(pick("description"))).strip()
         if title and link:
             # Google News 标题常带 " - 来源"，去掉尾巴
             title = re.sub(r"\s+-\s+[^-]{1,20}$", "", title).strip()
@@ -280,6 +286,9 @@ def reject_reason(it):
         return r
     if len(it["title"]) < 8:
         return "TOO_SHORT"
+    # 空壳卡（Google News RSS 只有标题+来源，无摘要）不入库，避免冲进一批只有标题的解剖卡
+    if ipro.is_thin_card(it):
+        return "THIN"
     if ipro.is_surface_card(it):
         return "SURFACE"
     return ""
