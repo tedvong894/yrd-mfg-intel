@@ -264,6 +264,12 @@ def extract_problems(text, limit=3):
     return hits
 
 
+# 明显不属于「制造业老板经营话题」的语境词（2026-11-14 CI 实测混入）：
+# AI 工具 / 算力 / 律所软文 / 地方政务栏目，即便标题蹭了「价格战/赊销/传承」也不收。
+OFF_TOPIC_WORDS = ["AI视频", "ai视频", "算力", "Token", "token", "律师事务所",
+                   "大模型", "双十一", "观城", "县域经济", "21城"]
+
+
 def reject_reason(it):
     """返回剔除原因，空串表示通过。与 relevant() 共用同一条判断链，便于 CI 诊断召回为 0。"""
     dom = domain_of(it["url"])
@@ -277,6 +283,8 @@ def reject_reason(it):
         return "LISTED"
     if ipro.is_junk_card(it):
         return "JUNK"
+    if any(w in it["title"] for w in OFF_TOPIC_WORDS):
+        return "OFF_TOPIC"
     # 2026-11-14 方向闸：只收「老板关心的经营话题」，剔除问题企业失败叙事。
     # 方向闸通过 = 标题已点题（账期/开工率/招工难/二代/呆滞…）且无硬失败事件词，
     # 因此不再强制 PROBLEM_WORDS+BIZ_WORDS 双命中——否则「别再盯着周转率…库存压着
