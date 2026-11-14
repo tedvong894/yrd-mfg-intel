@@ -394,6 +394,18 @@ def retype_card(c):
     return c
 
 
+def is_thin_card(c):
+    """空壳卡：只有标题、没有有效摘要。
+
+    Google News RSS 的 description 只有「标题链接 + 来源名」，清洗后近乎为空；
+    这类条目放行会产出只有一行标题的解剖卡（2026-11-14 CI 诊断：135 条命中里
+    90 条属此类）。要求至少 30 字有效摘要，保证案例综述有内容可写。
+    采集端与入库端共用，避免「采集拦了、CI 重建又从 raw 放进来」。
+    """
+    text = (c.get("snippet") or c.get("summary") or c.get("content") or "").strip()
+    return len(text) < 30
+
+
 def is_surface_card(c):
     """表面事件卡：篇幅单薄、无多因素拆解、无生产管理/经营分析落点。"""
     t = card_text(c).lower()
@@ -442,6 +454,9 @@ def screen_reason(c):
     r = direction_gate(c)
     if r:
         return r
+    # 空壳卡（只有标题无摘要）在表面闸豁免之前拦掉，否则经营话题豁免会把它们全放进库
+    if is_thin_card(c):
+        return "THIN"
     if is_surface_card(c):
         return "SURFACE"
     return ""
