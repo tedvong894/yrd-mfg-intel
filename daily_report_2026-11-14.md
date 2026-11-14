@@ -1,6 +1,6 @@
 # 长三角制造业问题解剖日报（2026-11-14）
 
-今日新增 **19** 张解剖卡。
+今日新增 **31** 张解剖卡。
 
 
 ## 库存积压 / 资金占用（1）
@@ -12,7 +12,7 @@
 - 链接：https://www.zbintel.com/erpclub/yitihua/article-412818.shtml
 
 
-## 账期 / 应收账款（3）
+## 账期 / 应收账款（6）
 
 ### 一家中小制造企业靠应收账款管理，3个月盘活40万现金流
 - 地区：长三角 · 来源：www.niuqiclub.com · 日期：2026-11-14
@@ -32,8 +32,26 @@
 - 企业问题：湘潭高新区德意电气主攻智能电网配网设备，行业惯例先垫资后收款，钱回不来新订单也不敢接；企业服务专员先把应收账款从头捋一遍：哪些进入诉讼、哪些还在协商、欠款方企业性质，一笔一笔列清楚；以前资金周转靠贷款，利息就是一大笔成本
 - 链接：https://xtrb.xtol.cn/xtrbpc/content/202607/17/c146333.html
 
+### 国办发文治理中小企业回款难：大型企业卷账期问题受关注
+- 地区：长三角 · 来源：news.google.com · 日期：2026-10-21
+- 背景：国办发文治理中小企业回款难：大型企业卷账期问题受关注 虎嗅网
+- 企业问题：国办发文治理中小企业回款难：大型企业卷账期问题受关注；国办发文治理中小企业回款难：大型企业卷账期问题受关注 虎嗅网
+- 链接：https://news.google.com/rss/articles/CBMiVEFVX3lxTE9uTTZvYzlRN3lFMlMxckZRbldSdm5od3JCMjR3LUlNaDk5X3ZDOWVud3lRTDFadTlheEZ4OHI1SVhaOGlqUUJ4dGVSeW9mbjVSQzl5UQ?oc=5
 
-## 内卷 / 价格战（3）
+### 违约拖欠中小企业账款动态清零！矿山装备制造业或将苦尽甘来
+- 地区：长三角 · 来源：news.google.com · 日期：2026-09-16
+- 背景：违约拖欠中小企业账款动态清零！矿山装备制造业或将苦尽甘来 ThePaper.cn
+- 企业问题：违约拖欠中小企业账款动态清零；违约拖欠中小企业账款动态清零
+- 链接：https://news.google.com/rss/articles/CBMiYEFVX3lxTE4zME5RX1BVY3FnNndCemxiU3B1TjN5M1dpVE4yLUptdTlqTHpIdmI2UWotQmpZdDlUeTRtenN4VmpUeUFtbjlmejZfYTdBa2lTaDV4QnZFbEJCWWEwUkpUaw?oc=5
+
+### 算力“先用后付”：Token赊销缓解AI企业资金压力
+- 地区：长三角 · 来源：news.google.com · 日期：2026-08-10
+- 背景：算力“先用后付”：Token赊销缓解AI企业资金压力 人民日报
+- 企业问题：算力“先用后付”：Token赊销缓解AI企业资金压力；算力“先用后付”：Token赊销缓解AI企业资金压力 人民日报
+- 链接：https://news.google.com/rss/articles/CBMigAFBVV95cUxPOTRma3ZoUTNPa21vR0dMclNESE10Si1HVEY0Y25VUDVGeTduMm1WWHM4Vlo2OTdMOWJfVXQyd3NyTXZuNkNLWC1leUFzLWRsb0FWcEVaSUZ3ZmtjZHpUSnJzRWUwYXZmREJudWtLSG5YbTBVV2dZVWZwRDlNZUtuYQ?oc=5
+
+
+## 内卷 / 价格战（5）
 
 ### 中国民企想成隐形冠军要做好三件事：59%企业陷价格战囚徒困境
 - 地区：长三角 · 来源：www.qhsgsl.cn · 日期：2026-11-14
@@ -53,8 +71,20 @@
 - 企业问题：传统制造的死亡螺旋是降价→降本→降质→丢客户→再降价；价格战本质是企业在产业链中缺乏不可替代性，所有供应商都能提供同质化产品时，买方自然选最低价
 - 链接：https://www.yiwuyou.com/2026/05/1309/
 
+### AI视频工具竞争转向创作者生态与商业模式，双十一价格战持续
+- 地区：长三角 · 来源：news.google.com · 日期：2026-11-12
+- 背景：AI视频工具竞争转向创作者生态与商业模式，双十一价格战持续 虎嗅
+- 企业问题：AI视频工具竞争转向创作者生态与商业模式，双十一价格战持续；AI视频工具竞争转向创作者生态与商业模式，双十一价格战持续 虎嗅
+- 链接：https://news.google.com/rss/articles/CBMiVEFVX3lxTE9LSkwta1RyYWdVSm9nYmpYZ1F0VEg2SEYzOU9aUTBNVnNzUkdKZE9mSjlEbHlBMVhTUUJfdlg1YUpCcnA2TTJNVlM0VW9HME01MXk1eQ?oc=5
 
-## 产能平衡 / 开工率（3）
+### 县域经济差异小，如何跑出差异化竞争力？内江的答案很特别丨观城
+- 地区：长三角 · 来源：news.google.com · 日期：2026-11-03
+- 背景：县域经济差异小，如何跑出差异化竞争力？内江的答案很特别丨观城 川观新闻
+- 企业问题：（未标注）
+- 链接：https://news.google.com/rss/articles/CBMiTkFVX3lxTFAtdGl4eUFmSmJpWHRJeDlGbUFGb0MteUJtTkcwb0RWc0duY0dNVTJpbTF0STRxXzVLalphUFFuQUNXeTljTDA1Vzh3M25lZw?oc=5
+
+
+## 产能平衡 / 开工率（5）
 
 ### 产能过剩怎么破局：三种退出路径，越早想清楚越占主动
 - 地区：长三角 · 来源：www.niuqiclub.com · 日期：2026-11-14
@@ -73,6 +103,18 @@
 - 背景：快出货模式适合订单批量小、款式变化快、客户对交期敏感的行业（五金配件、小家电、服装辅料、包装印刷），标准品大批量且客户对价格极敏感时规模效应仍有道理，但前提是产能利用率撑得住。常见问答：厂已扩产、产能空一半怎么办？先别急着找订单填产能，把现有订单交付周期压缩、库存周转天数降下来，腾出的现金流比多接两个低毛利订单管用；考虑对外承接代工要算清边际成本再报价。以销定产会不会交期太长？成品不备库存但通用原材料可备安全库存，长周期物料提前备、短周
 - 企业问题：快出货模式适合订单批量小、款式变化快、客户对交期敏感的行业（五金配件、小家电、服装辅料、包装印刷），标准品大批量且客户对价格极敏感时规模效应仍有道理，但前提是产能利用率撑得住；先别急着找订单填产能，把现有订单交付周期压缩、库存周转天数降下来，腾出的现金流比多接两个低毛利订单管用；考虑对外承接代工要算清边际成本再报价
 - 链接：https://www.niuqiclub.com/article/76631.html
+
+### 数据显微镜｜均价上涨15.7％：有机硅怎么从“产能过剩”卖成了“紧俏货”_数据解盘
+- 地区：长三角 · 来源：news.google.com · 日期：2026-10-30
+- 背景：数据显微镜｜均价上涨15.7％：有机硅怎么从“产能过剩”卖成了“紧俏货”_数据解盘 证券之星
+- 企业问题：数据显微镜｜均价上涨15.7％：有机硅怎么从“产能过剩”卖成了“紧俏货”_数据解盘；数据显微镜｜均价上涨15.7％：有机硅怎么从“产能过剩”卖成了“紧俏货”_数据解盘 证券之星
+- 链接：https://news.google.com/rss/articles/CBMiYkFVX3lxTE5OZEtZVXUyM1hlVWh4RjZVVV85ZEJoMGQ0dmFFelpoOGVRMVlUdWJQNUp5THROSlBpQ3lRcS1MNUVIMkZoc1E2VzdrdTBWa1BtRGlPaFNPeHJvWVZDYTZzZ1dR?oc=5
+
+### 瓣瓣一线丨旺季有产能淡季少闲置，张家口宣化“共享智造”让196家企业受益
+- 地区：长三角 · 来源：news.google.com · 日期：2026-10-18
+- 背景：瓣瓣一线丨旺季有产能淡季少闲置，张家口宣化“共享智造”让196家企业受益 腾讯新闻
+- 企业问题：（未标注）
+- 链接：https://news.google.com/rss/articles/CBMiVkFVX3lxTE9uejdDMk1mS3NnVXFydWtfM0VMaHRIR285cmJITExwc2tzVEliWkxRbklSQXlNRXJxR3gzUnNjMzkwaWtmN3I3TG1hQ2lVOGNTeEhacjl3?oc=5
 
 
 ## 用工 / 招工难（3）
@@ -96,7 +138,7 @@
 - 链接：https://www.zhzjs.com/news/article-1512.html
 
 
-## 二代接班 / 传承（3）
+## 二代接班 / 传承（8）
 
 ### 集成灶之父的传承困局：厂二代踩过的坑，接班的几乎都踩过
 - 地区：浙江 · 来源：www.globalpeople.com.cn · 日期：2026-11-14
@@ -115,6 +157,36 @@
 - 背景：自家人和经理人之间最怕的不是谁说了算，而是没人说清楚什么事该谁定、定完谁来盯、出了问题找谁。营收过几个亿、多工厂多品牌后，原来的家里人一句话会变得不经济：家族成员按亲情还是按岗位考核？不考核职业经理人不服，按考核长辈觉得外人管自家人。创始人想放权又怕经理人乱投资、掏空客户、做关联交易；不放权经理人只是执行员留不住人。二代不一定是全公司总经理最合适人选，硬塞进CEO位置既耽误企业也耽误人。缓冲区不是设个协调办找老臣两头传话，而是四层防火墙
 - 企业问题：不考核职业经理人不服，按考核长辈觉得外人管自家人；创始人想放权又怕经理人乱投资、掏空客户、做关联交易；二代不一定是全公司总经理最合适人选，硬塞进CEO位置既耽误企业也耽误人
 - 链接：http://www.gtcz.com/nd.jsp?id=357
+
+### 李子园接班人能从其他年轻二代身上学什么？
+- 地区：长三角 · 来源：news.google.com · 日期：2026-11-10
+- 背景：李子园接班人能从其他年轻二代身上学什么？ Jiemian.com
+- 企业问题：李子园接班人能从其他年轻二代身上学什么；李子园接班人能从其他年轻二代身上学什么
+- 链接：https://news.google.com/rss/articles/CBMiVkFVX3lxTE81R2ZzQ0E4aXdpWkpkTS1FOTJqQ1U5cGdyZHFBUzB1YVdfZHpoaEdTSWlkNklXNGxNd3lPbXJEVGNYaHB6eUd6V05GRVlEbGZ6SndMS1d3?oc=5
+
+### 陈凌：两代缺少共识是60%家族企业面临的传承困局 11月6日，第八届世界浙商大会开幕。浙江大学管理学院企业家学院院长陈凌表示，60%家族企业传承最大挑战是两代人缺少共同方向与目标，传统产业AI化需要两代协同互动，将新思维和传统产业结合才能顺利完成
+- 地区：浙江 · 来源：news.google.com · 日期：2026-11-06
+- 背景：陈凌：两代缺少共识是60%家族企业面临的传承困局 11月6日，第八届世界浙商大会开幕。浙江大学管理学院企业家学院院长陈凌表示，60%家族企业传承最大挑战是两代人缺少共同方向与目标，传统产业AI化需要两代协同互动，将新思维和传统产业结合才能顺利完成 搜狐网
+- 企业问题：陈凌：两代缺少共识是60%家族企业面临的传承困局 11月6日，第八届世界浙商大会开幕；浙江大学管理学院企业家学院院长陈凌表示，60%家族企业传承最大挑战是两代人缺少共同方向与目标，传统产业AI化需要两代协同互动，将新思维和传统产业结合才能顺利完成；陈凌：两代缺少共识是60%家族企业面临的传承困局 11月6日，第八届世界浙商大会开幕
+- 链接：https://news.google.com/rss/articles/CBMia0FVX3lxTE0wdlZEcnJlTmZwV3ZnRzlzM3VaN0xpZUxlZ0ZCdGRBM0QtWGliWjB3RER6ZzVHTnp4OFk1aEpVRDBQSWpOc1o0WWxvbkhmV2lFNXQzZG8xV0l4dGZWLVNlS2VMOVVkR2VDb1U4?oc=5
+
+### 北京德谕泽律师事务所创始人高鸣飞：传承不是选择题，是时限题
+- 地区：长三角 · 来源：news.google.com · 日期：2026-11-03
+- 背景：北京德谕泽律师事务所创始人高鸣飞：传承不是选择题，是时限题 21财经
+- 企业问题：北京德谕泽律师事务所创始人高鸣飞：传承不是选择题，是时限题；北京德谕泽律师事务所创始人高鸣飞：传承不是选择题，是时限题 21财经
+- 链接：https://news.google.com/rss/articles/CBMijwFBVV95cUxPbG95Xy1YSEdyb1k0TUVHdWZnZk9LUUx6NUFBMm1UanJ6aWh4bWljanVqdEdlTldfdmltczkxRjBaRHR3bnVwY3p4MW45THBpT1BXVzFhMzNTMi1RZ3UxTU9CZVJaay1KS0E5eURlQmJvaVRjN3JGdlZxWVNjcjltS18zbGM2eFNHTy15Mk9maw?oc=5
+
+### 父子不内斗、女婿不逼宫，浙商二代们为啥不爱接班了？
+- 地区：长三角 · 来源：news.google.com · 日期：2026-07-28
+- 背景：父子不内斗、女婿不逼宫，浙商二代们为啥不爱接班了？ 新浪财经_金融信息服务商
+- 企业问题：父子不内斗、女婿不逼宫，浙商二代们为啥不爱接班了；父子不内斗、女婿不逼宫，浙商二代们为啥不爱接班了
+- 链接：https://news.google.com/rss/articles/CBMieEFVX3lxTFBNR3hfTjRKMERNcmFwSm9OaEZUUkxqbDJORUpqMG0wVXE2NktEWHhRTXVTS3o5UGltYlZEMmRxcHRJc0pPUlNuNm44Y1Zxa1ZzTEZsemVfNGpGZDQ3eWU4QkhITDA1cmpPa2Fkblg3MFJXS0dlSjVSLQ?oc=5
+
+### 告别代工，让海外认中国品牌：95后企二代的出海突围
+- 地区：长三角 · 来源：news.google.com · 日期：2026-07-06
+- 背景：告别代工，让海外认中国品牌：95后企二代的出海突围 21财经
+- 企业问题：告别代工，让海外认中国品牌：95后企二代的出海突围；告别代工，让海外认中国品牌：95后企二代的出海突围 21财经
+- 链接：https://news.google.com/rss/articles/CBMijAFBVV95cUxPQkVTQWpTUG85V2JWdE5DNktLSE9PejExYlBESWkyXzJXZ2tZUTdaUjFJTU9hbS1lYU42bFlFRzEtY0c5VFIyU0tsdlpBMllCdjZCWmpiTWR2M2VCeFhoYXBGSmRlNUNGNS1nMjRzNEdUODFYdU9FcVkyWW5MRFFxVXJWcGJBWTR3RVVBcg?oc=5
 
 
 ## 管理冲突 / 内斗（3）
