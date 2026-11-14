@@ -80,11 +80,21 @@ DEFAULT_SOURCE_WEIGHT = 0.5
 def norm_url(u):
     if not u:
         return ""
+    orig = u
     u = u.strip().lower()
     u = re.sub(r'^https?://', '', u)
     u = re.sub(r'^www\.', '', u)
     u = re.sub(r'[?#].*$', '', u)
-    return u.rstrip('/')
+    u = u.rstrip('/')
+    # 2026-11-14 修：微信公众号文章 URL 全是 /s?__biz=...&sn=XXX，砍掉查询串后
+    # 全都塌缩成 "mp.weixin.qq.com/s" → 不同文章 card_id 相同、互相顶掉。
+    # 仅对这种无区分度的短链补回 sn 作唯一标识；其它 URL 结果完全不变，
+    # 故历史卡 card_id 与 deleted_ids 黑名单保持兼容（不会引发已删卡复活）。
+    if u == "mp.weixin.qq.com/s":
+        m = re.search(r'[?&]sn=([^&#]+)', orig, re.I)
+        if m:
+            u = u + "/" + m.group(1)
+    return u
 
 
 def norm_title(t):
@@ -124,9 +134,6 @@ ANALYTIC_WORDS = [
     "应收", "商业模式", "盈利", "定价", "稼动", "质量成本", "单位成本", "固定成本", "变动成本",
     "呆滞", "积压", "在制品", "交期", "生产管理", "重资产", "沉没成本", "成本结构", "成本倒挂",
     "现金流", "资金链", "回款", "坏账", "存货", "周转天数",
-    # 2026-11-14 经营话题：账期/内卷/产能/用工/接班/管理冲突（让话题类内容通过表面卡分析落点判定）
-    "应收账款", "赊销", "用工", "招工", "产能", "产能过剩", "开工率", "内卷", "价格战",
-    "接班", "传承", "管理冲突", "股东", "人工成本", "社保", "二代", "交权",
 ]
 AD_CTA = [
     "免费试用", "立即咨询", "获取报价", "在线询价", "厂家直销", "限时优惠", "优惠活动",
@@ -184,8 +191,11 @@ JUDICIAL_BK = ["破产", "清算", "重整", "倒闭", "关停", "注销"]
 # 用户 2026-11-05 排查：线上库混入"中国江苏网/中共江苏省委新闻网/中国建设银行首页/ZOL问答/
 # WPS客户案例/信保分公司页"等，必须拦截（详见 is_junk_card）。
 JUNK_TITLE = ["首页", "新闻网", "官网", "频道首页", "网上商城", "官方商城",
-              "产品详情", "产品中心", "分公司"]
-JUNK_TEXT = ["问答", "知道", "问问", "贴吧", "企业数字化转型实践",
+              "产品详情", "产品中心", "分公司", "问答"]
+# 2026-11-14：「问答/知道」从全文词表移除，问答只在标题级拦（ZOL 问答页）；
+# 「知道」不再单列——百度知道由 BLOCK_DOMAINS 的 zhidao.baidu.com 拦。
+# 原因：正文里出现「常见问答」「不知道该怎么干」是正常中文，全文匹配会误杀干货文章。
+JUNK_TEXT = ["贴吧", "企业数字化转型实践",
              "数字化解决方案", "解决方案提供商", "在线商城"]
 _EVENT_V = ["破产", "倒闭", "停产", "困境", "亏损", "转型", "创业", "发家", "危机",
             "重整", "清算", "跑路", "关厂", "爆雷", "至暗"]
@@ -286,6 +296,104 @@ def is_big_card(c):
     return not any(g in t for g in LISTED_GUARD)
 
 
+# ── 经营话题方向闸（2026-11-14 大转向）──────────────────────────────
+# 用户要求：不再"找问题企业/倒闭破产"，改找长三角制造业老板关心、有用的经营话题
+# （账期、内卷、产能平衡、用工、二代接班、管理冲突、库存/经营管理方法论）。
+# 规则（纯标题判定，简单可重跑）：
+#   ① 标题含"硬失败事件词"→ 问题企业失败叙事，一律剔除（不因同时含话题词而放行）
+#   ② 标题未命中"强经营话题词"→ 不是老板关心的经营话题，剔除
+# 依据：话题文章的标题必然点题（账期/开工率/招工难/二代/呆滞…）；而"XX厂破产清算/
+# 甩卖/停产"这类标题即使提到"股东/货款/产能"仍是失败猎奇，故硬失败词优先级最高。
+# 四处共用同一份规则：采集端 relevant() / 入库端 screen_reason() / 渲染过滤 / DB+raw 物理清除，
+# 保证旧 raw 里的失败叙事卡不会被 CI 并集重新放出来（2026-10-29 复活事故的同类坑）。
+TOPIC_STRONG = [
+    # 账期 / 应收账款
+    "账期", "应收账款", "应收款", "回款", "货款", "赊销", "商票", "承兑", "三角债",
+    "垫资", "催款", "坏账", "拖欠", "快兑现", "压款",
+    # 内卷 / 价格战
+    "内卷", "价格战", "低价竞争", "同质化", "反内卷", "差异化", "拼价格", "打价格", "跳出内卷",
+    # 产能平衡 / 开工率
+    "产能过剩", "产能利用率", "开工率", "稼动率", "产能平衡", "闲置产能", "满产", "错峰",
+    "排产", "开机率", "扩产", "产出缺口", "设备闲置", "空转", "产能",
+    # 用工 / 招工
+    "招工难", "用工荒", "技工", "蓝领", "留人", "人工成本", "师徒", "计件", "工人难招", "社保", "招工",
+    # 二代接班 / 传承
+    "二代", "接班", "传承", "创二代", "企二代", "交班", "家族企业", "职业经理人",
+    "父辈", "子承", "换帅", "接棒",
+    # 管理冲突 / 内斗
+    "股东", "合伙人", "元老", "内斗", "股权", "权责", "分家", "管理冲突",
+    # 库存 / 经营管理方法论
+    "库存周转", "呆滞", "积压", "周转率", "5S", "精益", "降本", "安全库存",
+    "在制品", "清仓", "库存", "存货", "资金占用",
+]
+FAIL_HARD = [
+    "破产", "清算", "重整", "预重整", "法拍", "司法拍卖", "起拍价", "流拍", "拍卖", "资不抵债",
+    "关停", "结业", "停产", "停摆", "门店全关", "全线关停", "关闭", "全关", "原地解散", "出局", "陷危机",
+    "跑路", "失联", "暴雷", "爆雷", "跌落神坛", "梦断", "折戟", "败局", "离场", "落幕", "退场",
+    "甩卖", "贱卖", "被立案", "列入失信", "法人入刑", "欠薪", "讨薪",
+    "法院", "债权申报", "净利腰斩", "利润率腰斩", "生存悬崖", "巨亏", "累亏", "问询函", "年度报告",
+]
+
+
+# 6 类新经营话题（dissect.PROBLEM_TYPES）：被采集层/种子明确标注为这些类型的条目，
+# infer_type 已基于全文关键词打分判定方向，比单看标题更准，直接放行——避免
+# "招来的留不住、留下的管不好""年赚400万两个发小翻了脸"这类标题含蓄但极好的
+# 用工 / 管理冲突干货被 NO_TOPIC 误杀。
+TOPIC_TYPES = {"账期应收", "内卷价格战", "产能平衡", "用工招工", "二代接班", "管理冲突"}
+
+
+def direction_gate(c):
+    """经营话题方向闸：返回剔除原因，空串表示通过。四处共用，保证不复活。"""
+    title = (c.get("title") or "").lower()
+    # ① 硬失败事件词优先级最高：无论标注什么类型，问题企业失败叙事一律剔除
+    if any(w in title for w in FAIL_HARD):
+        return "FAIL_STORY"
+    # ② 已明确标注为 6 类经营话题 → 放行
+    if (c.get("problem_type_key") or c.get("problem_type") or "") in TOPIC_TYPES:
+        return ""
+    # ③ 标题点题（命中强话题词）→ 放行
+    if any(w in title for w in TOPIC_STRONG):
+        return ""
+    return "NO_TOPIC"
+
+
+# 话题归类词表（用于把历史卡的问题企业标签重映射到经营话题；与 TOPIC_STRONG 同源）
+TOPIC_RETYPE_MAP = {
+    "账期应收": ["账期", "应收账款", "应收款", "回款", "货款", "赊销", "商票", "承兑",
+             "三角债", "垫资", "催款", "坏账", "拖欠", "快兑现", "压款"],
+    "内卷价格战": ["内卷", "价格战", "低价竞争", "同质化", "反内卷", "差异化", "拼价格", "打价格"],
+    "产能平衡": ["产能过剩", "产能利用率", "开工率", "稼动率", "产能平衡", "闲置产能",
+             "满产", "错峰", "排产", "开机率", "扩产", "产出缺口", "设备闲置", "空转", "产能"],
+    "用工招工": ["招工难", "用工荒", "技工", "蓝领", "留人", "人工成本", "师徒", "计件", "社保", "招工"],
+    "二代接班": ["二代", "接班", "传承", "创二代", "企二代", "交班", "家族企业",
+             "职业经理人", "父辈", "子承", "换帅", "接棒"],
+    "管理冲突": ["股东", "合伙人", "元老", "内斗", "股权", "权责", "分家", "管理冲突"],
+}
+# 属于「问题企业」叙事的旧类型标签（2026-11-14 起不再出现在看板上）
+OLD_FAIL_TYPES = {"倒闭关停", "亏损", "订单流失", "转型失败", "现金流断裂", "发家史"}
+
+
+def retype_card(c):
+    """2026-11-14 方向大调整：把历史卡从「亏损 / 现金流断裂 / 倒闭关停」等问题企业
+    标签，按标题命中的经营话题词重映射到 6 类新话题，并同步重建解剖视角。
+    仅处理旧失败类型且标题明确点题的卡；库存积压属运营痛点、不算问题企业，保持原样。"""
+    if (c.get("problem_type_key") or "") not in OLD_FAIL_TYPES:
+        return c
+    title = c.get("title") or ""
+    best, score = "", 0
+    for tname, kws in TOPIC_RETYPE_MAP.items():
+        s = sum(1 for k in kws if k in title)
+        if s > score:
+            best, score = tname, s
+    if not best:
+        return c
+    c = dict(c)
+    c["problem_type_key"] = best
+    c["problem_type"] = dissect.PROBLEM_TYPES[best]["label"]
+    c["script"] = dissect.build_script(c, best, c.get("region", ""))
+    return c
+
+
 def is_surface_card(c):
     """表面事件卡：篇幅单薄、无多因素拆解、无生产管理/经营分析落点。"""
     t = card_text(c).lower()
@@ -294,6 +402,10 @@ def is_surface_card(c):
     # 脏数据：摘要/标题带 HTML 残渣或站点后缀（非案例正文）
     if "<font" in t or "&nbsp;" in t or "&amp;" in t or "_新闻" in t or " - 中国" in t:
         return True
+    # 2026-11-14：经营话题卡豁免表面闸。话题文章标题已点题、且已过方向闸，
+    # 不应再因"缺生产深挖词/摘要短"被误杀（账期/用工/接班类常无产能良率词）。
+    if not direction_gate(c):
+        return False
     pm = sum(1 for k in PM_DEEP_WORDS if k in t)
     has_pct = bool(re.search(r"[0-9]+(\.[0-9]+)?\s?%", t))
     if pm == 0 and any(k in t for k in ANALYTIC_WORDS):
@@ -326,6 +438,10 @@ def screen_reason(c):
         return "JUDICIAL"
     if is_junk_card(c):
         return "JUNK"
+    # 2026-11-14 方向闸：问题企业失败叙事 / 无经营话题落点，一律不入库
+    r = direction_gate(c)
+    if r:
+        return r
     if is_surface_card(c):
         return "SURFACE"
     return ""
@@ -344,7 +460,7 @@ def build_card(item):
     ptype = item.get("problem_type") or dissect.infer_type(text)
     region = detect_region(item)
     script = dissect.build_script(item, ptype, region)
-    return {
+    card = {
         "card_id": card_id(item),
         "title": item.get("title", ""),
         "url": item.get("url", ""),
@@ -361,6 +477,7 @@ def build_card(item):
         "date": item.get("date", datetime.date.today().isoformat()),
         "added": datetime.date.today().isoformat(),   # 入库日期（用于"今日新增"统计，区别于文章发布时间）
     }
+    return retype_card(card)   # 2026-11-14：新入库卡也统一贴经营话题标签
 
 
 # ── 主流程 ────────────────────────────────────────────
@@ -433,10 +550,18 @@ def process(intel_dir):
                     continue
 
     raw_files = sorted(glob.glob(os.path.join(intel_dir, "raw_*.json")))
+    # 2026-11-14 转向「经营话题」：人工精选的启动内容库（独立静态文件，真实检索所得）。
+    # 与 raw_* 走完全相同的黑名单 / 时效 / 方向闸 / 质量闸 / 去重；但**只读**——
+    # 不做物理清除写回、不进 manifest，避免污染人工维护的内容源，也绕开
+    # 「数据文件只由 CI 全权管理、本地不推 raw_*」的硬约定。
+    seed_path = os.path.join(intel_dir, "seed_topics.json")
+    if os.path.exists(seed_path):
+        raw_files.append(seed_path)
     new_items = []
     purged_files = 0
     purged_items = 0
     for rf in raw_files:
+        is_seed = (rf == seed_path)
         base = os.path.basename(rf)
         # 注意：按「条目 card_id」去重，而不是按文件名跳过——
         # 同名 raw 文件会被增量采集不断追加，按文件名跳过会导致新条目永远不入库。
@@ -462,6 +587,9 @@ def process(intel_dir):
             # 注意：无 date 的条目不清（build_card 会填当天日期，渲染层保留）
             if (it.get("date") or "9999-12-31") < "2026-06-01":
                 continue
+            # 方向闸：问题企业失败叙事 / 无经营话题落点 → 从 raw 物理移除，防 CI 并集复活
+            if direction_gate(it):
+                continue
             if is_skipped_type(it):
                 skipped += 1
                 keep.append(it)
@@ -485,7 +613,8 @@ def process(intel_dir):
             existing_titles.add(tkey)
             added += 1
         # ── 物理清除：把已删/重复条目从 raw 里真正删掉（不是隐藏）──
-        if len(keep) != len(items):
+        # seed_topics.json 是人工维护的只读内容源：不写回、不进 manifest
+        if not is_seed and len(keep) != len(items):
             purged_items += len(items) - len(keep)
             purged_files += 1
             try:
@@ -496,7 +625,8 @@ def process(intel_dir):
                     json.dump(data, open(rf, "w", encoding="utf-8"), ensure_ascii=False, indent=2)
             except Exception as e:
                 print(f"[warn] 清除 {base} 失败：{e}")
-        processed.add(base)
+        if not is_seed:
+            processed.add(base)
         print(f"[ok] {base}: 解析 {len(items)} 条，新增 {added} 条，"
               f"跳过已下线类型 {skipped} 条，质量筛除 {screened} 条，同题重复 {dup} 条")
 
@@ -526,7 +656,10 @@ def process(intel_dir):
     all_cards = [c for c in all_cards
                  if str(c.get("date", "")) >= "2026-06-01"
                  and c.get("card_id") not in deleted_keys
-                 and norm_title(c.get("title", "")) not in deleted_titles]
+                 and norm_title(c.get("title", "")) not in deleted_titles
+                 and not direction_gate(c)]   # 2026-11-14 方向闸：渲染层同步排除失败叙事卡
+    # 2026-11-14：历史卡的问题企业标签重映射为经营话题（渲染与统计同源）
+    all_cards = [retype_card(c) for c in all_cards]
 
     # ── 永久删除：把被删/过时的卡从 DB 文件里物理移除（不是渲染时隐藏）──
     try:
@@ -538,15 +671,18 @@ def process(intel_dir):
                 db_cards.append(json.loads(line))
             except Exception:
                 continue
-        survivors = [c for c in db_cards
+        survivors = [retype_card(c) for c in db_cards
                      if c.get("card_id") not in deleted_keys
                      and norm_title(c.get("title", "")) not in deleted_titles
-                     and str(c.get("date", "")) >= "2026-06-01"]
-        if len(survivors) != len(db_cards):
+                     and str(c.get("date", "")) >= "2026-06-01"
+                     and not direction_gate(c)]   # 2026-11-14 方向闸：失败叙事卡物理删库
+        # 条数变化 或 标签重映射导致内容变化 → 都写回，保证 DB 文件本身是干净的新方向
+        if len(survivors) != len(db_cards) or survivors != db_cards:
             with open(db_path, "w", encoding="utf-8") as f:
                 for c in survivors:
                     f.write(json.dumps(c, ensure_ascii=False) + "\n")
-            print(f"[purge] DB 物理清除 {len(db_cards) - len(survivors)} 张（被删/过时），保留 {len(survivors)} 张")
+            print(f"[purge] DB 物理清除 {len(db_cards) - len(survivors)} 张（被删/过时），"
+                  f"保留 {len(survivors)} 张，标签已同步为经营话题")
     except Exception as e:
         print(f"[warn] DB 物理清除失败：{e}")
 
@@ -564,6 +700,13 @@ def process(intel_dir):
 PT_COLORS = {
     "倒闭关停": "#dc2626", "亏损": "#ea580c", "订单流失": "#d97706",
     "转型失败": "#7c3aed", "库存积压": "#0891b2", "现金流断裂": "#b91c1c",
+    # 2026-11-14 新增 6 类经营话题（低饱和，沿用看板极简风格）
+    "账期应收": "#b45309", "内卷价格战": "#c2410c", "产能平衡": "#0f766e",
+    "用工招工": "#1d4ed8", "二代接班": "#7e22ce", "管理冲突": "#be123c",
+    # label 别名：渲染层有些地方用 problem_type（label）查颜色，有些用 key，双键兜底
+    "账期 / 应收账款": "#b45309", "内卷 / 价格战": "#c2410c",
+    "产能平衡 / 开工率": "#0f766e", "用工 / 招工难": "#1d4ed8",
+    "二代接班 / 传承": "#7e22ce", "管理冲突 / 内斗": "#be123c",
 }
 REG_COLORS = {"浙江": "#dc2626", "江苏": "#16a34a", "上海": "#2563eb",
               "安徽": "#d97706", "长三角": "#7c3aed"}
