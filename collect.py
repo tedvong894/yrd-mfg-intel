@@ -23,6 +23,7 @@ import re
 import sys
 import urllib.parse
 import urllib.request
+from collections import Counter
 from concurrent.futures import ThreadPoolExecutor
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -257,31 +258,36 @@ def extract_problems(text, limit=3):
     return hits
 
 
-def relevant(it):
-    """相关性 + 质量筛查（广告 / 上市公司财报体 / 表面事件卡 一律丢弃）。"""
-    text = (it["title"] + " " + it.get("snippet", "")).lower()
+def reject_reason(it):
+    """返回剔除原因，空串表示通过。与 relevant() 共用同一条判断链，便于 CI 诊断召回为 0。"""
     dom = domain_of(it["url"])
     if any(b in dom for b in BLOCK_DOMAINS):
-        return False
+        return "BLOCK_DOMAIN"
     if any(b in dom for b in JUDICIAL_DOMAINS):
-        return False
+        return "JUDICIAL_DOMAIN"
     if ipro.is_ad_card(it):
-        return False
+        return "AD"
     if ipro.is_listed_card(it):
-        return False
+        return "LISTED"
     if ipro.is_junk_card(it):
-        return False
+        return "JUNK"
     # 2026-11-14 方向闸：只收「老板关心的经营话题」，剔除问题企业失败叙事。
     # 方向闸通过 = 标题已点题（账期/开工率/招工难/二代/呆滞…）且无硬失败事件词，
     # 因此不再强制 PROBLEM_WORDS+BIZ_WORDS 双命中——否则「别再盯着周转率…库存压着
     # 其实就是钱压着」这类标题无「制造/工厂」字样的好内容会被误杀（旧的召回 0 主因之一）。
-    if ipro.direction_gate(it):
-        return False
+    r = ipro.direction_gate(it)
+    if r:
+        return r
     if len(it["title"]) < 8:
-        return False
+        return "TOO_SHORT"
     if ipro.is_surface_card(it):
-        return False
-    return True
+        return "SURFACE"
+    return ""
+
+
+def relevant(it):
+    """相关性 + 质量筛查（广告 / 上市公司财报体 / 表面事件卡 一律丢弃）。"""
+    return not reject_reason(it)
 
 
 def build_item(row, q):
@@ -366,6 +372,7 @@ def main():
     known, existing, raw_path = load_known(intel_dir, today)
     del_titles = load_deleted_titles(intel_dir)
     scanned, kept, new_items, source_hits, old_dropped = 0, 0, [], {}, 0
+    reject_stats, reject_samples = Counter(), {}
 
     with ThreadPoolExecutor(max_workers=args.workers) as ex:
         for q, rows, src in ex.map(scan_one, queries):
@@ -376,7 +383,10 @@ def main():
                 # 永久删除的案例（含同题转载版）→ 采集阶段就不再收
                 if ipro.norm_title(it.get("title", "")) in del_titles:
                     continue
-                if not relevant(it):
+                reason = reject_reason(it)
+                if reason:
+                    reject_stats[reason] += 1
+                    reject_samples.setdefault(reason, []).append(it["title"][:52])
                     continue
                 if not recent_enough(it, cutoff):
                     old_dropped += 1
@@ -409,6 +419,11 @@ def main():
     print(f"[collect] 查询 {len(queries)} 条 · 命中网页 {scanned} 条 · 相关 {kept} 条 · 超龄丢弃 {old_dropped} 条 · 新增 {len(new_items)} 条 · {action}")
     print(f"[collect] 源命中：{source_hits}")
     print(f"[collect] 时效窗口：保留 >= {cutoff.isoformat()}（近 {RECENCY_YEARS} 年）")
+    # 召回诊断：把被拒条目的「第一道拦截原因 + 标题样本」打进 CI 日志，避免"相关 0 条"两眼一抹黑
+    if reject_stats:
+        print(f"[collect] 剔除原因分布：{dict(reject_stats)}")
+        for r, n in reject_stats.most_common():
+            print(f"   {r} ({n}): " + " | ".join(reject_samples[r][:4]))
     for it in new_items[:10]:
         print(f"   + [{it['problem_type']}] {it['region']} {it['title'][:44]}")
     print("__YRD_SUMMARY__ " + json.dumps(
