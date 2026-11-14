@@ -1,6 +1,6 @@
 # 长三角制造业问题解剖日报（2026-11-14）
 
-今日新增 **31** 张解剖卡。
+今日新增 **27** 张解剖卡。
 
 
 ## 库存积压 / 资金占用（1）
@@ -12,7 +12,7 @@
 - 链接：https://www.zbintel.com/erpclub/yitihua/article-412818.shtml
 
 
-## 账期 / 应收账款（6）
+## 账期 / 应收账款（5）
 
 ### 一家中小制造企业靠应收账款管理，3个月盘活40万现金流
 - 地区：长三角 · 来源：www.niuqiclub.com · 日期：2026-11-14
@@ -44,14 +44,8 @@
 - 企业问题：违约拖欠中小企业账款动态清零；违约拖欠中小企业账款动态清零
 - 链接：https://news.google.com/rss/articles/CBMiYEFVX3lxTE4zME5RX1BVY3FnNndCemxiU3B1TjN5M1dpVE4yLUptdTlqTHpIdmI2UWotQmpZdDlUeTRtenN4VmpUeUFtbjlmejZfYTdBa2lTaDV4QnZFbEJCWWEwUkpUaw?oc=5
 
-### 算力“先用后付”：Token赊销缓解AI企业资金压力
-- 地区：长三角 · 来源：news.google.com · 日期：2026-08-10
-- 背景：算力“先用后付”：Token赊销缓解AI企业资金压力 人民日报
-- 企业问题：算力“先用后付”：Token赊销缓解AI企业资金压力；算力“先用后付”：Token赊销缓解AI企业资金压力 人民日报
-- 链接：https://news.google.com/rss/articles/CBMigAFBVV95cUxPOTRma3ZoUTNPa21vR0dMclNESE10Si1HVEY0Y25VUDVGeTduMm1WWHM4Vlo2OTdMOWJfVXQyd3NyTXZuNkNLWC1leUFzLWRsb0FWcEVaSUZ3ZmtjZHpUSnJzRWUwYXZmREJudWtLSG5YbTBVV2dZVWZwRDlNZUtuYQ?oc=5
 
-
-## 内卷 / 价格战（5）
+## 内卷 / 价格战（3）
 
 ### 中国民企想成隐形冠军要做好三件事：59%企业陷价格战囚徒困境
 - 地区：长三角 · 来源：www.qhsgsl.cn · 日期：2026-11-14
@@ -70,18 +64,6 @@
 - 背景：传统制造的死亡螺旋是降价→降本→降质→丢客户→再降价。价格战本质是企业在产业链中缺乏不可替代性，所有供应商都能提供同质化产品时，买方自然选最低价。沈阳某磁性材料企业放弃与头部大厂正面争通用市场，聚焦工业级耐高温磁性材料，市场规模缩小但利润率提升30%。某设备制造企业从只卖设备改成设备+安装+维护+升级一站式方案，客户留存率提升50%、终身价值增加2倍。某净水器企业年营收1600万，发现老客户每年要换滤芯，推出滤芯年卡，复购率从30%升到
 - 企业问题：传统制造的死亡螺旋是降价→降本→降质→丢客户→再降价；价格战本质是企业在产业链中缺乏不可替代性，所有供应商都能提供同质化产品时，买方自然选最低价
 - 链接：https://www.yiwuyou.com/2026/05/1309/
-
-### AI视频工具竞争转向创作者生态与商业模式，双十一价格战持续
-- 地区：长三角 · 来源：news.google.com · 日期：2026-11-12
-- 背景：AI视频工具竞争转向创作者生态与商业模式，双十一价格战持续 虎嗅
-- 企业问题：AI视频工具竞争转向创作者生态与商业模式，双十一价格战持续；AI视频工具竞争转向创作者生态与商业模式，双十一价格战持续 虎嗅
-- 链接：https://news.google.com/rss/articles/CBMiVEFVX3lxTE9LSkwta1RyYWdVSm9nYmpYZ1F0VEg2SEYzOU9aUTBNVnNzUkdKZE9mSjlEbHlBMVhTUUJfdlg1YUpCcnA2TTJNVlM0VW9HME01MXk1eQ?oc=5
-
-### 县域经济差异小，如何跑出差异化竞争力？内江的答案很特别丨观城
-- 地区：长三角 · 来源：news.google.com · 日期：2026-11-03
-- 背景：县域经济差异小，如何跑出差异化竞争力？内江的答案很特别丨观城 川观新闻
-- 企业问题：（未标注）
-- 链接：https://news.google.com/rss/articles/CBMiTkFVX3lxTFAtdGl4eUFmSmJpWHRJeDlGbUFGb0MteUJtTkcwb0RWc0duY0dNVTJpbTF0STRxXzVLalphUFFuQUNXeTljTDA1Vzh3M25lZw?oc=5
 
 
 ## 产能平衡 / 开工率（5）
@@ -138,7 +120,7 @@
 - 链接：https://www.zhzjs.com/news/article-1512.html
 
 
-## 二代接班 / 传承（8）
+## 二代接班 / 传承（7）
 
 ### 集成灶之父的传承困局：厂二代踩过的坑，接班的几乎都踩过
 - 地区：浙江 · 来源：www.globalpeople.com.cn · 日期：2026-11-14
@@ -169,12 +151,6 @@
 - 背景：陈凌：两代缺少共识是60%家族企业面临的传承困局 11月6日，第八届世界浙商大会开幕。浙江大学管理学院企业家学院院长陈凌表示，60%家族企业传承最大挑战是两代人缺少共同方向与目标，传统产业AI化需要两代协同互动，将新思维和传统产业结合才能顺利完成 搜狐网
 - 企业问题：陈凌：两代缺少共识是60%家族企业面临的传承困局 11月6日，第八届世界浙商大会开幕；浙江大学管理学院企业家学院院长陈凌表示，60%家族企业传承最大挑战是两代人缺少共同方向与目标，传统产业AI化需要两代协同互动，将新思维和传统产业结合才能顺利完成；陈凌：两代缺少共识是60%家族企业面临的传承困局 11月6日，第八届世界浙商大会开幕
 - 链接：https://news.google.com/rss/articles/CBMia0FVX3lxTE0wdlZEcnJlTmZwV3ZnRzlzM3VaN0xpZUxlZ0ZCdGRBM0QtWGliWjB3RER6ZzVHTnp4OFk1aEpVRDBQSWpOc1o0WWxvbkhmV2lFNXQzZG8xV0l4dGZWLVNlS2VMOVVkR2VDb1U4?oc=5
-
-### 北京德谕泽律师事务所创始人高鸣飞：传承不是选择题，是时限题
-- 地区：长三角 · 来源：news.google.com · 日期：2026-11-03
-- 背景：北京德谕泽律师事务所创始人高鸣飞：传承不是选择题，是时限题 21财经
-- 企业问题：北京德谕泽律师事务所创始人高鸣飞：传承不是选择题，是时限题；北京德谕泽律师事务所创始人高鸣飞：传承不是选择题，是时限题 21财经
-- 链接：https://news.google.com/rss/articles/CBMijwFBVV95cUxPbG95Xy1YSEdyb1k0TUVHdWZnZk9LUUx6NUFBMm1UanJ6aWh4bWljanVqdEdlTldfdmltczkxRjBaRHR3bnVwY3p4MW45THBpT1BXVzFhMzNTMi1RZ3UxTU9CZVJaay1KS0E5eURlQmJvaVRjN3JGdlZxWVNjcjltS18zbGM2eFNHTy15Mk9maw?oc=5
 
 ### 父子不内斗、女婿不逼宫，浙商二代们为啥不爱接班了？
 - 地区：长三角 · 来源：news.google.com · 日期：2026-07-28
