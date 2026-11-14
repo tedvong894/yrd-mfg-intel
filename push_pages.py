@@ -42,6 +42,8 @@ FILES = [
     # 数据文件（intel_db.jsonl / raw_*.json / daily_report）不在此列：由 CI 全权管理，防本地旧版覆盖
     "deleted_ids.json",
     "deleted_titles.json",
+    # 2026-11-14 经营话题启动内容库：人工维护的只读静态数据源（非 raw_*、不写回、不进 manifest）
+    "seed_topics.json",
     "manifest.json",
     "README.md",
     ".gitignore",
