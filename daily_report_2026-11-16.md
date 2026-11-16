@@ -1,6 +1,6 @@
 # 长三角制造业问题解剖日报（2026-11-16）
 
-今日新增 **12** 张解剖卡。
+今日新增 **15** 张解剖卡。
 
 
 ## 账期 / 应收账款（2）
@@ -88,6 +88,33 @@
 - 背景：中东地缘冲突推动原料价格剧烈波动，长华化学前期高价库存计提大额跌价准备，叠加全球营销网络扩张费用飙升、连云港新项目产能爬坡固定成本高企，公司销量营收双增却由盈转亏4105.91万元，是典型的库存踩错节奏与盲目扩产双重失误。
 - 企业问题：高价库存跌价计提；新项目产能爬坡亏损；销售费用大幅增长；由盈转亏
 - 链接：https://cfi.cn/p20260911002109.html
+
+
+## 内卷 / 价格战（1）
+
+### 利润靠出口、国内加剧内卷，中国汽车新生态的残酷竞争！
+- 地区：长三角 · 来源：news.google.com · 日期：2026-11-16
+- 背景：利润靠出口、国内加剧内卷，中国汽车新生态的残酷竞争！ 手机新浪网
+- 企业问题：利润靠出口、国内加剧内卷，中国汽车新生态的残酷竞争；利润靠出口、国内加剧内卷，中国汽车新生态的残酷竞争
+- 链接：https://news.google.com/rss/articles/CBMifkFVX3lxTE1RWnlOZkl1X2c3Ty1fS0I1UTJWOFJJOGFGUDBjdTdObHNNV2ZmRFJRa0wxclFpQndmV2NVRXB3Szd0cTg0RUZIMkNuMmNoNEhFdHdVX0ZwS1U2bjNDeHp2ZmE4QmswWEo4ZHM3VEJZREdlczhqTjFpWWhjLW84Zw?oc=5
+
+
+## 二代接班 / 传承（1）
+
+### 厂二代接班“中国小厂”：把电竞房建在车间，拥抱AI、短视频，还引入职业经理人
+- 地区：长三角 · 来源：news.google.com · 日期：2026-10-01
+- 背景：厂二代接班“中国小厂”：把电竞房建在车间，拥抱AI、短视频，还引入职业经理人 21财经
+- 企业问题：厂二代接班“中国小厂”：把电竞房建在车间，拥抱AI、短视频，还引入职业经理人；厂二代接班“中国小厂”：把电竞房建在车间，拥抱AI、短视频，还引入职业经理人 21财经
+- 链接：https://news.google.com/rss/articles/CBMijwFBVV95cUxNUURJVkw3Ul9kd2g0ZGZTTVJPY3B0cnlzNy1MejNiYnZaZmczMWUyMnhPX3NZY3JYbWVvTWc4MWlMNHdQcjkwVDVYYV9lbDlaVDRCcjJwRDEtOVE0UC1JYkFWbkVNdEw5bFV4Q2kzSWJMUURDc2N1Mi0zcmd1TFRMeHVLUDZ3bHNnb3BXaXVBNA?oc=5
+
+
+## 管理冲突 / 内斗（1）
+
+### 联盟化工集团股权结构突被颠覆 公司治理危机如何破解｜山东百亿民企控制权之争之二
+- 地区：长三角 · 来源：news.google.com · 日期：2026-08-31
+- 背景：联盟化工集团股权结构突被颠覆 公司治理危机如何破解｜山东百亿民企控制权之争之二 财新
+- 企业问题：（未标注）
+- 链接：https://news.google.com/rss/articles/CBMiYEFVX3lxTE5zWThrYm1CNG1pWHc5THlLVUdsRjZuX2VLTzlYTWJMUC02RzJkV3JrS3lfaHlLQzhJWXFjNXo1Qk5RbHloaktvcU1VMTRvUldfYmdtTm50N0ZGZUFoRHVHbQ?oc=5
 
 
 ---
