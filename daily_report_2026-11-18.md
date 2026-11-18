@@ -1,6 +1,6 @@
 # 长三角制造业问题解剖日报（2026-11-18）
 
-今日新增 **8** 张解剖卡。
+今日新增 **11** 张解剖卡。
 
 
 ## 产能平衡 / 开工率（2）
@@ -18,7 +18,7 @@
 - 链接：https://jsjjb.xhby.net/pc/con/202610/15/content_1597140.html
 
 
-## 账期 / 应收账款（3）
+## 账期 / 应收账款（4）
 
 ### 浙江工厂老板，你账上那笔“应收款”，可能永远收不回来了
 - 地区：浙江 · 来源：微信公众号 · 日期：2026-11-18
@@ -38,6 +38,12 @@
 - 企业问题：下游主机厂回款周期长；应收账款挤占扩产流动资金；有订单却缺现金，账面欠条难变现；需靠质押融资盘活应收
 - 链接：https://finance.sina.com.cn/jjxw/2026-11-12/doc-iniyntuz3816607.shtml
 
+### 中国整治大企业拖欠账款 最长付款期限拟压至60日内
+- 地区：长三角 · 来源：news.google.com · 日期：2026-09-14
+- 背景：中国整治大企业拖欠账款 最长付款期限拟压至60日内 Shangbao Indonesia
+- 企业问题：中国整治大企业拖欠账款 最长付款期限拟压至60日内；中国整治大企业拖欠账款 最长付款期限拟压至60日内 Shangbao Indonesia
+- 链接：https://news.google.com/rss/articles/CBMikwFBVV95cUxOZlhtSGx0TnFPU1FDUGFzSVBaRHpvS1pMQXRUd3YxUkNFekxuNndZNFV5X1dsRF90Vzc2dnBKc3k3UXpkVkxTNC15aXVqX1FkZFBDaWJOMFJPZkw5VWdTaEVLWnZtT2hDWVJBWk92STRqVHNJeVpldF9BVnMxRjl0dEgxUE43WHh2Z21UYWUzdFgtZE0?oc=5
+
 
 ## 库存积压 / 资金占用（2）
 
@@ -54,13 +60,25 @@
 - 链接：https://new.qq.com/rain/a/20260813A0D5W900
 
 
-## 内卷 / 价格战（1）
+## 内卷 / 价格战（3）
 
 ### 临危受命，95后儿媳接手亏损工厂：乳胶卖一单亏一单，深陷价格战
 - 地区：江苏 · 来源：今日头条（天下网商） · 日期：2026-11-18
 - 背景：江苏金世缘乳胶旗下金橡树曾是乳胶床品TOP1、年营收超10亿元、双十一单日GMV破亿。到2025年618，销售额同比下滑40%、主链接卖一单亏一单，行业深陷价格战，白牌商家用料更差、成本更低跟着卷，乳胶又被贴“有异味不环保”标签。95后儿媳马冠琪接手时发现财务生产不懂电商节奏、备货全凭经验，毛利连折旧人力都覆盖不了。
 - 企业问题：行业恶性价格战，毛利过低、卖一单亏一单；白牌用料差成本低，产业带陷入越卷越低价循环；乳胶材质被污名化，品类口碑走弱；内部信息割裂、财务生产不懂电商、备货靠经验
 - 链接：https://www.toutiao.com/article/7612847995540832818/
+
+### 增材制造赛道竞争激烈 如何实现差异化发展？丨关注2026增材制造大会
+- 地区：长三角 · 来源：news.google.com · 日期：2026-11-17
+- 背景：增材制造赛道竞争激烈 如何实现差异化发展？丨关注2026增材制造大会 四川新闻
+- 企业问题：（未标注）
+- 链接：https://news.google.com/rss/articles/CBMiY0FVX3lxTE5CVm8xTm1MaUMxMDVEdlhPZjUwNm1vblBmZUJfd19OY3dJYWRGUWRYQTRCUGFwZi1sZmhWb1g1Z09ScldsVzZKc0YxcTM5WGJCRUdVdnczZHZ1VnJrTmxyUEtUdw?oc=5
+
+### 香港泽泰科技投资副总经理吴敏：技术创新是破除内卷的钥匙，要靠差异化赢取海外议价权
+- 地区：长三角 · 来源：news.google.com · 日期：2026-11-17
+- 背景：香港泽泰科技投资副总经理吴敏：技术创新是破除内卷的钥匙，要靠差异化赢取海外议价权 每日经济新闻
+- 企业问题：香港泽泰科技投资副总经理吴敏：技术创新是破除内卷的钥匙，要靠差异化赢取海外议价权；香港泽泰科技投资副总经理吴敏：技术创新是破除内卷的钥匙，要靠差异化赢取海外议价权 每日经济新闻
+- 链接：https://news.google.com/rss/articles/CBMiZkFVX3lxTE1Xd1lsd1JtVlJLRGMtbUU4ZWtnS0FNM01kM2VxUkxnX1hxWTVBdncwTnh5WXlaOXhUVFFLZ3hsejNBRlJqU2tVV3JnOWdFZnU1emtIM3NyenVNNEJja0RpZDFwM0Uydw?oc=5
 
 
 ---
