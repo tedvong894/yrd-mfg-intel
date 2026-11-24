@@ -329,6 +329,27 @@ TOPIC_STRONG = [
     "税务预警", "私户收款", "三流一致", "社保基数", "税负率", "税务稽查",
     "毛利率异常", "60日付现", "付款期限", "拖欠账款", "清欠", "投诉平台", "账龄",
 ]
+# 非制造业/非经营语境硬拦：Google 对中文角度短查询会返回维基词条、旅游指南、
+# 论文网站、COVID 科普等完全无关内容（CI 实测一次混入 16 张），一律拦掉。
+# 自动采集内容必须含制造业经营语境词（人工种子不受此限）：
+# 只命中角度词但不含这些词，往往是"采购管理系统指南""税务局官网"这类工具页。
+MFG_CONTEXT = [
+    "工厂", "厂", "制造", "车间", "生产", "产线", "订单", "客户", "供应商", "采购",
+    "库存", "仓库", "设备", "工人", "计件", "验收", "交付", "账款", "回款", "报价",
+    "成本", "财务", "老板", "企业", "供应链", "产能", "良率", "返工", "物料",
+    "工序", "工时", "模具", "注塑", "冲压", "五金", "加工", "汽配", "零件", "机械",
+    "冰淇", "电机", "产销量", "质检", "盘点", "账期", "应收", "净利", "税率",
+]
+NON_CONTEXT_HARD = [
+    "covid", "coronavirus", "world health organization", "who.int", "healthdirect",
+    "福克兰", "马尔维纳斯", "旅行指南", "旅游景点", "旅游攻略", "维基旅行",
+    "学位论文", "期刊论文", "论文网站", "图书馆", "知网", "万方", "csdn",
+    " symptom", "diagnosis and treatment",
+    # 上市/IPO/财报语境：不是"财务人员的专业动作"，是资本市场叙事
+    "ipo", "递表", "赴港", "港交所", "上市梦", "财报", "股价", "市值", "估值",
+    "islands government", "google 学术", "爱采购", "sap", "itsm", "cmdb", "netbox",
+    "税务局", "国务院", "政府网", "公共服务平台", "指南 |", "what is", "guide",
+]
 FAIL_HARD = [
     "破产", "清算", "重整", "预重整", "法拍", "司法拍卖", "起拍价", "流拍", "拍卖", "资不抵债",
     "关停", "结业", "停产", "停摆", "门店全关", "全线关停", "关闭", "全关", "原地解散", "出局", "陷危机",
@@ -345,10 +366,15 @@ TOPIC_TYPES = set(dissect.PROBLEM_TYPES.keys())
 def direction_gate(c):
     """财务专业度方向闸：返回剔除原因，空串表示通过。四处共用，保证不复活。"""
     title = (c.get("title") or "").lower()
+    if any(w in title for w in NON_CONTEXT_HARD):
+        return "OFF_CONTEXT"
     if any(w in title for w in FAIL_HARD):
         return "FAIL_STORY"
     pt = c.get("problem_type_key") or c.get("problem_type") or ""
     if pt in TOPIC_TYPES:
+        # 自动采集（infer_type 推断）必须再造一句"制造业语境"，否则工具页/科普页混入
+        if c.get("ptype_inferred") and not any(w in title for w in MFG_CONTEXT):
+            return "NO_MFG_CONTEXT"
         return ""
     if any(w in title for w in TOPIC_STRONG):
         return ""
@@ -478,6 +504,7 @@ def detect_region(item):
 def build_card(item):
     text = item.get("title", "") + " " + item.get("snippet", "") + " " + item.get("summary", "")
     ptype = item.get("problem_type") or dissect.infer_type(text)
+    ptype_inferred = not bool(item.get("problem_type"))
     region = detect_region(item)
     script = dissect.build_script(item, ptype, region)
     card = {
@@ -488,6 +515,7 @@ def build_card(item):
         "region": region,
         "problem_type": dissect.PROBLEM_TYPES.get(ptype, dissect.PROBLEM_TYPES[dissect.DEFAULT_TYPE])["label"],
         "problem_type_key": ptype,
+        "ptype_inferred": ptype_inferred,
         "tags": item.get("tags", []),
         "summary": item.get("summary", item.get("snippet", "")),
         "content": item.get("content", ""),
