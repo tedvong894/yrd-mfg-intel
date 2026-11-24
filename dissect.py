@@ -183,14 +183,21 @@ DEFAULT_TYPE = "边际贡献接单"
 
 
 def infer_type(text):
-    """根据文本推断角度类型（采集层未标注 problem_type 时兜底）。"""
+    """根据文本推断角度类型。
+
+    2026-11-24 修正：无关键词命中时返回空串，不再默认兜底到某个类型。
+    旧实现 DEFAULT_TYPE 兜底会把 COVID 维基、福克兰群岛旅游、论文网站等
+    完全无关内容全塞进默认类型（CI 实测一次塞了 67 张垃圾卡）。
+    """
     t = (text or "").lower()
-    best, score = DEFAULT_TYPE, 0
+    best, score = "", 0
     for tname, kws in TYPE_KEYWORDS.items():
         s = sum(1 for k in kws if k in t)
         if s > score:
             best, score = tname, s
-    return best
+    # 至少要命中 2 个角度词才认定：单个词（如"采购""申报"）会把
+    # SAP 采购指南、税务局官网、Google 学术等无关页面全放行。
+    return best if score >= 2 else ""
 
 
 def get_angles(ptype):
